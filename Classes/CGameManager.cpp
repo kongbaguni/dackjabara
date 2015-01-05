@@ -9,7 +9,8 @@
 #include "CGameManager.h"
 #include "CUtil.h"
 CGameManager::CGameManager():
-_vec2TouchStartPoint(Vec2(0.0f,0.0f)),
+_vec2TouchStartPointLeft(Vec2(0.0f,0.0f)),
+_vec2TouchStartPointRight(Vec2(0.0f,0.0f)),
 _vec2TouchMovement(Vec2(0.0f,0.0f)),
 _pTileMap(NULL),
 _pPlayerSprite(NULL),
@@ -84,56 +85,88 @@ CGameManager* CGameManager::getInstance()
 
 void CGameManager::onTouchesBegan(const std::vector<Touch *> &touches, cocos2d::Event *unused_event)
 {
-    _vec2TouchStartPoint = touches[0]->getLocation();
+    auto leftTouch = getLeftTouch(touches);
+    if(leftTouch)
+    {
+        _vec2TouchStartPointLeft = leftTouch->getLocation();
+    }
+    
+    auto rightTouch = getRightTouch(touches);
+    if(rightTouch)
+    {
+        _vec2TouchStartPointRight = rightTouch->getLocation();
+    }
+    
 }
 
 void CGameManager::onTouchesMoved(const std::vector<Touch *> &touches, cocos2d::Event *unused_event)
 {
-    const float fs = _fPlayerSpeed;
-    Vec2 touchPoint = touches[0]->getLocation();
-    Vec2 tmp =  touchPoint - _vec2TouchStartPoint;
-    CUtil::movement8 movement = CUtil::getMove8(tmp);
-    switch (movement)
+    auto moveTouch = getLeftTouch(touches);
+    if(moveTouch)
     {
-        case CUtil::movement8::UP:
-            _vec2TouchMovement = Vec2(0,fs);
-            break;
-        case CUtil::movement8::UP_LEFT:
-            _vec2TouchMovement = Vec2(fs,fs);
-            break;
-        case CUtil::movement8::LEFT:
-            _vec2TouchMovement = Vec2(fs,0);
-            break;
-        case CUtil::movement8::DOWN_LEFT:
-            _vec2TouchMovement = Vec2(fs,-fs);
-            break;
-        case CUtil::movement8::DOWN:
-            _vec2TouchMovement = Vec2(0, -fs);
-            break;
-        case CUtil::movement8::DOWN_RIGHT:
-            _vec2TouchMovement = Vec2(-fs, -fs);
-            break;
-        case CUtil::movement8::RIGHT:
-            _vec2TouchMovement = Vec2(-fs, 0);
-            break;
-        case CUtil::movement8::UP_RIGHT:
-            _vec2TouchMovement = Vec2(-fs, fs);
-            break;
-        default:
-            _vec2TouchMovement = Vec2(0,0);
-            break;
+        const float fs = _fPlayerSpeed;
+        Vec2 touchPoint = moveTouch->getLocation();
+        
+        Vec2 tmp =  touchPoint - _vec2TouchStartPointLeft;
+        CUtil::movement8 movement = CUtil::getMove8(tmp);
+        switch (movement)
+        {
+            case CUtil::movement8::UP:
+                _vec2TouchMovement = Vec2(0,fs);
+                break;
+            case CUtil::movement8::UP_LEFT:
+                _vec2TouchMovement = Vec2(fs,fs);
+                break;
+            case CUtil::movement8::LEFT:
+                _vec2TouchMovement = Vec2(fs,0);
+                break;
+            case CUtil::movement8::DOWN_LEFT:
+                _vec2TouchMovement = Vec2(fs,-fs);
+                break;
+            case CUtil::movement8::DOWN:
+                _vec2TouchMovement = Vec2(0, -fs);
+                break;
+            case CUtil::movement8::DOWN_RIGHT:
+                _vec2TouchMovement = Vec2(-fs, -fs);
+                break;
+            case CUtil::movement8::RIGHT:
+                _vec2TouchMovement = Vec2(-fs, 0);
+                break;
+            case CUtil::movement8::UP_RIGHT:
+                _vec2TouchMovement = Vec2(-fs, fs);
+                break;
+            default:
+                _vec2TouchMovement = Vec2(0,0);
+                break;
+        }
+
     }
 
 }
 
 void CGameManager::onTouchesEnded(const std::vector<Touch *> &touches, cocos2d::Event *unused_event)
 {
-    onTouchesMoved(touches, unused_event);
-    _vec2TouchMovement = Vec2(0.0f, 0.0f);
-    _vec2TouchStartPoint = touches[0]->getLocation();
-    if(touches.size()==2)
+    auto leftTouch = getLeftTouch(touches);
+    if(leftTouch)
     {
-        _pPlayerSprite->jumpAction();
+        onTouchesMoved(touches, unused_event);
+        _vec2TouchMovement = Vec2(0.0f, 0.0f);
+        _vec2TouchStartPointLeft = leftTouch->getLocation();
+    }
+    
+    auto rightTouch =getRightTouch(touches);
+    if(rightTouch)
+    {
+        Vec2 rt = rightTouch->getLocation();
+        float dist = rt.getDistance(_vec2TouchStartPointRight);
+        if(dist>=10)
+        {
+            _pPlayerSprite->dashAction();
+        }
+        else
+        {
+            _pPlayerSprite->jumpAction();
+        }
     }
     
 }
@@ -206,6 +239,8 @@ void CGameManager::onKeyReleased(EventKeyboard::KeyCode keyCode, cocos2d::Event 
         case cocos2d::EventKeyboard::KeyCode::KEY_SPACE:
             _pPlayerSprite->jumpAction();
             break;
+        case cocos2d::EventKeyboard::KeyCode::KEY_CTRL:
+            _pPlayerSprite->dashAction();
         default:
             break;
     }
@@ -221,4 +256,31 @@ void CGameManager::scheduleStopMovement(float dt)
         _vec2TouchMovement = Vec2(0.0f,0.0f);
         unschedule(schedule_selector(CGameManager::scheduleStopMovement));
     }
+}
+
+Touch* CGameManager::getNearTouch(const std::vector<Touch *> &touches, cocos2d::Vec2 pos, float dist)
+{
+    for(int i=0; i<touches.size(); i++)
+    {
+        Vec2 touchLocation = touches[i]->getLocation();
+        float fD = touchLocation.getDistance(pos);
+        if(fD<=dist)
+        {
+            return touches[i];
+        }
+    }
+    return NULL;
+}
+
+Touch* CGameManager::getLeftTouch(const std::vector<Touch *> &touches)
+{
+    Size winsize = Director::getInstance()->getWinSize();
+    Vec2 pos = Vec2(0,winsize.height/2);
+    return getNearTouch(touches, pos, winsize.width/2);
+}
+Touch* CGameManager::getRightTouch(const std::vector<Touch *> &touches)
+{
+    Size winsize = Director::getInstance()->getWinSize();
+    Vec2 pos = Vec2(winsize.width,winsize.height/2);
+    return getNearTouch(touches, pos, winsize.width/2);
 }

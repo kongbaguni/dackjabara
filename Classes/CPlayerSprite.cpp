@@ -14,7 +14,9 @@
 CPlayerSprite::CPlayerSprite(void) :
 _pSprite(NULL),
 _pLabel(NULL),
-_pParticle(NULL)
+_pParticle(NULL),
+_iJumpCount(0),
+_iDashSpeed(1)
 {
     
     
@@ -33,7 +35,7 @@ bool CPlayerSprite::init()
         return false;
     }
     CAnimationHelper::addAnimation("unit/c1_%02d.png", 1, 2, "player_stand",0.2f,true);
-    CAnimationHelper::addAnimation("unit/c1_%02d.png", 3, 4, "player_down",0.1f,true);
+    CAnimationHelper::addAnimation("unit/c1_%02d.png", 3, 4, "player_down",0.1f,false);
     CAnimationHelper::addAnimation("unit/c1_%02d.png", 4, 2, "player_up",0.1f,true);
 
     setSprite(Sprite::createWithSpriteFrameName("unit/c1_01.png"));
@@ -65,6 +67,7 @@ void CPlayerSprite::standAction()
     {
         return;
     }
+    _pSprite->stopAllActions();
     auto animation = AnimationCache::getInstance()->getAnimation("player_stand");
     auto ani = RepeatForever::create(Animate::create(animation));
     auto jump = RepeatForever::create(CCSequence::create(MoveTo::create(1.0f, Vec2(0.0f, 10.0f)),MoveTo::create(1.0f, Vec2(0.0f, 0.0f)), NULL));
@@ -73,6 +76,7 @@ void CPlayerSprite::standAction()
     _pSprite->runAction(ani);
     _pSprite->runAction(jump);
     _iJumpCount = 0;
+    _iDashSpeed = 1;
 }
 void CPlayerSprite::jumpAction()
 {
@@ -113,6 +117,33 @@ void CPlayerSprite::jumpAction()
     _pSprite->runAction(action);
     
 }
+void CPlayerSprite::dashAction()
+{
+    if(_pSprite->getActionByTag((int)actionTag::DASH))
+    {
+        return;
+    }
+    _pSprite->stopAllActions();
+    
+    Vec2 movement = CGameManager::getInstance()->getTouchMovement();
+    _iDashSpeed = 3;
+    if(movement.length()==0)
+    {
+        return;
+    }
+    auto action =
+    Sequence::create
+    (Animate::create(AnimationCache::getInstance()->getAnimation("player_down")),
+     DelayTime::create(0.1f),
+     Animate::create(AnimationCache::getInstance()->getAnimation("player_up")),
+
+     CallFunc::create(CC_CALLBACK_0(CPlayerSprite::standAction, this)),
+     NULL);
+    
+    action->setTag((int)actionTag::DASH);
+    _pSprite->runAction(action);
+    
+}
 
 void CPlayerSprite::update(float dt)
 {
@@ -120,12 +151,17 @@ void CPlayerSprite::update(float dt)
     {
         return;
     }
+    if(this->getActionByTag((int)actionTag::DASH))
+    {
+        return;
+    }
+    
     Vec2 pos = getPosition();
     _pLabel->setString(String::createWithFormat("%0.2f : %0.2f",pos.x, pos.y)->_string);
     
     Size winsize = Director::getInstance()->getWinSize();
     Size mapSize = CGameManager::getInstance()->getTileMap()->getContentSize();
-    Vec2 movement = CGameManager::getInstance()->getTouchMovement();
+    Vec2 movement = CGameManager::getInstance()->getTouchMovement()*_iDashSpeed;
     Vec2 prePos = pos+movement;
     float fPadding = 30.0f;
     const bool bROUT_TOP = prePos.y>mapSize.height/2-fPadding;
@@ -150,7 +186,7 @@ void CPlayerSprite::update(float dt)
     }
     
     //타일맵하고 충돌검사
-    if(movement!=Vec2(0,0))
+    if(movement!=Vec2(0,0) && _pSprite->getPositionY()<40)
     {
         auto tileMap = CGameManager::getInstance()->getTileMap();
         Vec2 fixPos = CUtil::getCoordWithVec2(tileMap, prePos);
@@ -178,22 +214,14 @@ void CPlayerSprite::update(float dt)
             }
         }
 
-        Vec2 fixPosNow = CUtil::getCoordWithVec2(tileMap, getPosition());
-        auto tile = layer->getTileAt(fixPosNow);
-        tile->runAction
-        (Sequence::create
-         (FadeTo::create(0.5f, 30),
-          FadeTo::create(0.5f, 255),
-          NULL)
-         );
-        
-        auto tile2 = layer->getTileAt(fixPos);
-        tile2->runAction
-        (Sequence::create
-         (ScaleTo::create(0.5f, 0.1f),
-          ScaleTo::create(0.5f, 1.0f),
-          NULL)
-         );
+//        Vec2 fixPosNow = CUtil::getCoordWithVec2(tileMap, getPosition());
+//        auto tile = layer->getTileAt(fixPosNow);
+//        tile->runAction
+//        (Sequence::create
+//         (FadeTo::create(0.5f, 30),
+//          FadeTo::create(0.5f, 255),
+//          NULL)
+//         );
         
     }
     

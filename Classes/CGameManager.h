@@ -32,7 +32,8 @@ private:
     virtual void onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event);
 
     
-    CC_SYNTHESIZE_READONLY(Vec2, _vec2TouchStartPoint,TouchStartPoint);
+    CC_SYNTHESIZE_READONLY(Vec2, _vec2TouchStartPointLeft,TouchStartPointLeft);
+    CC_SYNTHESIZE_READONLY(Vec2, _vec2TouchStartPointRight, TouchStartPointRight)
     CC_SYNTHESIZE_READONLY(Vec2, _vec2TouchMovement, TouchMovement);
     CC_SYNTHESIZE_READONLY(float, _fPlayerSpeed, PlayerSpeed);
     
@@ -46,6 +47,9 @@ private:
     
     void scheduleStopMovement(float dt);
     
+    Touch* getNearTouch(const std::vector<Touch *> &touches, Vec2 pos, float dist);    
+    Touch* getLeftTouch(const std::vector<Touch *> &touches);
+    Touch* getRightTouch(const std::vector<Touch *> &touches);
     
 };
 

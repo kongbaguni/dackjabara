@@ -20,6 +20,7 @@ public:
     {
         STAND,
         JUMP,
+        DASH,
         ACTION_MAX
     };
     
@@ -28,6 +29,7 @@ public:
     CREATE_FUNC(CPlayerSprite);
     void standAction();
     void jumpAction();
+    void dashAction();
 protected:
     CPlayerSprite(void);
     virtual ~CPlayerSprite(void);
@@ -36,6 +38,8 @@ protected:
     CC_SYNTHESIZE_RETAIN(Label*, _pLabel, Label);
     CC_SYNTHESIZE_RETAIN(ParticleSystemQuad*, _pParticle, Particle);
     CC_SYNTHESIZE_READONLY(int, _iJumpCount, JumpCount);
+    CC_SYNTHESIZE_READONLY(int, _iDashSpeed, DashSpeed);
+
 };
 
 
