@@ -34,6 +34,7 @@ private:
     
     CC_SYNTHESIZE_READONLY(Vec2, _vec2TouchStartPoint,TouchStartPoint);
     CC_SYNTHESIZE_READONLY(Vec2, _vec2TouchMovement, TouchMovement);
+    CC_SYNTHESIZE_READONLY(float, _fPlayerSpeed, PlayerSpeed);
     
     CC_SYNTHESIZE_RETAIN(Node*, _pGameField, GameField);
     CC_SYNTHESIZE_RETAIN(CPlayerSprite*, _pPlayerSprite, PlayerSprite);

@@ -61,8 +61,6 @@ bool CGameScene::init()
     CUtil::setTMXTileMapAntialias(bgTop);
     
     
-//    게임매니져 붙이기
-    addChild(CGameManager::getInstance());
     
 //    리소스 로딩
     std::string fileName = CUtil::getHDSDname("texturePacker/unit%s.plist");
@@ -74,6 +72,8 @@ bool CGameScene::init()
     bg->addChild(player);
     CGameManager::getInstance()->setPlayerSprite(player);
     
+//    게임매니져 붙이기
+    addChild(CGameManager::getInstance());
     
     return true;
 }

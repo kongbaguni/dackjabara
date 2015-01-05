@@ -7,12 +7,15 @@
 //
 
 #include "CGameManager.h"
+#include "CUtil.h"
 CGameManager::CGameManager():
 _vec2TouchStartPoint(Vec2(0.0f,0.0f)),
 _vec2TouchMovement(Vec2(0.0f,0.0f)),
 _pTileMap(NULL),
 _pPlayerSprite(NULL),
-_pGameField(NULL)
+_pGameField(NULL),
+_pDebugLogLabel(NULL),
+_fPlayerSpeed(10)
 {
     EventDispatcher* dispatcher = Director::getInstance()->getEventDispatcher();
     //터치 리스너 등록
@@ -47,6 +50,7 @@ CGameManager::~CGameManager()
     CC_SAFE_RELEASE_NULL(_pPlayerSprite);
     CC_SAFE_RELEASE_NULL(_pTileMap);
     CC_SAFE_RELEASE_NULL(_pGameField);
+    CC_SAFE_RELEASE_NULL(_pDebugLogLabel);
     
 }
 
@@ -57,6 +61,13 @@ bool CGameManager::init()
         return false;
     }
     
+    
+    Size winsize = Director::getInstance()->getWinSize();
+    setDebugLogLabel(Label::createWithBMFont(CUtil::getHDSDname("fonts/title%s.fnt"), "0"));
+    _pDebugLogLabel->setAnchorPoint(Vec2(0.0f, 1.0f));
+    _pDebugLogLabel->setPosition(Vec2(winsize.width-10.0f,0));
+    
+    addChild(_pDebugLogLabel);
     return true;
 }
 
@@ -78,11 +89,41 @@ void CGameManager::onTouchesBegan(const std::vector<Touch *> &touches, cocos2d::
 
 void CGameManager::onTouchesMoved(const std::vector<Touch *> &touches, cocos2d::Event *unused_event)
 {
+    const float fs = _fPlayerSpeed;
     Vec2 touchPoint = touches[0]->getLocation();
     Vec2 tmp =  touchPoint - _vec2TouchStartPoint;
-    float angle = tanf(tmp.y/tmp.x);
-    
-    
+    CUtil::movement8 movement = CUtil::getMove8(tmp);
+    switch (movement)
+    {
+        case CUtil::movement8::UP:
+            _vec2TouchMovement = Vec2(0,fs);
+            break;
+        case CUtil::movement8::UP_LEFT:
+            _vec2TouchMovement = Vec2(fs,fs);
+            break;
+        case CUtil::movement8::LEFT:
+            _vec2TouchMovement = Vec2(fs,0);
+            break;
+        case CUtil::movement8::DOWN_LEFT:
+            _vec2TouchMovement = Vec2(fs,-fs);
+            break;
+        case CUtil::movement8::DOWN:
+            _vec2TouchMovement = Vec2(0, -fs);
+            break;
+        case CUtil::movement8::DOWN_RIGHT:
+            _vec2TouchMovement = Vec2(-fs, -fs);
+            break;
+        case CUtil::movement8::RIGHT:
+            _vec2TouchMovement = Vec2(-fs, 0);
+            break;
+        case CUtil::movement8::UP_RIGHT:
+            _vec2TouchMovement = Vec2(-fs, fs);
+            break;
+        default:
+            _vec2TouchMovement = Vec2(0,0);
+            break;
+    }
+
 }
 
 void CGameManager::onTouchesEnded(const std::vector<Touch *> &touches, cocos2d::Event *unused_event)

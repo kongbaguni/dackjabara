@@ -25,6 +25,21 @@ public:
     
     static void setTMXTileMapAntialias(TMXTiledMap* tileMap);
     static Vec2 getCoordWithVec2(TMXTiledMap* tileMap, Vec2 vec);
+    
+    enum class movement8
+    {
+        NOT_MOVE,
+        LEFT,
+        UP_LEFT,
+        UP,
+        UP_RIGHT,
+        RIGHT,
+        DOWN_RIGHT,
+        DOWN,
+        DOWN_LEFT,
+    };
+    static movement8 getMove8(Vec2 vec);
+    
 };
 
 
