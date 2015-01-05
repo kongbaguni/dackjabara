@@ -35,8 +35,11 @@ private:
     CC_SYNTHESIZE_READONLY(Vec2, _vec2TouchStartPoint,TouchStartPoint);
     CC_SYNTHESIZE_READONLY(Vec2, _vec2TouchMovement, TouchMovement);
     
+    CC_SYNTHESIZE_RETAIN(Node*, _pGameField, GameField);
     CC_SYNTHESIZE_RETAIN(CPlayerSprite*, _pPlayerSprite, PlayerSprite);
     CC_SYNTHESIZE_RETAIN(TMXTiledMap*, _pTileMap, TileMap);
+    
+    CC_SYNTHESIZE_RETAIN(Label*, _pDebugLogLabel, DebugLogLabel);
 
     bool _baArrowPress[4];
     

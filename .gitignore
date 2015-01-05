@@ -135,3 +135,4 @@ Thumbs.db
 
 # backup files
 *.bak
+*.so

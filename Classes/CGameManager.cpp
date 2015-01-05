@@ -11,7 +11,8 @@ CGameManager::CGameManager():
 _vec2TouchStartPoint(Vec2(0.0f,0.0f)),
 _vec2TouchMovement(Vec2(0.0f,0.0f)),
 _pTileMap(NULL),
-_pPlayerSprite(NULL)
+_pPlayerSprite(NULL),
+_pGameField(NULL)
 {
     EventDispatcher* dispatcher = Director::getInstance()->getEventDispatcher();
     //터치 리스너 등록
@@ -45,6 +46,7 @@ CGameManager::~CGameManager()
 {
     CC_SAFE_RELEASE_NULL(_pPlayerSprite);
     CC_SAFE_RELEASE_NULL(_pTileMap);
+    CC_SAFE_RELEASE_NULL(_pGameField);
     
 }
 
@@ -77,25 +79,9 @@ void CGameManager::onTouchesBegan(const std::vector<Touch *> &touches, cocos2d::
 void CGameManager::onTouchesMoved(const std::vector<Touch *> &touches, cocos2d::Event *unused_event)
 {
     Vec2 touchPoint = touches[0]->getLocation();
-    _vec2TouchMovement =  touchPoint - _vec2TouchStartPoint;
-    _vec2TouchMovement*=5;
-    float fLimit = 15.0f;
-    if(_vec2TouchMovement.x>fLimit)
-    {
-        _vec2TouchMovement.x =fLimit;
-    }
-    else if(_vec2TouchMovement.x<-fLimit)
-    {
-        _vec2TouchMovement.x=-fLimit;
-    }
-    if(_vec2TouchMovement.y>fLimit)
-    {
-        _vec2TouchMovement.y = fLimit;
-    }
-    else if(_vec2TouchMovement.y<-fLimit)
-    {
-        _vec2TouchMovement.y = -fLimit;
-    }
+    Vec2 tmp =  touchPoint - _vec2TouchStartPoint;
+    float angle = tanf(tmp.y/tmp.x);
+    
     
 }
 
@@ -104,6 +90,10 @@ void CGameManager::onTouchesEnded(const std::vector<Touch *> &touches, cocos2d::
     onTouchesMoved(touches, unused_event);
     _vec2TouchMovement = Vec2(0.0f, 0.0f);
     _vec2TouchStartPoint = touches[0]->getLocation();
+    if(touches.size()==2)
+    {
+        _pPlayerSprite->jumpAction();
+    }
     
 }
 void CGameManager::onTouchesCancelled(const std::vector<Touch *> &touches, cocos2d::Event *unused_event)
