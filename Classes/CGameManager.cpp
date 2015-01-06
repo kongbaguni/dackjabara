@@ -16,7 +16,7 @@ _pTileMap(NULL),
 _pPlayerSprite(NULL),
 _pGameField(NULL),
 _pDebugLogLabel(NULL),
-_fPlayerSpeed(10)
+_fPlayerSpeed(5)
 {
     EventDispatcher* dispatcher = Director::getInstance()->getEventDispatcher();
     //터치 리스너 등록
@@ -158,14 +158,23 @@ void CGameManager::onTouchesEnded(const std::vector<Touch *> &touches, cocos2d::
     if(rightTouch)
     {
         Vec2 rt = rightTouch->getLocation();
-        float dist = rt.getDistance(_vec2TouchStartPointRight);
-        if(dist>=10)
+        Vec2 movement = rt-_vec2TouchStartPointRight;
+        CUtil::movement8 m = CUtil::getMove8(movement);
+        switch(m)
         {
-            _pPlayerSprite->dashAction();
-        }
-        else
-        {
-            _pPlayerSprite->jumpAction();
+            case CUtil::movement8::UP:
+            case CUtil::movement8::UP_LEFT:
+            case CUtil::movement8::UP_RIGHT:
+                _pPlayerSprite->jumpAction();
+                break;
+            case CUtil::movement8::LEFT:
+            case CUtil::movement8::RIGHT:
+            case CUtil::movement8::DOWN_LEFT:
+            case CUtil::movement8::DOWN_RIGHT:
+                _pPlayerSprite->dashAction();
+                break;
+            default:
+                break;
         }
     }
     

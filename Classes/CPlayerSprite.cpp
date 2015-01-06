@@ -10,6 +10,46 @@
 #include "CAnimationHelper.h"
 #include "CUtil.h"
 #include "CGameManager.h"
+CPlayerModel::CPlayerModel():
+_iEnergyMax(2000),
+_iEnergyUse(0)
+{
+    
+}
+CPlayerModel::~CPlayerModel()
+{
+    
+}
+void CPlayerModel::reset()
+{
+    _iEnergyUse = 0;
+}
+
+bool CPlayerModel::useEnergy(int useValue)
+{
+    if(_iEnergyUse+useValue>_iEnergyMax)
+    {
+        return false;
+    }
+    _iEnergyUse+=useValue;
+    return true;
+}
+void CPlayerModel::chargeEnergy(int charge)
+{
+    _iEnergyUse-=charge;
+    if(_iEnergyUse<0)
+    {
+        _iEnergyUse = 0;
+    }
+}
+
+float CPlayerModel::getEnergyPercent()
+{
+    float result = (float)(_iEnergyMax-_iEnergyUse)/(float)_iEnergyMax;
+    return result;
+}
+
+
 
 CPlayerSprite::CPlayerSprite(void) :
 _pSprite(NULL),
@@ -55,6 +95,7 @@ bool CPlayerSprite::init()
     scheduleUpdate();
     standAction();
     setRotation3D(CUtil::getRotate3D());
+    _cModel.reset();
     return true;
 }
 
@@ -80,6 +121,7 @@ void CPlayerSprite::standAction()
 }
 void CPlayerSprite::jumpAction()
 {
+    
     if(_pSprite->getActionByTag((int)actionTag::JUMP) &&
        (_pSprite->getPositionY()<80 || _pSprite->getPositionY()>110)
        )
@@ -88,6 +130,12 @@ void CPlayerSprite::jumpAction()
         return;
     }
     if(_iJumpCount>=2)
+    {
+        return;
+    }
+    bool useEnergy = _cModel.useEnergy(100);
+    bool lowEnergy = _cModel.getEnergyPercent()<0.3f;
+    if(!useEnergy | lowEnergy)
     {
         return;
     }
@@ -123,14 +171,14 @@ void CPlayerSprite::dashAction()
     {
         return;
     }
-    _pSprite->stopAllActions();
     
     Vec2 movement = CGameManager::getInstance()->getTouchMovement();
-    _iDashSpeed = 3;
-    if(movement.length()==0)
+    if(movement.length()==0 || _cModel.getEnergyPercent()<0.3f)
     {
         return;
     }
+    _iDashSpeed = 3;
+    _pSprite->stopAllActions();
     auto action =
     Sequence::create
     (Animate::create(AnimationCache::getInstance()->getAnimation("player_down")),
@@ -144,8 +192,15 @@ void CPlayerSprite::dashAction()
     _pSprite->runAction(action);
     
 }
-
 void CPlayerSprite::update(float dt)
+{
+    updateMovement(dt);
+    
+    _pParticle->setScale(_cModel.getEnergyPercent());
+    chargeEnergy(dt);
+
+}
+void CPlayerSprite::updateMovement(float dt)
 {
     if(CGameManager::getInstance()->getParent()==NULL)
     {
@@ -157,7 +212,12 @@ void CPlayerSprite::update(float dt)
     }
     
     Vec2 pos = getPosition();
-    _pLabel->setString(String::createWithFormat("%0.2f : %0.2f",pos.x, pos.y)->_string);
+    {
+        std::string txt;
+        txt+=String::createWithFormat("%0.2f : %0.2f",pos.x, pos.y)->_string;
+        txt+=String::createWithFormat("/n%0.2f",_cModel.getEnergyPercent())->_string;
+        _pLabel->setString(txt);
+    }
     
     Size winsize = Director::getInstance()->getWinSize();
     Size mapSize = CGameManager::getInstance()->getTileMap()->getContentSize();
@@ -226,18 +286,31 @@ void CPlayerSprite::update(float dt)
     }
     
 
-
-    //케릭터 이동
-    this->setPosition(this->getPosition()+movement);
-    //배경 스크롤
-    getParent()->setPositionX(getParent()->getPositionX()-movement.x);
-
-    //파티클 이동
-    if(_pParticle->getParent()==NULL)
+    if(_cModel.useEnergy((int)movement.getLength()))
     {
-        getParent()->addChild(_pParticle);
+        //케릭터 이동
+        this->setPosition(this->getPosition()+movement);
+        //배경 스크롤
+        getParent()->setPositionX(getParent()->getPositionX()-movement.x);
+        
+        //파티클 이동
+        if(_pParticle->getParent()==NULL)
+        {
+            getParent()->addChild(_pParticle);
+        }
+        _pParticle->setPosition(getPosition());
     }
-    _pParticle->setPosition(getPosition());
+
+}
+
+void CPlayerSprite::chargeEnergy(float dt)
+{
+    Vec2 movement = CGameManager::getInstance()->getTouchMovement();
+    if(movement.getLength()>0 || _pSprite->getActionByTag((int)actionTag::JUMP))
+    {
+        return;
+    }
+    _cModel.chargeEnergy(10);
     
     
 }

@@ -12,6 +12,22 @@
 #include <stdio.h>
 #include "cocos2d.h"
 USING_NS_CC;
+class CPlayerModel
+{
+public:
+    CPlayerModel();
+    ~CPlayerModel();
+    void reset();
+    
+    bool useEnergy(int useValue);
+    void chargeEnergy(int charge);
+    float getEnergyPercent();
+    
+protected:
+    CC_SYNTHESIZE(int, _iEnergyMax, EnergyMax);
+    CC_SYNTHESIZE_READONLY(int, _iEnergyUse, EnergyUse);
+
+};
 
 class CPlayerSprite : public Node
 {
@@ -34,12 +50,17 @@ protected:
     CPlayerSprite(void);
     virtual ~CPlayerSprite(void);
     virtual void update(float dt);
+    
+    void updateMovement(float dt);
+    void chargeEnergy(float dt);
+    
     CC_SYNTHESIZE_RETAIN(Sprite*, _pSprite, Sprite);
     CC_SYNTHESIZE_RETAIN(Label*, _pLabel, Label);
     CC_SYNTHESIZE_RETAIN(ParticleSystemQuad*, _pParticle, Particle);
     CC_SYNTHESIZE_READONLY(int, _iJumpCount, JumpCount);
     CC_SYNTHESIZE_READONLY(int, _iDashSpeed, DashSpeed);
-
+    CC_SYNTHESIZE(CPlayerModel, _cModel, Model);
+ 
 };
 
 
