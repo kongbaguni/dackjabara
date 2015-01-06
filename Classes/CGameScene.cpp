@@ -7,7 +7,7 @@
 //
 
 #include "CGameScene.h"
-#include "CPlayerSprite.h"
+#include "CPlayerNode.h"
 #include "CUtil.h"
 #include "CGameManager.h"
 
@@ -67,10 +67,10 @@ bool CGameScene::init()
     SpriteFrameCache::getInstance()->addSpriteFramesWithFile(fileName);
 
 //    플레이어 초기화
-    auto player = CPlayerSprite::create();
+    auto player = CPlayerNode::create();
     player->setPosition(winsize.width/2,10);
     bg->addChild(player);
-    CGameManager::getInstance()->setPlayerSprite(player);
+    CGameManager::getInstance()->setPlayerNode(player);
     
 //    게임매니져 붙이기
     addChild(CGameManager::getInstance());

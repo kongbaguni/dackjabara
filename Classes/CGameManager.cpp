@@ -13,7 +13,7 @@ _vec2TouchStartPointLeft(Vec2(0.0f,0.0f)),
 _vec2TouchStartPointRight(Vec2(0.0f,0.0f)),
 _vec2TouchMovement(Vec2(0.0f,0.0f)),
 _pTileMap(NULL),
-_pPlayerSprite(NULL),
+_pPlayerNode(NULL),
 _pGameField(NULL),
 _pDebugLogLabel(NULL),
 _fPlayerSpeed(5)
@@ -48,7 +48,7 @@ _fPlayerSpeed(5)
 }
 CGameManager::~CGameManager()
 {
-    CC_SAFE_RELEASE_NULL(_pPlayerSprite);
+    CC_SAFE_RELEASE_NULL(_pPlayerNode);
     CC_SAFE_RELEASE_NULL(_pTileMap);
     CC_SAFE_RELEASE_NULL(_pGameField);
     CC_SAFE_RELEASE_NULL(_pDebugLogLabel);
@@ -165,13 +165,13 @@ void CGameManager::onTouchesEnded(const std::vector<Touch *> &touches, cocos2d::
             case CUtil::movement8::UP:
             case CUtil::movement8::UP_LEFT:
             case CUtil::movement8::UP_RIGHT:
-                _pPlayerSprite->jumpAction();
+                _pPlayerNode->jumpAction();
                 break;
             case CUtil::movement8::LEFT:
             case CUtil::movement8::RIGHT:
             case CUtil::movement8::DOWN_LEFT:
             case CUtil::movement8::DOWN_RIGHT:
-                _pPlayerSprite->dashAction();
+                _pPlayerNode->dashAction();
                 break;
             default:
                 break;
@@ -246,10 +246,10 @@ void CGameManager::onKeyReleased(EventKeyboard::KeyCode keyCode, cocos2d::Event 
     //점프 
     switch (keyCode) {
         case cocos2d::EventKeyboard::KeyCode::KEY_SPACE:
-            _pPlayerSprite->jumpAction();
+            _pPlayerNode->jumpAction();
             break;
         case cocos2d::EventKeyboard::KeyCode::KEY_CTRL:
-            _pPlayerSprite->dashAction();
+            _pPlayerNode->dashAction();
         default:
             break;
     }

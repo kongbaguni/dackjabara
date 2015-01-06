@@ -14,7 +14,6 @@
 		1E1C27DE1A59BB9F00C15532 /* BGM in Resources */ = {isa = PBXBuildFile; fileRef = 1E1C27D91A59BB9F00C15532 /* BGM */; };
 		1E1C27DF1A59BB9F00C15532 /* BGM in Resources */ = {isa = PBXBuildFile; fileRef = 1E1C27D91A59BB9F00C15532 /* BGM */; };
 		1E1C27E01A59BB9F00C15532 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = 1E1C27DA1A59BB9F00C15532 /* fonts */; };
-		1E1C27E11A59BB9F00C15532 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = 1E1C27DA1A59BB9F00C15532 /* fonts */; };
 		1E1C27E21A59BB9F00C15532 /* particle in Resources */ = {isa = PBXBuildFile; fileRef = 1E1C27DB1A59BB9F00C15532 /* particle */; };
 		1E1C27E31A59BB9F00C15532 /* particle in Resources */ = {isa = PBXBuildFile; fileRef = 1E1C27DB1A59BB9F00C15532 /* particle */; };
 		1E1C27E41A59BB9F00C15532 /* texturePacker in Resources */ = {isa = PBXBuildFile; fileRef = 1E1C27DC1A59BB9F00C15532 /* texturePacker */; };
@@ -27,12 +26,16 @@
 		1E1C27F71A59BBB600C15532 /* CGameManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1E1C27EA1A59BBB600C15532 /* CGameManager.cpp */; };
 		1E1C27F81A59BBB600C15532 /* CGameScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1E1C27EC1A59BBB600C15532 /* CGameScene.cpp */; };
 		1E1C27F91A59BBB600C15532 /* CGameScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1E1C27EC1A59BBB600C15532 /* CGameScene.cpp */; };
-		1E1C27FA1A59BBB600C15532 /* CPlayerSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1E1C27EE1A59BBB600C15532 /* CPlayerSprite.cpp */; };
-		1E1C27FB1A59BBB600C15532 /* CPlayerSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1E1C27EE1A59BBB600C15532 /* CPlayerSprite.cpp */; };
+		1E1C27FA1A59BBB600C15532 /* CPlayerNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1E1C27EE1A59BBB600C15532 /* CPlayerNode.cpp */; };
+		1E1C27FB1A59BBB600C15532 /* CPlayerNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1E1C27EE1A59BBB600C15532 /* CPlayerNode.cpp */; };
 		1E1C27FC1A59BBB600C15532 /* CTitleScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1E1C27F01A59BBB600C15532 /* CTitleScene.cpp */; };
 		1E1C27FD1A59BBB600C15532 /* CTitleScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1E1C27F01A59BBB600C15532 /* CTitleScene.cpp */; };
 		1E1C27FE1A59BBB600C15532 /* CUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1E1C27F21A59BBB600C15532 /* CUtil.cpp */; };
 		1E1C27FF1A59BBB600C15532 /* CUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1E1C27F21A59BBB600C15532 /* CUtil.cpp */; };
+		1EF30E931A5BBED7003E32FC /* CRandom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1EF30E911A5BBED7003E32FC /* CRandom.cpp */; };
+		1EF30E941A5BBED7003E32FC /* CRandom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1EF30E911A5BBED7003E32FC /* CRandom.cpp */; };
+		1EF30E981A5BC0E3003E32FC /* CTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1EF30E961A5BC0E3003E32FC /* CTimer.cpp */; };
+		1EF30E991A5BC0E3003E32FC /* CTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1EF30E961A5BC0E3003E32FC /* CTimer.cpp */; };
 		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
 		3EACC98F19EE6D4300EB3C5E /* res in Resources */ = {isa = PBXBuildFile; fileRef = 3EACC98E19EE6D4300EB3C5E /* res */; };
 		3EACC99019EE6D4300EB3C5E /* res in Resources */ = {isa = PBXBuildFile; fileRef = 3EACC98E19EE6D4300EB3C5E /* res */; };
@@ -77,7 +80,6 @@
 		50EF62A317ECD613001EB2F8 /* Icon-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 50EF62A117ECD613001EB2F8 /* Icon-50.png */; };
 		521A8E6419F0C34300D177D7 /* Default-667h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 521A8E6219F0C34300D177D7 /* Default-667h@2x.png */; };
 		521A8E6519F0C34300D177D7 /* Default-736h@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 521A8E6319F0C34300D177D7 /* Default-736h@3x.png */; };
-		521A8EA919F11F5000D177D7 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = 521A8EA819F11F5000D177D7 /* fonts */; };
 		521A8EAA19F11F5000D177D7 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = 521A8EA819F11F5000D177D7 /* fonts */; };
 		BF171245129291EC00B8313A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB012928DE900B8313A /* OpenGLES.framework */; };
 		BF1712471292920000B8313A /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB412928DE900B8313A /* libz.dylib */; };
@@ -136,12 +138,17 @@
 		1E1C27EB1A59BBB600C15532 /* CGameManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CGameManager.h; sourceTree = "<group>"; };
 		1E1C27EC1A59BBB600C15532 /* CGameScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CGameScene.cpp; sourceTree = "<group>"; };
 		1E1C27ED1A59BBB600C15532 /* CGameScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CGameScene.h; sourceTree = "<group>"; };
-		1E1C27EE1A59BBB600C15532 /* CPlayerSprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CPlayerSprite.cpp; sourceTree = "<group>"; };
-		1E1C27EF1A59BBB600C15532 /* CPlayerSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPlayerSprite.h; sourceTree = "<group>"; };
+		1E1C27EE1A59BBB600C15532 /* CPlayerNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CPlayerNode.cpp; sourceTree = "<group>"; };
+		1E1C27EF1A59BBB600C15532 /* CPlayerNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPlayerNode.h; sourceTree = "<group>"; };
 		1E1C27F01A59BBB600C15532 /* CTitleScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CTitleScene.cpp; sourceTree = "<group>"; };
 		1E1C27F11A59BBB600C15532 /* CTitleScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTitleScene.h; sourceTree = "<group>"; };
 		1E1C27F21A59BBB600C15532 /* CUtil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CUtil.cpp; sourceTree = "<group>"; };
 		1E1C27F31A59BBB600C15532 /* CUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CUtil.h; sourceTree = "<group>"; };
+		1EF30E911A5BBED7003E32FC /* CRandom.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CRandom.cpp; sourceTree = "<group>"; };
+		1EF30E921A5BBED7003E32FC /* CRandom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRandom.h; sourceTree = "<group>"; };
+		1EF30E951A5BBFAB003E32FC /* CInlineFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CInlineFunctions.h; sourceTree = "<group>"; };
+		1EF30E961A5BC0E3003E32FC /* CTimer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CTimer.cpp; sourceTree = "<group>"; };
+		1EF30E971A5BC0E3003E32FC /* CTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTimer.h; sourceTree = "<group>"; };
 		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		3EACC98E19EE6D4300EB3C5E /* res */ = {isa = PBXFileReference; lastKnownFileType = folder; path = res; sourceTree = "<group>"; };
 		46880B7619C43A67006E1F66 /* CloseNormal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CloseNormal.png; sourceTree = "<group>"; };
@@ -323,20 +330,25 @@
 		46880B8319C43A87006E1F66 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				1EF30E951A5BBFAB003E32FC /* CInlineFunctions.h */,
+				1EF30E911A5BBED7003E32FC /* CRandom.cpp */,
+				1EF30E921A5BBED7003E32FC /* CRandom.h */,
 				1E1C27E81A59BBB600C15532 /* CAnimationHelper.cpp */,
 				1E1C27E91A59BBB600C15532 /* CAnimationHelper.h */,
 				1E1C27EA1A59BBB600C15532 /* CGameManager.cpp */,
 				1E1C27EB1A59BBB600C15532 /* CGameManager.h */,
 				1E1C27EC1A59BBB600C15532 /* CGameScene.cpp */,
 				1E1C27ED1A59BBB600C15532 /* CGameScene.h */,
-				1E1C27EE1A59BBB600C15532 /* CPlayerSprite.cpp */,
-				1E1C27EF1A59BBB600C15532 /* CPlayerSprite.h */,
+				1E1C27EE1A59BBB600C15532 /* CPlayerNode.cpp */,
+				1E1C27EF1A59BBB600C15532 /* CPlayerNode.h */,
 				1E1C27F01A59BBB600C15532 /* CTitleScene.cpp */,
 				1E1C27F11A59BBB600C15532 /* CTitleScene.h */,
 				1E1C27F21A59BBB600C15532 /* CUtil.cpp */,
 				1E1C27F31A59BBB600C15532 /* CUtil.h */,
 				46880B8419C43A87006E1F66 /* AppDelegate.cpp */,
 				46880B8519C43A87006E1F66 /* AppDelegate.h */,
+				1EF30E961A5BC0E3003E32FC /* CTimer.cpp */,
+				1EF30E971A5BC0E3003E32FC /* CTimer.h */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -434,7 +446,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0500;
+				LastUpgradeCheck = 0610;
 				TargetAttributes = {
 					1D6058900D05DD3D006BFB54 = {
 						DevelopmentTeam = MDDB52YB8L;
@@ -503,7 +515,6 @@
 				1E1C27E41A59BB9F00C15532 /* texturePacker in Resources */,
 				1E1C27E01A59BB9F00C15532 /* fonts in Resources */,
 				1E1C27E21A59BB9F00C15532 /* particle in Resources */,
-				521A8EA919F11F5000D177D7 /* fonts in Resources */,
 				50EF62A317ECD613001EB2F8 /* Icon-50.png in Resources */,
 				5087E78017EB970100C73F5D /* Icon-114.png in Resources */,
 				50EF62A217ECD613001EB2F8 /* Icon-29.png in Resources */,
@@ -534,7 +545,6 @@
 				46880B7C19C43A67006E1F66 /* CloseNormal.png in Resources */,
 				1E1C27E71A59BB9F00C15532 /* tilemap in Resources */,
 				46880B7E19C43A67006E1F66 /* CloseSelected.png in Resources */,
-				1E1C27E11A59BB9F00C15532 /* fonts in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -546,11 +556,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				1E1C27F81A59BBB600C15532 /* CGameScene.cpp in Sources */,
-				1E1C27FA1A59BBB600C15532 /* CPlayerSprite.cpp in Sources */,
+				1E1C27FA1A59BBB600C15532 /* CPlayerNode.cpp in Sources */,
 				46880B8819C43A87006E1F66 /* AppDelegate.cpp in Sources */,
 				1E1C27FC1A59BBB600C15532 /* CTitleScene.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
+				1EF30E931A5BBED7003E32FC /* CRandom.cpp in Sources */,
 				1E1C27FE1A59BBB600C15532 /* CUtil.cpp in Sources */,
+				1EF30E981A5BC0E3003E32FC /* CTimer.cpp in Sources */,
 				1E1C27F41A59BBB600C15532 /* CAnimationHelper.cpp in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
@@ -566,8 +578,10 @@
 				1E1C27F51A59BBB600C15532 /* CAnimationHelper.cpp in Sources */,
 				1E1C27F71A59BBB600C15532 /* CGameManager.cpp in Sources */,
 				1E1C27FF1A59BBB600C15532 /* CUtil.cpp in Sources */,
-				1E1C27FB1A59BBB600C15532 /* CPlayerSprite.cpp in Sources */,
+				1E1C27FB1A59BBB600C15532 /* CPlayerNode.cpp in Sources */,
+				1EF30E991A5BC0E3003E32FC /* CTimer.cpp in Sources */,
 				46880B8919C43A87006E1F66 /* AppDelegate.cpp in Sources */,
+				1EF30E941A5BBED7003E32FC /* CRandom.cpp in Sources */,
 				503AE10517EB98FF00D1A890 /* main.cpp in Sources */,
 				1E1C27FD1A59BBB600C15532 /* CTitleScene.cpp in Sources */,
 			);
@@ -655,9 +669,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libc++";
+				COMBINE_HIDPI_IMAGES = YES;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -684,9 +698,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libc++";
+				COMBINE_HIDPI_IMAGES = YES;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = mac/Prefix.pch;

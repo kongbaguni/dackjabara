@@ -11,7 +11,7 @@
 
 #include <stdio.h>
 #include "cocos2d.h"
-#include "CPlayerSprite.h"
+#include "CPlayerNode.h"
 #include <map>
 USING_NS_CC;
 class CGameManager : public Layer
@@ -38,7 +38,7 @@ private:
     CC_SYNTHESIZE_READONLY(float, _fPlayerSpeed, PlayerSpeed);
     
     CC_SYNTHESIZE_RETAIN(Node*, _pGameField, GameField);
-    CC_SYNTHESIZE_RETAIN(CPlayerSprite*, _pPlayerSprite, PlayerSprite);
+    CC_SYNTHESIZE_RETAIN(CPlayerNode*, _pPlayerNode, PlayerNode);
     CC_SYNTHESIZE_RETAIN(TMXTiledMap*, _pTileMap, TileMap);
     
     CC_SYNTHESIZE_RETAIN(Label*, _pDebugLogLabel, DebugLogLabel);
