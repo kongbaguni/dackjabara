@@ -56,7 +56,8 @@ _pSprite(NULL),
 _pLabel(NULL),
 _pParticle(NULL),
 _iJumpCount(0),
-_iDashSpeed(1)
+_iDashSpeed(1),
+_pCamera(NULL)
 {
     
     
@@ -66,6 +67,7 @@ CPlayerNode::~CPlayerNode(void)
     CC_SAFE_RELEASE_NULL(_pSprite);
     CC_SAFE_RELEASE_NULL(_pLabel);
     CC_SAFE_RELEASE_NULL(_pParticle);
+    CC_SAFE_RELEASE_NULL(_pCamera);
 }
 
 bool CPlayerNode::init()
@@ -96,6 +98,15 @@ bool CPlayerNode::init()
     standAction();
     setRotation3D(CUtil::getRotate3D());
     _cModel.reset();
+    
+    Size winsize = Director::getInstance()->getWinSize();
+    setCamera(Camera::createPerspective(50, winsize.width/winsize.height, 1, 3800));
+    
+    _pCamera->setRotation3D(Vec3(-10,0,0));
+    _pCamera->setPosition3D(Vec3(0,winsize.height/3,winsize.height*0.7f));
+    _pCamera->setCameraFlag(CameraFlag::DEFAULT);
+    addChild(_pCamera);
+
     return true;
 }
 
@@ -167,6 +178,7 @@ void CPlayerNode::jumpAction()
     action->setTag((int)actionTag::JUMP);
     
     _pSprite->runAction(action);
+    _pCamera->runAction(JumpBy::create(1.0f, Vec2(0, 0), 50, 1));
     
 }
 void CPlayerNode::dashAction()
@@ -281,12 +293,12 @@ void CPlayerNode::updateMovement(float dt)
             w = valueMap.find(key);
             if(w!=valueMap.end())
             {
-                _iChargeSpeed = 20;
+                _iChargeSpeed = 30;
             }
         }
         else
         {
-            _iChargeSpeed = 2;
+            _iChargeSpeed = 10;
         }
 
 //        Vec2 fixPosNow = CUtil::getCoordWithVec2(tileMap, getPosition());
@@ -306,7 +318,7 @@ void CPlayerNode::updateMovement(float dt)
         //케릭터 이동
         this->setPosition(this->getPosition()+movement);
         //배경 스크롤
-        getParent()->setPositionX(getParent()->getPositionX()-movement.x);
+        //getParent()->setPositionX(getParent()->getPositionX()-movement.x);
         
         //파티클 이동
         if(_pParticle->getParent()==NULL)

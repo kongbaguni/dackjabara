@@ -66,7 +66,7 @@ bool CGameManager::init()
         return false;
     }
     
-    Director::getInstance()->setDepthTest(true);
+    Director::getInstance()->setDepthTest(false);
     Director::getInstance()->setAlphaBlending(true);
     
     Size winsize = Director::getInstance()->getWinSize();
@@ -81,7 +81,6 @@ bool CGameManager::init()
     
     setPauseLayer(CPauseLayer::create());
     
-    schedule(schedule_selector(CGameManager::reorderUnit), 0.1f);
     return true;
 }
 
@@ -319,13 +318,3 @@ Touch* CGameManager::getRightTouch(const std::vector<Touch *> &touches)
     return getNearTouch(touches, pos, winsize.width/2);
 }
 
-void CGameManager::reorderUnit(float dt)
-{
-    Vector<Node*> childrenList = _pGameField->getChildren();
-    for(Vector<Node*>::iterator it = childrenList.begin(); it!=childrenList.end(); ++it)
-    {
-        Node* node = *it;
-        int zorder = node->getPositionY()*-1;
- //       node->getParent()->reorderChild(node, zorder);
-    }
-}

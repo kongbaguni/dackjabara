@@ -58,7 +58,6 @@ private:
     Touch* getLeftTouch(const std::vector<Touch *> &touches);
     Touch* getRightTouch(const std::vector<Touch *> &touches);
     
-    void reorderUnit(float dt);
 };
 
 #endif /* defined(__shootinggamePrototype__CGameManager__) */

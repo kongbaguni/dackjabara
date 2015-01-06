@@ -29,9 +29,6 @@ bool CChikenSprite::init()
     _pTimer->setMaxTime(10000);
     _pTimer->start();
     schedule(schedule_selector(CChikenSprite::update),1.0f);
-    setRotation3D(Vec3(90,0,0));
-    setAnchorPoint(Vec2(0.5f,0.0f));
-    setPosition3D(Vec3(0, 0, 50));
     return true;
 }
 
