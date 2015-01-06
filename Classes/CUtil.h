@@ -41,6 +41,13 @@ public:
     };
     static movement8 getMove8(Vec2 vec);
     
+    enum class zorderList
+    {
+        BACKGROUND,
+        GAME_FEALD,
+        GAME_UI,
+    };
+    
 };
 
 

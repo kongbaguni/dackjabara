@@ -60,6 +60,8 @@ protected:
     CC_SYNTHESIZE_READONLY(int, _iJumpCount, JumpCount);
     CC_SYNTHESIZE_READONLY(int, _iDashSpeed, DashSpeed);
     CC_SYNTHESIZE(CPlayerModel, _cModel, Model);
+    virtual void pause();
+    virtual void resume();
  
 };
 

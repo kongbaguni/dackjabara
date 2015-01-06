@@ -121,6 +121,10 @@ void CPlayerNode::standAction()
 }
 void CPlayerNode::jumpAction()
 {
+    if(CGameManager::getInstance()->getMainTimerNode()->getTimer()->isPause())
+    {
+        return;
+    }
     
     if(_pSprite->getActionByTag((int)actionTag::JUMP) &&
        (_pSprite->getPositionY()<80 || _pSprite->getPositionY()>110)
@@ -216,7 +220,8 @@ void CPlayerNode::updateMovement(float dt)
     {
         std::string txt;
         txt+=String::createWithFormat("%0.2f : %0.2f",pos.x, pos.y)->_string;
-        txt+=String::createWithFormat("/n%0.2f",_cModel.getEnergyPercent())->_string;
+        txt+=String::createWithFormat("\n%0.2f",_pSprite->getPositionY())->_string;
+        txt+=String::createWithFormat("\n%0.2f",_cModel.getEnergyPercent())->_string;
         _pLabel->setString(txt);
     }
     
@@ -316,3 +321,14 @@ void CPlayerNode::chargeEnergy(float dt)
     
 }
 
+
+void CPlayerNode::pause()
+{
+    Node::pause();
+    _pSprite->pause();
+}
+void CPlayerNode::resume()
+{
+    Node::resume();
+    _pSprite->resume();
+}

@@ -32,6 +32,18 @@ void CTimer::start()
     
 }
 
+void CTimer::switchTimmer()
+{
+    if(isPause())
+    {
+        resume();
+    }
+    else
+    {
+        pause();
+    }
+}
+
 void CTimer::pause()
 {
     _lPauseTime = timeUtil::millisecondNow();

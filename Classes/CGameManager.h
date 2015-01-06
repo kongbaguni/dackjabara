@@ -12,6 +12,9 @@
 #include <stdio.h>
 #include "cocos2d.h"
 #include "CPlayerNode.h"
+#include "CMainTimerNode.h"
+#include "CPauseLayer.h"
+
 #include <map>
 USING_NS_CC;
 class CGameManager : public Layer
@@ -23,11 +26,13 @@ private:
     CGameManager();
     virtual ~CGameManager();
     
+    //touch event
     virtual void onTouchesBegan(const std::vector<Touch*>& touches, Event *unused_event);
     virtual void onTouchesMoved(const std::vector<Touch*>& touches, Event *unused_event);
     virtual void onTouchesEnded(const std::vector<Touch*>& touches, Event *unused_event);
     virtual void onTouchesCancelled(const std::vector<Touch*>&touches, Event *unused_event);
     
+    //keyboard event
     virtual void onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event);
     virtual void onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event);
 
@@ -36,12 +41,14 @@ private:
     CC_SYNTHESIZE_READONLY(Vec2, _vec2TouchStartPointRight, TouchStartPointRight)
     CC_SYNTHESIZE_READONLY(Vec2, _vec2TouchMovement, TouchMovement);
     CC_SYNTHESIZE_READONLY(float, _fPlayerSpeed, PlayerSpeed);
-    
+
     CC_SYNTHESIZE_RETAIN(Node*, _pGameField, GameField);
     CC_SYNTHESIZE_RETAIN(CPlayerNode*, _pPlayerNode, PlayerNode);
     CC_SYNTHESIZE_RETAIN(TMXTiledMap*, _pTileMap, TileMap);
-    
     CC_SYNTHESIZE_RETAIN(Label*, _pDebugLogLabel, DebugLogLabel);
+    CC_SYNTHESIZE_RETAIN(CMainTimerNode*, _pMainTimerNode, MainTimerNode);
+    
+    CC_SYNTHESIZE_RETAIN(CPauseLayer*, _pPauseLayer, PauseLayer);
 
     bool _baArrowPress[4];
     

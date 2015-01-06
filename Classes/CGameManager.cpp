@@ -16,6 +16,8 @@ _pTileMap(NULL),
 _pPlayerNode(NULL),
 _pGameField(NULL),
 _pDebugLogLabel(NULL),
+_pMainTimerNode(NULL),
+_pPauseLayer(NULL),
 _fPlayerSpeed(5)
 {
     EventDispatcher* dispatcher = Director::getInstance()->getEventDispatcher();
@@ -52,6 +54,8 @@ CGameManager::~CGameManager()
     CC_SAFE_RELEASE_NULL(_pTileMap);
     CC_SAFE_RELEASE_NULL(_pGameField);
     CC_SAFE_RELEASE_NULL(_pDebugLogLabel);
+    CC_SAFE_RELEASE_NULL(_pMainTimerNode);
+    CC_SAFE_RELEASE_NULL(_pPauseLayer);
     
 }
 
@@ -69,6 +73,11 @@ bool CGameManager::init()
     _pDebugLogLabel->setPosition(Vec2(winsize.width-10.0f,0));
     
     addChild(_pDebugLogLabel);
+    
+    setMainTimerNode(CMainTimerNode::create());
+    addChild(_pMainTimerNode,100);
+    
+    setPauseLayer(CPauseLayer::create());
     return true;
 }
 
@@ -248,8 +257,20 @@ void CGameManager::onKeyReleased(EventKeyboard::KeyCode keyCode, cocos2d::Event 
         case cocos2d::EventKeyboard::KeyCode::KEY_SPACE:
             _pPlayerNode->jumpAction();
             break;
-        case cocos2d::EventKeyboard::KeyCode::KEY_CTRL:
+        case cocos2d::EventKeyboard::KeyCode::KEY_SHIFT:
             _pPlayerNode->dashAction();
+            break;
+        case cocos2d::EventKeyboard::KeyCode::KEY_ESCAPE:
+            if(_pPauseLayer->getParent()==NULL)
+            {
+                getParent()->addChild(_pPauseLayer,(int)CUtil::zorderList::GAME_UI);
+            }
+            else
+            {
+                getParent()->removeChild(_pPauseLayer,100);
+            }
+                
+            break;
         default:
             break;
     }

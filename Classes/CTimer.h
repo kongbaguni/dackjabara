@@ -28,6 +28,8 @@ public:
     bool isPause();
     bool isStart();
     int getTime();
+    void switchTimmer();
+    
     std::string getTimeString();
     
 protected:

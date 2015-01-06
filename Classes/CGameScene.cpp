@@ -22,11 +22,11 @@ bool CGameScene::init()
     SimpleAudioEngine::getInstance()->playBackgroundMusic("BGM/01 A Night Of Dizzy Spells.mp3",true);
     
 //    배경 레이어 초기화
-    auto bg = Layer::create();
+    auto gameFeald = Layer::create();
     Vec3 r = CUtil::getRotate3D();
-    bg->setRotation3D(Vec3(-r.x, 0, 0));
-    bg->setPosition(Vec2(0.0f, 200.0f));
-    addChild(bg);
+    gameFeald->setRotation3D(Vec3(-r.x, 0, 0));
+    gameFeald->setPosition(Vec2(0.0f, 200.0f));
+    addChild(gameFeald,(int)CUtil::zorderList::GAME_FEALD);
     
 //    타일맵 초기화
     auto tileMap = TMXTiledMap::create("tilemap/map.tmx");
@@ -35,7 +35,7 @@ bool CGameScene::init()
     tileMap->setPosition(Vec2(0,-winsize.height/2));
     tileMap->setPosition3D(Vec3(0.0f, -tileMap->getContentSize().height/2, 0.0f));
     CUtil::setTMXTileMapAntialias(tileMap);
-    bg->addChild(tileMap);
+    gameFeald->addChild(tileMap);
     
   
     auto bgBack =TMXTiledMap::create("tilemap/map2.tmx");
@@ -69,11 +69,12 @@ bool CGameScene::init()
 //    플레이어 초기화
     auto player = CPlayerNode::create();
     player->setPosition(winsize.width/2,10);
-    bg->addChild(player);
+    gameFeald->addChild(player);
     CGameManager::getInstance()->setPlayerNode(player);
     
 //    게임매니져 붙이기
-    addChild(CGameManager::getInstance());
+    addChild(CGameManager::getInstance(),(int)CUtil::zorderList::GAME_UI,(int)CUtil::zorderList::GAME_UI);
+    CGameManager::getInstance()->setGameField(gameFeald);
     
     return true;
 }
