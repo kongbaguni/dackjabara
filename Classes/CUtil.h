@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include "cocos2d.h"
 #include <SimpleAudioEngine.h>
+#include "CInlineFunctions.h"
 USING_NS_CC;
 using namespace CocosDenshion;
 class CUtil
