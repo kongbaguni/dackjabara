@@ -195,8 +195,9 @@ void CPlayerNode::dashAction()
 void CPlayerNode::update(float dt)
 {
     updateMovement(dt);
-    
-    _pParticle->setScale(_cModel.getEnergyPercent());
+    float ff = _cModel.getEnergyPercent();
+    _pParticle->setStartColor(Color4F(1.0f, ff, ff, ff/2+0.5f));
+    _pParticle->setEndColor(Color4F(0.0f, 0.0f, 1.0f, ff));
     chargeEnergy(dt);
 
 }
