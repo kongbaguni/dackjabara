@@ -66,6 +66,8 @@ bool CGameManager::init()
         return false;
     }
     
+    Director::getInstance()->setDepthTest(true);
+    Director::getInstance()->setAlphaBlending(true);
     
     Size winsize = Director::getInstance()->getWinSize();
     setDebugLogLabel(Label::createWithBMFont(CUtil::getHDSDname("fonts/title%s.fnt"), "0"));
@@ -78,6 +80,8 @@ bool CGameManager::init()
     addChild(_pMainTimerNode,100);
     
     setPauseLayer(CPauseLayer::create());
+    
+    schedule(schedule_selector(CGameManager::reorderUnit), 0.1f);
     return true;
 }
 
@@ -313,4 +317,15 @@ Touch* CGameManager::getRightTouch(const std::vector<Touch *> &touches)
     Size winsize = Director::getInstance()->getWinSize();
     Vec2 pos = Vec2(winsize.width,winsize.height/2);
     return getNearTouch(touches, pos, winsize.width/2);
+}
+
+void CGameManager::reorderUnit(float dt)
+{
+    Vector<Node*> childrenList = _pGameField->getChildren();
+    for(Vector<Node*>::iterator it = childrenList.begin(); it!=childrenList.end(); ++it)
+    {
+        Node* node = *it;
+        int zorder = node->getPositionY()*-1;
+ //       node->getParent()->reorderChild(node, zorder);
+    }
 }

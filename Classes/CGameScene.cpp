@@ -10,6 +10,7 @@
 #include "CPlayerNode.h"
 #include "CUtil.h"
 #include "CGameManager.h"
+#include "CChikenSprite.h"
 
 bool CGameScene::init()
 {
@@ -75,6 +76,11 @@ bool CGameScene::init()
 //    게임매니져 붙이기
     addChild(CGameManager::getInstance(),(int)CUtil::zorderList::GAME_UI,(int)CUtil::zorderList::GAME_UI);
     CGameManager::getInstance()->setGameField(gameFeald);
+    
+    auto chicken = CChikenSprite::create();
+    chicken->setPosition(100,-100);
+    gameFeald->addChild(chicken);
+    
     
     return true;
 }

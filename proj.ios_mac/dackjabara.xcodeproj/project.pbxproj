@@ -40,6 +40,8 @@
 		1EF30E9D1A5BD512003E32FC /* CMainTimerNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1EF30E9A1A5BD512003E32FC /* CMainTimerNode.cpp */; };
 		1EF30EA01A5BDC47003E32FC /* CPauseLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1EF30E9E1A5BDC47003E32FC /* CPauseLayer.cpp */; };
 		1EF30EA11A5BDC47003E32FC /* CPauseLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1EF30E9E1A5BDC47003E32FC /* CPauseLayer.cpp */; };
+		1EF30EA41A5C11E0003E32FC /* CChikenSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1EF30EA21A5C11E0003E32FC /* CChikenSprite.cpp */; };
+		1EF30EA51A5C11E0003E32FC /* CChikenSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1EF30EA21A5C11E0003E32FC /* CChikenSprite.cpp */; };
 		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
 		3EACC98F19EE6D4300EB3C5E /* res in Resources */ = {isa = PBXBuildFile; fileRef = 3EACC98E19EE6D4300EB3C5E /* res */; };
 		3EACC99019EE6D4300EB3C5E /* res in Resources */ = {isa = PBXBuildFile; fileRef = 3EACC98E19EE6D4300EB3C5E /* res */; };
@@ -157,6 +159,8 @@
 		1EF30E9B1A5BD512003E32FC /* CMainTimerNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMainTimerNode.h; sourceTree = "<group>"; };
 		1EF30E9E1A5BDC47003E32FC /* CPauseLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CPauseLayer.cpp; sourceTree = "<group>"; };
 		1EF30E9F1A5BDC47003E32FC /* CPauseLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPauseLayer.h; sourceTree = "<group>"; };
+		1EF30EA21A5C11E0003E32FC /* CChikenSprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CChikenSprite.cpp; sourceTree = "<group>"; };
+		1EF30EA31A5C11E0003E32FC /* CChikenSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CChikenSprite.h; sourceTree = "<group>"; };
 		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		3EACC98E19EE6D4300EB3C5E /* res */ = {isa = PBXFileReference; lastKnownFileType = folder; path = res; sourceTree = "<group>"; };
 		46880B7619C43A67006E1F66 /* CloseNormal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CloseNormal.png; sourceTree = "<group>"; };
@@ -361,6 +365,8 @@
 				1EF30E9B1A5BD512003E32FC /* CMainTimerNode.h */,
 				1EF30E9E1A5BDC47003E32FC /* CPauseLayer.cpp */,
 				1EF30E9F1A5BDC47003E32FC /* CPauseLayer.h */,
+				1EF30EA21A5C11E0003E32FC /* CChikenSprite.cpp */,
+				1EF30EA31A5C11E0003E32FC /* CChikenSprite.h */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -571,6 +577,7 @@
 				1E1C27FA1A59BBB600C15532 /* CPlayerNode.cpp in Sources */,
 				46880B8819C43A87006E1F66 /* AppDelegate.cpp in Sources */,
 				1E1C27FC1A59BBB600C15532 /* CTitleScene.cpp in Sources */,
+				1EF30EA41A5C11E0003E32FC /* CChikenSprite.cpp in Sources */,
 				1EF30E9C1A5BD512003E32FC /* CMainTimerNode.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
 				1EF30E931A5BBED7003E32FC /* CRandom.cpp in Sources */,
@@ -591,6 +598,7 @@
 				1EF30E9D1A5BD512003E32FC /* CMainTimerNode.cpp in Sources */,
 				1E1C27F91A59BBB600C15532 /* CGameScene.cpp in Sources */,
 				1E1C27F51A59BBB600C15532 /* CAnimationHelper.cpp in Sources */,
+				1EF30EA51A5C11E0003E32FC /* CChikenSprite.cpp in Sources */,
 				1E1C27F71A59BBB600C15532 /* CGameManager.cpp in Sources */,
 				1E1C27FF1A59BBB600C15532 /* CUtil.cpp in Sources */,
 				1E1C27FB1A59BBB600C15532 /* CPlayerNode.cpp in Sources */,

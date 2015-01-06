@@ -29,7 +29,7 @@ protected:
 
 };
 
-class CPlayerNode : public Node
+class CPlayerNode : public Sprite
 {
 public:
     enum class actionTag
