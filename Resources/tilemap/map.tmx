@@ -7,10 +7,15 @@
     <property name="wall" value="true"/>
    </properties>
   </tile>
+  <tile id="18">
+   <properties>
+    <property name="charge" value="true"/>
+   </properties>
+  </tile>
  </tileset>
  <layer name="bg" width="50" height="18">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA2NkYGBgHEaYmU6YFnbS2w/I9tIibEb9MeqPUX+M+mPUH8PbH7QIl1F/DB486g/K7R31B25/DJd2+3DAAFS2zW0QDgAA
+   H4sIAAAAAAAAA2NkYGBgHMWDCgtDMTMNMLpd1DIX5ubh6A9auJ/W/sBm/qg/Rv0x6o9Rf4z6Y9Qfo/6gLsbWbqBFG2g4+mMUDx4MAKWrMkgQDgAA
   </data>
  </layer>
 </map>

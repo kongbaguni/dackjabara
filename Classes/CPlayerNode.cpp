@@ -276,8 +276,17 @@ void CPlayerNode::updateMovement(float dt)
                 {
                     movement.y = 0;
                 }
-                    
             }
+            key = "charge";
+            w = valueMap.find(key);
+            if(w!=valueMap.end())
+            {
+                _iChargeSpeed = 20;
+            }
+        }
+        else
+        {
+            _iChargeSpeed = 2;
         }
 
 //        Vec2 fixPosNow = CUtil::getCoordWithVec2(tileMap, getPosition());
@@ -316,7 +325,7 @@ void CPlayerNode::chargeEnergy(float dt)
     {
         return;
     }
-    _cModel.chargeEnergy(10);
+    _cModel.chargeEnergy(_iChargeSpeed);
     
     
 }
