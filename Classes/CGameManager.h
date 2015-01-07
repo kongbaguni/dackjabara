@@ -35,6 +35,9 @@ private:
     //keyboard event
     virtual void onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event);
     virtual void onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event);
+    
+    virtual void onAcceleration(Acceleration* acc, Event* unused_event);
+
 
     
     CC_SYNTHESIZE_READONLY(Vec2, _vec2TouchStartPointLeft,TouchStartPointLeft);
@@ -57,6 +60,8 @@ private:
     Touch* getNearTouch(const std::vector<Touch *> &touches, Vec2 pos, float dist);    
     Touch* getLeftTouch(const std::vector<Touch *> &touches);
     Touch* getRightTouch(const std::vector<Touch *> &touches);
+    
+    virtual void onEnter();
     
 };
 

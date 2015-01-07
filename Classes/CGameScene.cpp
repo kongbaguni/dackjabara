@@ -26,7 +26,7 @@ bool CGameScene::init()
 //    배경 레이어 초기화
     auto gameFeald = Layer::create();
     Vec3 r = CUtil::getRotate3D();
-//    gameFeald->setRotation3D(Vec3(-r.x, 0, 0));
+    gameFeald->setRotation3D(Vec3(-r.x, 0, 0));
     gameFeald->setPosition(Vec2(0.0f, 200.0f));
     addChild(gameFeald,(int)CUtil::zorderList::GAME_FEALD);
     
@@ -78,6 +78,7 @@ bool CGameScene::init()
 //    게임매니져 붙이기
     addChild(CGameManager::getInstance(),(int)CUtil::zorderList::GAME_UI,(int)CUtil::zorderList::GAME_UI);
     CGameManager::getInstance()->setGameField(gameFeald);
+    
     
     
     

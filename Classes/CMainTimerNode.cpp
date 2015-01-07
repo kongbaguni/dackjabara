@@ -31,7 +31,7 @@ bool CMainTimerNode::init()
     setTimer(CTimer::create());
 
     setLabel(Label::createWithBMFont(CUtil::getHDSDname("fonts/title%s.fnt"), "0"));
-    _pLabel->setPosition(Vec2(winsize.width/2,winsize.height));
+
     _pLabel->setAnchorPoint(Vec2(0.5f, 1.0f));
     addChild(_pLabel);
     

@@ -41,6 +41,11 @@ _fPlayerSpeed(5)
         dispatcher->addEventListenerWithSceneGraphPriority(keyboardListener, this);
     }
  
+    {
+        auto acc = EventListenerAcceleration::create(CC_CALLBACK_2(CGameManager::onAcceleration, this));
+        acc->setEnabled(true);
+        dispatcher->addEventListenerWithSceneGraphPriority(acc, this);
+    }
     
     
     
@@ -78,10 +83,19 @@ bool CGameManager::init()
     
     setMainTimerNode(CMainTimerNode::create());
     addChild(_pMainTimerNode,100);
+
     
     setPauseLayer(CPauseLayer::create());
     
     return true;
+}
+void CGameManager::onEnter()
+{
+    Layer::onEnter();
+    Size tileSize = _pTileMap->getContentSize();
+    _pMainTimerNode->setPosition3D
+    (Vec3(tileSize.width/2,tileSize.height-50,-tileSize.height/2));
+    
 }
 
 CGameManager* CGameManager::getInstance()
@@ -266,11 +280,14 @@ void CGameManager::onKeyReleased(EventKeyboard::KeyCode keyCode, cocos2d::Event 
         case cocos2d::EventKeyboard::KeyCode::KEY_ESCAPE:
             if(_pPauseLayer->getParent()==NULL)
             {
-                getParent()->addChild(_pPauseLayer,(int)CUtil::zorderList::GAME_UI);
+                Size winsize = Director::getInstance()->getWinSize();
+                _pPauseLayer->setPosition3D(Vec3(-winsize.width/2, 0, -_pTileMap->getContentSize().height/2));
+                _pPauseLayer->setScale(0.4f);
+                _pPlayerNode->addChild(_pPauseLayer,(int)CUtil::zorderList::GAME_UI);
             }
             else
             {
-                getParent()->removeChild(_pPauseLayer,100);
+                _pPlayerNode->removeChild(_pPauseLayer,100);
             }
                 
             break;
@@ -279,6 +296,15 @@ void CGameManager::onKeyReleased(EventKeyboard::KeyCode keyCode, cocos2d::Event 
     }
 }
 
+void CGameManager::onAcceleration(cocos2d::Acceleration *acc, cocos2d::Event *unused_event)
+{
+    CCLOG("acc %f %f %f",acc->x,acc->y,acc->z);
+    
+    double x = acc->x*100;
+    Vec3 ro = _pPlayerNode->getCamera()->getRotation3D();
+    _pPlayerNode->getCamera()->setRotation3D(Vec3(ro.x+x,ro.y,ro.z));
+    
+}
 void CGameManager::scheduleStopMovement(float dt)
 {
     _vec2TouchMovement.x*=0.9f;
