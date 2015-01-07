@@ -47,14 +47,21 @@ void CTimer::switchTimmer()
 void CTimer::pause()
 {
     _lPauseTime = timeUtil::millisecondNow();
+    CCLOG("time : %d",getTime());
 }
 
 void CTimer::resume()
 {
-    long lTIme = _lPauseTime-_lStartTime;
+    if(!isPause())
+    {
+        return;
+    }
+    long lTIme = timeUtil::millisecondNow()-_lPauseTime;
     _lPauseTime = 0;
     _lStartTime+=lTIme;
+    CCLOG("time : %d",getTime());
 }
+ 
 
 bool CTimer::isPause()
 {

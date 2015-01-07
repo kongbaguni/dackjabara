@@ -106,6 +106,8 @@ bool CPlayerNode::init()
     _pCamera->setPosition3D(Vec3(0,winsize.height/3,winsize.height*0.7f));
     _pCamera->setCameraFlag(CameraFlag::DEFAULT);
     addChild(_pCamera);
+    
+    ProgressTimer::create(")
 
     return true;
 }

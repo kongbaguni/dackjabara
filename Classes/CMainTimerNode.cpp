@@ -36,7 +36,7 @@ bool CMainTimerNode::init()
     addChild(_pLabel);
     
     scheduleUpdate();
-    _pTimer->setMaxTime(120000);
+    //_pTimer->setMaxTime(120000);
     _pTimer->start();
     return true;
 }
