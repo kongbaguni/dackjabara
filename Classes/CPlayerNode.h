@@ -62,6 +62,7 @@ protected:
     CC_SYNTHESIZE(CPlayerModel, _cModel, Model);
     CC_SYNTHESIZE_READONLY(int, _iChargeSpeed, ChargeSpeed);
     CC_SYNTHESIZE_RETAIN(Camera*, _pCamera, Camera);
+    CC_SYNTHESIZE_RETAIN(ProgressTimer*, _pProgressTimer, ProgressTImer);
     
     virtual void pause();
     virtual void resume();

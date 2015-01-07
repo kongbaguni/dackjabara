@@ -13,21 +13,14 @@
 #include "cocos2d.h"
 #include <SimpleAudioEngine.h>
 #include "CInlineFunctions.h"
+#include "CRandom.h"
+
 USING_NS_CC;
 using namespace CocosDenshion;
 class CUtil
 {
 public:
-    
-    static bool isHD();
-    static std::string getHDSD();
-    static std::string getHDSDname(std::string nameFormat);
-    static Vec3 getRotate3D();
-    
-    static void setTMXTileMapAntialias(TMXTiledMap* tileMap);
-    static Vec2 getCoordWithVec2(TMXTiledMap* tileMap, Vec2 vec);
-    
-    enum class movement8
+    enum class eDirection8
     {
         NOT_MOVE,
         LEFT,
@@ -39,7 +32,7 @@ public:
         DOWN,
         DOWN_LEFT,
     };
-    static movement8 getMove8(Vec2 vec);
+    static eDirection8 getMove8(Vec2 vec);
     
     enum class zorderList
     {
@@ -47,6 +40,23 @@ public:
         GAME_FEALD,
         GAME_UI,
     };
+    
+    struct sTMXcrashTestValue
+    {
+        bool _bCrash;
+        eDirection8 _eCrashDirction;
+        
+    };
+
+    
+    static bool isHD();
+    static std::string getHDSD();
+    static std::string getHDSDname(std::string nameFormat);
+    static Vec3 getRotate3D();
+    
+    static void setTMXTileMapAntialias(TMXTiledMap* tileMap);
+    static Vec2 getCoordWithVec2(TMXTiledMap* tileMap, Vec2 vec);
+    static sTMXcrashTestValue isCrashWithTMXTileMapSetting(TMXTiledMap* tileMap,std::string layerName, std::string key, Node* node);
     
 };
 

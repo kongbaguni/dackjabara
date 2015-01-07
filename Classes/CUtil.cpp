@@ -61,12 +61,46 @@ Vec2 CUtil::getCoordWithVec2(cocos2d::TMXTiledMap *tileMap, cocos2d::Vec2 vec)
     return Vec2(iXx,iY-iYy-1);
 }
 
-CUtil::movement8 CUtil::getMove8(cocos2d::Vec2 vec)
+CUtil::sTMXcrashTestValue CUtil::isCrashWithTMXTileMapSetting(cocos2d::TMXTiledMap *tileMap, std::string layerName, std::string key, Node* node)
+{
+    Vec2 pos = node->getPosition();
+    sTMXcrashTestValue result;
+    Vec2 fixPos = CUtil::getCoordWithVec2(tileMap, pos);
+    if(fixPos.x<0 | fixPos.y<0)
+    {
+        result._bCrash = true;
+        result._eCrashDirction = eDirection8::NOT_MOVE;
+        return result;
+    }
+    TMXLayer* layer = tileMap->getLayer(layerName);
+   // auto tile = layer->getTileGIDAt(fixPos);
+    
+    uint32_t iGid = layer->getTileGIDAt(fixPos);
+    auto value = tileMap->getPropertiesForGID(iGid);
+    if(value.getType()==Value::Type::MAP)
+    {
+        ValueMap valueMap = value.asValueMap();
+        ValueMap::const_iterator w = valueMap.find(key);
+        if(w!=valueMap.end())
+        {
+            result._bCrash = true;
+        }
+        else
+        {
+            result._bCrash = false;
+            result._eCrashDirction = eDirection8::NOT_MOVE;
+        }
+    }
+    return result;
+
+}
+
+CUtil::eDirection8 CUtil::getMove8(cocos2d::Vec2 vec)
 {
     float angle = vec.getAngle()*-57.3f+90.0f;
     if(vec.getLength()<10.0f)
     {
-        return movement8::NOT_MOVE;
+        return eDirection8::NOT_MOVE;
     }
     float a[] =
     {
@@ -83,39 +117,39 @@ CUtil::movement8 CUtil::getMove8(cocos2d::Vec2 vec)
     };
     if(a[0]<= angle && angle < a[1])
     {
-        return movement8::RIGHT;
+        return eDirection8::RIGHT;
     }
     else if(a[1]<= angle && angle < a[2])
     {
-        return movement8::UP_RIGHT;
+        return eDirection8::UP_RIGHT;
     }
     else if(a[2]<= angle && angle < a[3])
     {
-        return movement8::UP;
+        return eDirection8::UP;
     }
     else if(a[3]<= angle && angle < a[4])
     {
-        return movement8::UP_LEFT;
+        return eDirection8::UP_LEFT;
     }
     else if(a[4]<= angle && angle < a[5])
     {
-        return movement8::LEFT;
+        return eDirection8::LEFT;
     }
     else if(a[5]<= angle && angle < a[6])
     {
-        return movement8::DOWN_LEFT;
+        return eDirection8::DOWN_LEFT;
     }
     else if(a[6]<= angle && angle < a[7])
     {
-        return movement8::DOWN;
+        return eDirection8::DOWN;
     }
     else if(a[7]<= angle && angle < a[8])
     {
-        return movement8::DOWN_RIGHT;
+        return eDirection8::DOWN_RIGHT;
     }
     else if(a[8]<= angle && angle < a[9])
     {
-        return movement8::RIGHT;
+        return eDirection8::RIGHT;
     }
-    return movement8::NOT_MOVE;
+    return eDirection8::NOT_MOVE;
 }

@@ -84,8 +84,10 @@ bool CGameScene::init()
     
     for(int i=0; i<10; i++)
     {
-        int x = CRandom::getInstnace()->Random(winsize.width);
-        int y = CRandom::getInstnace()->Random(winsize.height*0.8f) - winsize.height*0.5f;
+        float tw = tileMap->getContentSize().width/2;
+        float th = tileMap->getContentSize().height/2;
+        int x = CRandom::getInstnace()->Random(tw-50)+25;
+        int y = CRandom::getInstnace()->Random(th) - th/2;
         
         auto chicken = CChikenSprite::create();
         chicken->setPosition(x,y);

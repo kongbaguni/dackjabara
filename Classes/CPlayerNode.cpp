@@ -27,15 +27,24 @@ void CPlayerModel::reset()
 
 bool CPlayerModel::useEnergy(int useValue)
 {
+    if(useValue==0)
+    {
+        return false;
+    }
     if(_iEnergyUse+useValue>_iEnergyMax)
     {
         return false;
     }
     _iEnergyUse+=useValue;
+
     return true;
 }
 void CPlayerModel::chargeEnergy(int charge)
 {
+    if(_iEnergyUse==0)
+    {
+        return;
+    }
     _iEnergyUse-=charge;
     if(_iEnergyUse<0)
     {
@@ -57,7 +66,8 @@ _pLabel(NULL),
 _pParticle(NULL),
 _iJumpCount(0),
 _iDashSpeed(1),
-_pCamera(NULL)
+_pCamera(NULL),
+_pProgressTimer(NULL)
 {
     
     
@@ -68,6 +78,7 @@ CPlayerNode::~CPlayerNode(void)
     CC_SAFE_RELEASE_NULL(_pLabel);
     CC_SAFE_RELEASE_NULL(_pParticle);
     CC_SAFE_RELEASE_NULL(_pCamera);
+    CC_SAFE_RELEASE_NULL(_pProgressTimer);
 }
 
 bool CPlayerNode::init()
@@ -107,7 +118,21 @@ bool CPlayerNode::init()
     _pCamera->setCameraFlag(CameraFlag::DEFAULT);
     addChild(_pCamera);
     
-    ProgressTimer::create(")
+    auto progress = Sprite::createWithSpriteFrameName("unit/progressBarBG.png");
+    setProgressTImer(ProgressTimer::create(Sprite::createWithSpriteFrameName("unit/progressBar.png")));
+    progress->addChild(_pProgressTimer);
+    _pSprite->addChild(progress);
+    progress->setPosition(Vec2(58,250));
+    _pProgressTimer->setPercentage(0.0f);
+    _pProgressTimer->runAction(ProgressTo::create(1.0f, 100));
+    _pProgressTimer->setType(ProgressTimer::Type::BAR);
+    _pProgressTimer->setMidpoint(Vec2(0.0f,0.0f));
+    _pProgressTimer->setBarChangeRate(Vec2(1.0f,0.0f));
+    _pProgressTimer->setAnchorPoint(Vec2(0.0f,0.0f));
+    
+    
+    
+    
 
     return true;
 }
@@ -213,10 +238,20 @@ void CPlayerNode::dashAction()
 void CPlayerNode::update(float dt)
 {
     updateMovement(dt);
-    float ff = _cModel.getEnergyPercent();
-    _pParticle->setStartColor(Color4F(1.0f, ff, ff, ff/2+0.5f));
-    _pParticle->setEndColor(Color4F(0.0f, 0.0f, 1.0f, ff));
-    chargeEnergy(dt);
+    
+    //프로그레스바 갱신
+    {
+        float ff = _cModel.getEnergyPercent();
+        _pParticle->setStartColor(Color4F(1.0f, ff, ff, ff/2+0.5f));
+        _pParticle->setEndColor(Color4F(0.0f, 0.0f, 1.0f, ff));
+        chargeEnergy(dt);
+        float percent = ff*100.0f;
+        if(percent>99)
+        {
+            percent = 99;
+        }
+        _pProgressTimer->setPercentage(percent);
+    }
 
 }
 void CPlayerNode::updateMovement(float dt)
@@ -231,13 +266,6 @@ void CPlayerNode::updateMovement(float dt)
     }
     
     Vec2 pos = getPosition();
-    {
-//        std::string txt;
-//        txt+=String::createWithFormat("%0.2f : %0.2f",pos.x, pos.y)->_string;
-//        txt+=String::createWithFormat("\n%0.2f",_pSprite->getPositionY())->_string;
-//        txt+=String::createWithFormat("\n%0.2f",_cModel.getEnergyPercent())->_string;
-//        _pLabel->setString(txt);
-    }
     
     Size winsize = Director::getInstance()->getWinSize();
     Size mapSize = CGameManager::getInstance()->getTileMap()->getContentSize();
@@ -268,54 +296,37 @@ void CPlayerNode::updateMovement(float dt)
     //타일맵하고 충돌검사
     if(movement!=Vec2(0,0) && _pSprite->getPositionY()<40)
     {
-        auto tileMap = CGameManager::getInstance()->getTileMap();
-        Vec2 fixPos = CUtil::getCoordWithVec2(tileMap, prePos);
-        
-        TMXLayer* layer = CGameManager::getInstance()->getTileMap()->getLayer("bg");
-        
-        uint32_t iGid = layer->getTileGIDAt(fixPos);
-        auto value = tileMap->getPropertiesForGID(iGid);
-        if(value.getType()==Value::Type::MAP)
+        if(CUtil::isCrashWithTMXTileMapSetting(CGameManager::getInstance()->getTileMap(), "bg", "wall", this)._bCrash)
         {
-            ValueMap valueMap = value.asValueMap();
-            std::string key = "wall";
-            ValueMap::const_iterator w = valueMap.find(key);
-            if(w!=valueMap.end())
+            if(fabsf(movement.x)>0)
             {
-                if(fabsf(movement.x)>0)
-                {
-                    movement.x = 0;
-                }
-                if(fabsf(movement.y)>0)
-                {
-                    movement.y = 0;
-                }
+                movement.x = 0;
             }
-            key = "charge";
-            w = valueMap.find(key);
-            if(w!=valueMap.end())
+            if(fabsf(movement.y)>0)
             {
-                _iChargeSpeed = 30;
+                movement.y = 0;
             }
+        }
+        if(CUtil::isCrashWithTMXTileMapSetting(CGameManager::getInstance()->getTileMap(), "bg", "charge", this)._bCrash)
+        {
+            _iChargeSpeed = 30;
         }
         else
         {
             _iChargeSpeed = 10;
         }
-
-//        Vec2 fixPosNow = CUtil::getCoordWithVec2(tileMap, getPosition());
-//        auto tile = layer->getTileAt(fixPosNow);
-//        tile->runAction
-//        (Sequence::create
-//         (FadeTo::create(0.5f, 30),
-//          FadeTo::create(0.5f, 255),
-//          NULL)
-//         );
         
     }
     
 
-    if(_cModel.useEnergy((int)movement.getLength()))
+    //에너지 소모 
+    int energy = (int)movement.getLength();
+    if(energy==0)
+    {
+        return;
+    }
+    
+    if(energy<200 && _cModel.useEnergy(energy) )
     {
         //케릭터 이동
         this->setPosition(this->getPosition()+movement);

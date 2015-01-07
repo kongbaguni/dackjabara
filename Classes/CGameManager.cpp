@@ -134,31 +134,31 @@ void CGameManager::onTouchesMoved(const std::vector<Touch *> &touches, cocos2d::
         Vec2 touchPoint = moveTouch->getLocation();
         
         Vec2 tmp =  touchPoint - _vec2TouchStartPointLeft;
-        CUtil::movement8 movement = CUtil::getMove8(tmp);
+        CUtil::eDirection8 movement = CUtil::getMove8(tmp);
         switch (movement)
         {
-            case CUtil::movement8::UP:
+            case CUtil::eDirection8::UP:
                 _vec2TouchMovement = Vec2(0,fs);
                 break;
-            case CUtil::movement8::UP_LEFT:
+            case CUtil::eDirection8::UP_LEFT:
                 _vec2TouchMovement = Vec2(fs,fs);
                 break;
-            case CUtil::movement8::LEFT:
+            case CUtil::eDirection8::LEFT:
                 _vec2TouchMovement = Vec2(fs,0);
                 break;
-            case CUtil::movement8::DOWN_LEFT:
+            case CUtil::eDirection8::DOWN_LEFT:
                 _vec2TouchMovement = Vec2(fs,-fs);
                 break;
-            case CUtil::movement8::DOWN:
+            case CUtil::eDirection8::DOWN:
                 _vec2TouchMovement = Vec2(0, -fs);
                 break;
-            case CUtil::movement8::DOWN_RIGHT:
+            case CUtil::eDirection8::DOWN_RIGHT:
                 _vec2TouchMovement = Vec2(-fs, -fs);
                 break;
-            case CUtil::movement8::RIGHT:
+            case CUtil::eDirection8::RIGHT:
                 _vec2TouchMovement = Vec2(-fs, 0);
                 break;
-            case CUtil::movement8::UP_RIGHT:
+            case CUtil::eDirection8::UP_RIGHT:
                 _vec2TouchMovement = Vec2(-fs, fs);
                 break;
             default:
@@ -185,18 +185,18 @@ void CGameManager::onTouchesEnded(const std::vector<Touch *> &touches, cocos2d::
     {
         Vec2 rt = rightTouch->getLocation();
         Vec2 movement = rt-_vec2TouchStartPointRight;
-        CUtil::movement8 m = CUtil::getMove8(movement);
+        CUtil::eDirection8 m = CUtil::getMove8(movement);
         switch(m)
         {
-            case CUtil::movement8::UP:
-            case CUtil::movement8::UP_LEFT:
-            case CUtil::movement8::UP_RIGHT:
+            case CUtil::eDirection8::UP:
+            case CUtil::eDirection8::UP_LEFT:
+            case CUtil::eDirection8::UP_RIGHT:
                 _pPlayerNode->jumpAction();
                 break;
-            case CUtil::movement8::LEFT:
-            case CUtil::movement8::RIGHT:
-            case CUtil::movement8::DOWN_LEFT:
-            case CUtil::movement8::DOWN_RIGHT:
+            case CUtil::eDirection8::LEFT:
+            case CUtil::eDirection8::RIGHT:
+            case CUtil::eDirection8::DOWN_LEFT:
+            case CUtil::eDirection8::DOWN_RIGHT:
                 _pPlayerNode->dashAction();
                 break;
             default:

@@ -29,6 +29,7 @@ bool CTimer::init()
 void CTimer::start()
 {
     _lStartTime = timeUtil::millisecondNow();
+    _lPauseTime = 0;
     
 }
 
