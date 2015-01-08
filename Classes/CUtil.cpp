@@ -63,19 +63,24 @@ Vec2 CUtil::getCoordWithVec2(cocos2d::TMXTiledMap *tileMap, cocos2d::Vec2 vec)
 
 CUtil::sTMXcrashTestValue CUtil::isCrashWithTMXTileMapSetting(cocos2d::TMXTiledMap *tileMap, std::string layerName, std::string key, Node* node)
 {
-    Vec2 pos = node->getPosition();
+    return CUtil::isCrashWithTMXTileMapSetting(tileMap, layerName, key, node->getPosition());
+}
+CUtil::sTMXcrashTestValue CUtil::isCrashWithTMXTileMapSetting(cocos2d::TMXTiledMap *tileMap, std::string layerName, std::string key, Vec2 pos)
+
+{
     sTMXcrashTestValue result;
     Vec2 fixPos = CUtil::getCoordWithVec2(tileMap, pos);
-    if(fixPos.x<0 | fixPos.y<0)
+    Vec2 tileSize = tileMap->getMapSize();
+    
+    if(fixPos.x<0 | fixPos.y<0 | fixPos.x >= tileSize.x | fixPos.y >= tileSize.y)
     {
         result._bCrash = true;
         result._eCrashDirction = eDirection8::NOT_MOVE;
         return result;
     }
     TMXLayer* layer = tileMap->getLayer(layerName);
-   // auto tile = layer->getTileGIDAt(fixPos);
-    
     uint32_t iGid = layer->getTileGIDAt(fixPos);
+    result._pCrashTile = layer->getTileAt(fixPos);
     auto value = tileMap->getPropertiesForGID(iGid);
     if(value.getType()==Value::Type::MAP)
     {

@@ -18,6 +18,7 @@ bool CGameScene::init()
     {
         return false;
     }
+
     Size winsize = Director::getInstance()->getWinSize();
     
     
@@ -35,9 +36,11 @@ bool CGameScene::init()
     CGameManager::getInstance()->setTileMap(tileMap);
     
     tileMap->setPosition(Vec2(0,-winsize.height/2));
-    tileMap->setPosition3D(Vec3(0.0f, -tileMap->getContentSize().height/2, 0.0f));
+    tileMap->setPosition3D(Vec3(0.0f, tileMap->getContentSize().height/3, winsize.height/2));
+    tileMap->setRotation3D(Vec3(-90, 0, 0));
     CUtil::setTMXTileMapAntialias(tileMap);
-    gameFeald->addChild(tileMap,(int)CUtil::zorderList::BACKGROUND);
+    addChild(tileMap,(int)CUtil::zorderList::BACKGROUND);
+    
     
   
     auto bgBack =TMXTiledMap::create("tilemap/map4.tmx");
@@ -68,20 +71,8 @@ bool CGameScene::init()
     std::string fileName = CUtil::getHDSDname("texturePacker/unit%s.plist");
     SpriteFrameCache::getInstance()->addSpriteFramesWithFile(fileName);
 
-//    플레이어 초기화
-    auto player = CPlayerNode::create();
-    player->setPosition(winsize.width/2,10);
-    player->getSprite()->setScale(0.5f);
-    gameFeald->addChild(player,(int)CUtil::zorderList::GAME_FEALD);
-    CGameManager::getInstance()->setPlayerNode(player);
-    
-//    게임매니져 붙이기
-    addChild(CGameManager::getInstance(),(int)CUtil::zorderList::GAME_UI,(int)CUtil::zorderList::GAME_UI);
-    CGameManager::getInstance()->setGameField(gameFeald);
-    
-    
-    
-    
+
+    //닭 집어넣기
     for(int i=0; i<10; i++)
     {
         float tw = tileMap->getContentSize().width/2;
@@ -92,8 +83,28 @@ bool CGameScene::init()
         auto chicken = CChikenSprite::create();
         chicken->setPosition(x,y);
         gameFeald->addChild(chicken,(int)CUtil::zorderList::BACKGROUND);
-        chicken->setScale(1.0f);
+        //        chicken->setScale(1.0f);
     }
+
+    
+    //    플레이어 초기화
+    
+    auto player = CPlayerNode::create();
+    if(player)
+    {
+        player->setPosition(winsize.width/2,10);
+        player->getSprite()->setScale(0.5f);
+        gameFeald->addChild(player);
+        CGameManager::getInstance()->setPlayerNode(player);
+    }
+    
+    
+//    게임매니져 붙이기
+    addChild(CGameManager::getInstance(),(int)CUtil::zorderList::GAME_UI,(int)CUtil::zorderList::GAME_UI);
+    CGameManager::getInstance()->setGameField(gameFeald);
+    
+    
+    
     
     
     return true;

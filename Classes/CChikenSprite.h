@@ -12,7 +12,8 @@
 #include <stdio.h>
 #include "CUtil.h"
 #include "CTimer.h"
-class CChikenSprite : public Sprite
+#include "CUnitNode.h"
+class CChikenSprite : public CUnitNode
 {
 public:
     virtual bool init();
@@ -37,11 +38,7 @@ protected:
     CChikenSprite();
     ~CChikenSprite();
     CC_SYNTHESIZE_READONLY(state, _eState, State);
-    CC_SYNTHESIZE_RETAIN(CTimer*, _pTimer, Timer);
     CC_SYNTHESIZE_READONLY(Vec2, _vec2Movement, Movement);
-    
-    virtual void pause();
-    virtual void resume();
     void resetTimer();
     
     void dead();

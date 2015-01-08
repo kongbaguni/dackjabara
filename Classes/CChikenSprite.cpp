@@ -11,65 +11,60 @@
 
 CChikenSprite::CChikenSprite():
 _eState(state::EGG),
-_pTimer(NULL),
 _vec2Movement(Vec2(0, 0))
 {
     
 }
 CChikenSprite::~CChikenSprite()
 {
-    CC_SAFE_RELEASE_NULL(_pTimer);
+    unscheduleUpdate();
+ //   CUnitNode::~CUnitNode();
     
 }
 
 bool CChikenSprite::init()
 {
-    if(!Sprite::initWithSpriteFrameName("unit/egg.png"))
+    if(!CUnitNode::init())
     {
-        return  false;
+        return false;
     }
-    setTimer(CTimer::create());
+    
+    auto _pSprite = getSprite();
+    _pSprite->setSpriteFrame("unit/egg.png");
+    setContentSize(_pSprite->getContentSize());
+    setAnchorPoint(_pSprite->getAnchorPoint());
+    _pSprite->setPosition(Vec2(_pSprite->getContentSize().width/2, -_pSprite->getContentSize().height));
+    _pSprite->setAnchorPoint(Vec2(0.5f,0.0f));
+                          
+  
+    setRotation3D(Vec3(0, 0, 0));
     resetTimer();
+    getTimer()->start();
+    
     scheduleUpdate();
+    setPosition3D(Vec3(0,0,this->getContentSize().height/4-10));
+    setAnchorPoint(Vec2(0.5, 0.0));
+    setScale(0.5f);
+    
+    
+    getTimer()->setMaxTime(CRandom::getInstnace()->Random(20)*1000+3000);
+    
+    getProgressTImer()->getParent()->setScale(0.5f);
+    getProgressTImer()->getParent()->setPosition(45.f, -5.0f);
+   
     return true;
 }
 
 void CChikenSprite::update(float dt)
 {
-    //상태에 맞게 그림 고치기
-    {
-        std::string frameName = "unit/";
-        switch (_eState)
-        {
-            case state::EGG:
-                frameName+="egg.png";
-                break;
-            case state::EGG_BROKEN:
-                frameName+="eggBroken.png";
-                break;
-            case state::CHICK:
-                frameName+="chick.png";
-                break;
-            case state::CHICK_DEAD:
-                frameName+="chickDead.png";
-                break;
-            case state::COCK:
-                frameName+="cock.png";
-                break;
-            case state::HEN:
-                frameName+="hen.png";
-                break;
-            default:
-                break;
-        }
-        initWithSpriteFrameName(frameName);
-    }
-    
+    getLabel()->setString(textUtil::addCommaText(getLocalZOrder()));
+
+
     //움직일수 있는상태면 움직이게
     {
         float mx = CRandom::getInstnace()->Random(4)-2.0f;
         float my = CRandom::getInstnace()->Random(4)-2.0f;
-        if(_vec2Movement.length()==0 | CRandom::getInstnace()->Random(100)==0)
+        if(_vec2Movement.length()==0)
         {
             switch (_eState)
             {
@@ -88,34 +83,39 @@ void CChikenSprite::update(float dt)
     //플레이어하고 충돌검사
     {
         CPlayerNode* player = CGameManager::getInstance()->getPlayerNode();
-        Vec2 posP = player->getPosition();
-        Vec2 pos = getPosition();
-        float distance = pos.getDistance(posP);
-        bool bPlayerIsJump = player->getSprite()->getPositionY()>10;
-        bool bCrash = distance<40;
-        bool bActionNotRun = getActionByTag((int)eAction::DEAD)==NULL;
-        if(!bPlayerIsJump & bCrash & bActionNotRun)
+        auto _pSprite = getSprite();
+        if(player)
         {
-            player->getModel().chargeEnergy(1000);
-            
-            
-            _vec2Movement = Vec2(0, 0);
-            setRotation3D(Vec3(-90,0,0));
-//            setFlippedY(true);
-            auto action =
-            Sequence::create
-            (DelayTime::create(1.0f),
-             Spawn::create
-             (ScaleTo::create(1.0f, 2.0f),
-              FadeTo::create(1.0f,0),
-              NULL),
-             CallFunc::create(CC_CALLBACK_0(CChikenSprite::dead, this)),
-             NULL);
-            action->setTag((int)eAction::DEAD);
-            runAction(action);
-            return;
+            Vec2 posP = player->getPosition();
+            Vec2 pos = getPosition();
+            float distance = pos.getDistance(posP);
+            bool bPlayerIsJump = player->getSprite()->getPositionY()>10;
+            bool bCrash = distance<20;
+            bool bActionNotRun = getActionByTag((int)eAction::DEAD)==NULL;
+            if(!bPlayerIsJump & bCrash & bActionNotRun)
+            {
+                _pSprite->setColor(Color3B(255, 0, 0));
+                
+                
+                //            _vec2Movement = Vec2(0, 0);
+                ////            setFlippedY(true);
+                //            auto action =
+                //            Sequence::create
+                //            (DelayTime::create(1.0f),
+                //             Spawn::create
+                //             (MoveBy::create(1.0f, Vec2(0,300)),
+                //              FadeTo::create(1.0f,0),
+                //              NULL),
+                //             CallFunc::create(CC_CALLBACK_0(CChikenSprite::dead, this)),
+                //             NULL);
+                //            action->setTag((int)eAction::DEAD);
+                //            runAction(action);
+                //            return;
+            }else
+            {
+                _pSprite->setColor(Color3B(255, 255, 255));
+            }
         }
-        
     }
     
     //충돌검사 타일맵하고 충돌검사
@@ -151,7 +151,7 @@ void CChikenSprite::update(float dt)
                     
                     
                 }
-                setFlippedX(_vec2Movement.x<0);
+                getSprite()->setFlippedX(_vec2Movement.x<0);
                 setPosition(getPosition()+_vec2Movement);
             }
                 break;
@@ -160,12 +160,24 @@ void CChikenSprite::update(float dt)
         }
     }
 
-    if(_pTimer->getTime()>0)
     {
-        return;
+        float time = getTimer()->getTime();
+        float maxTimt = getTimer()->getMaxTime();
+        float ff = time / maxTimt *100.0f;
+        if(ff>99)
+        {
+            ff = 99;
+        }
+        getProgressTImer()->setPercentage(ff);
+        if(ff>0)
+        {
+            return;
+        }
     }
-    _pTimer->start();
+    getTimer()->start();
+    getTimer()->setMaxTime(CRandom::getInstnace()->Random(20)+10);
     int iRnd = CRandom::getInstnace()->Random(100);
+    state oldState = _eState;
     switch (_eState)
     {
         case state::EGG:
@@ -198,6 +210,7 @@ void CChikenSprite::update(float dt)
         case state::EGG_BROKEN:
         {
             removeFromParentAndCleanup(true);
+            return;
         }break;
         case state::HEN:
         {
@@ -212,6 +225,39 @@ void CChikenSprite::update(float dt)
         default:
             break;
     }
+    
+    if(oldState!=_eState)
+    {
+        //상태에 맞게 그림 고치기
+        {
+            std::string frameName = "unit/";
+            switch (_eState)
+            {
+                case state::EGG:
+                    frameName+="egg.png";
+                    break;
+                case state::EGG_BROKEN:
+                    frameName+="eggBroken.png";
+                    break;
+                case state::CHICK:
+                    frameName+="chick.png";
+                    break;
+                case state::CHICK_DEAD:
+                    frameName+="chickDead.png";
+                    break;
+                case state::COCK:
+                    frameName+="cock.png";
+                    break;
+                case state::HEN:
+                    frameName+="hen.png";
+                    break;
+                default:
+                    break;
+            }
+            getSprite()->setSpriteFrame(frameName);
+            
+        }
+    }
     resetTimer();
     
     
@@ -220,26 +266,15 @@ void CChikenSprite::dead()
 {
     removeFromParent();
 }
-void CChikenSprite::pause()
-{
-    Sprite::pause();
-    _pTimer->pause();
-}
-
-void CChikenSprite::resume()
-{
-    Sprite::resume();
-    _pTimer->resume();
-}
 
 void CChikenSprite::resetTimer()
 {
-    if(getReferenceCount()==0)
+    if(getReferenceCount()==0 || getLabel()==NULL)
     {
         return;
     }
     int time = CRandom::getInstnace()->Random(10)+10;
     time*=1000;
-    _pTimer->setMaxTime(time);
-    _pTimer->start();
+    getTimer()->setMaxTime(time);
+    getTimer()->start();
 }

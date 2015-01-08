@@ -11,6 +11,7 @@
 
 #include <stdio.h>
 #include "cocos2d.h"
+#include "CUnitNode.h"
 USING_NS_CC;
 class CPlayerModel
 {
@@ -29,7 +30,7 @@ protected:
 
 };
 
-class CPlayerNode : public Sprite
+class CPlayerNode : public CUnitNode
 {
 public:
     enum class actionTag
@@ -54,18 +55,13 @@ protected:
     void updateMovement(float dt);
     void chargeEnergy(float dt);
     
-    CC_SYNTHESIZE_RETAIN(Sprite*, _pSprite, Sprite);
-    CC_SYNTHESIZE_RETAIN(Label*, _pLabel, Label);
     CC_SYNTHESIZE_RETAIN(ParticleSystemQuad*, _pParticle, Particle);
     CC_SYNTHESIZE_READONLY(int, _iJumpCount, JumpCount);
     CC_SYNTHESIZE_READONLY(int, _iDashSpeed, DashSpeed);
     CC_SYNTHESIZE(CPlayerModel, _cModel, Model);
     CC_SYNTHESIZE_READONLY(int, _iChargeSpeed, ChargeSpeed);
     CC_SYNTHESIZE_RETAIN(Camera*, _pCamera, Camera);
-    CC_SYNTHESIZE_RETAIN(ProgressTimer*, _pProgressTimer, ProgressTImer);
     
-    virtual void pause();
-    virtual void resume();
  
 };
 

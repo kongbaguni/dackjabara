@@ -71,8 +71,8 @@ bool CGameManager::init()
         return false;
     }
     
-    Director::getInstance()->setDepthTest(false);
-    Director::getInstance()->setAlphaBlending(true);
+//    Director::getInstance()->setAlphaBlending(true);
+//    Director::getInstance()->setDepthTest(true);
     
     Size winsize = Director::getInstance()->getWinSize();
     setDebugLogLabel(Label::createWithBMFont(CUtil::getHDSDname("fonts/title%s.fnt"), "0"));
@@ -86,15 +86,30 @@ bool CGameManager::init()
 
     
     setPauseLayer(CPauseLayer::create());
+    schedule(schedule_selector(CGameManager::reorderUnitZindex));
     
     return true;
+}
+
+void CGameManager::reorderUnitZindex(float dt)
+{
+    Vector<Node*> childList = _pGameField->getChildren();
+    for(Vector<Node*>::iterator it = childList.begin();
+        it != childList.end();
+        ++it)
+    {
+        Node* child = *it;
+        int zorder = child->getPositionY()+_pTileMap->getContentSize().height;
+        zorder = _pTileMap->getContentSize().height*2-zorder + 1000;
+        child->setLocalZOrder(zorder);
+    }
 }
 void CGameManager::onEnter()
 {
     Layer::onEnter();
     Size tileSize = _pTileMap->getContentSize();
     _pMainTimerNode->setPosition3D
-    (Vec3(tileSize.width/2,tileSize.height-50,-tileSize.height/2));
+    (Vec3(tileSize.width/2,tileSize.height-50,-tileSize.height/2+1));
     
 }
 

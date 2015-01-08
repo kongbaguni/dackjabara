@@ -63,6 +63,8 @@ private:
     
     virtual void onEnter();
     
+    void reorderUnitZindex(float dt);
+    
 };
 
 #endif /* defined(__shootinggamePrototype__CGameManager__) */

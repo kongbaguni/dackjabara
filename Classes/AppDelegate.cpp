@@ -50,6 +50,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
     // run
     director->runWithScene(scene);
+    Texture2D::PVRImagesHavePremultipliedAlpha(true                                               );
 
     return true;
 }

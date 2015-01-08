@@ -45,6 +45,7 @@ public:
     {
         bool _bCrash;
         eDirection8 _eCrashDirction;
+        Sprite* _pCrashTile;
         
     };
 
@@ -57,6 +58,7 @@ public:
     static void setTMXTileMapAntialias(TMXTiledMap* tileMap);
     static Vec2 getCoordWithVec2(TMXTiledMap* tileMap, Vec2 vec);
     static sTMXcrashTestValue isCrashWithTMXTileMapSetting(TMXTiledMap* tileMap,std::string layerName, std::string key, Node* node);
+    static sTMXcrashTestValue isCrashWithTMXTileMapSetting(TMXTiledMap* tileMap,std::string layerName, std::string key, Vec2 pos);
     
 };
 

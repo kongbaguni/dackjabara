@@ -61,29 +61,23 @@ float CPlayerModel::getEnergyPercent()
 
 
 CPlayerNode::CPlayerNode(void) :
-_pSprite(NULL),
-_pLabel(NULL),
 _pParticle(NULL),
 _iJumpCount(0),
 _iDashSpeed(1),
-_pCamera(NULL),
-_pProgressTimer(NULL)
+_pCamera(NULL)
 {
     
     
 }
 CPlayerNode::~CPlayerNode(void)
 {
-    CC_SAFE_RELEASE_NULL(_pSprite);
-    CC_SAFE_RELEASE_NULL(_pLabel);
     CC_SAFE_RELEASE_NULL(_pParticle);
     CC_SAFE_RELEASE_NULL(_pCamera);
-    CC_SAFE_RELEASE_NULL(_pProgressTimer);
 }
 
 bool CPlayerNode::init()
 {
-    if(!Sprite::init())
+    if(!CUnitNode::init())
     {
         return false;
     }
@@ -91,23 +85,23 @@ bool CPlayerNode::init()
     CAnimationHelper::addAnimation("unit/c1_%02d.png", 3, 4, "player_down",0.1f,false);
     CAnimationHelper::addAnimation("unit/c1_%02d.png", 4, 2, "player_up",0.1f,true);
 
-    setSprite(Sprite::createWithSpriteFrameName("unit/c1_01.png"));
-    _pSprite->setAnchorPoint(Vec2(0.5f, 0.0f));
-    _pSprite->setPosition3D(Vec3(0.0f,0.0f,5.0f));
-
-    addChild(_pSprite);
-    setLabel(Label::createWithBMFont(CUtil::getHDSDname("fonts/title%s.fnt"), ""));
-    addChild(_pLabel);
-    _pLabel->setScale(0.5f);
+    auto sprite = getSprite();
+    sprite->setSpriteFrame("unit/c1_01.png");
+    sprite->setAnchorPoint(Vec2(0.5f, 0.0f));
+    sprite->setPosition3D(Vec3(0.0f,0.0f,5.0f));
+    sprite->setPosition(Vec2(sprite->getContentSize().width/2,0));
+    setContentSize(sprite->getContentSize());
+    setAnchorPoint(sprite->getAnchorPoint());
+    
     
     setParticle(ParticleSystemQuad::create("particle/p02.plist"));
     //_pParticle->setPosition3D(Vec3(0,0,-100));
     _pParticle->setPositionType(cocos2d::ParticleSystem::PositionType::RELATIVE);
     _pParticle->setPosition(this->getPosition());
+    _pParticle->setPosition3D(Vec3(200,100,0));
 
     scheduleUpdate();
     standAction();
-    setRotation3D(CUtil::getRotate3D());
     _cModel.reset();
     
     Size winsize = Director::getInstance()->getWinSize();
@@ -118,20 +112,10 @@ bool CPlayerNode::init()
     _pCamera->setCameraFlag(CameraFlag::DEFAULT);
     addChild(_pCamera);
     
-    auto progress = Sprite::createWithSpriteFrameName("unit/progressBarBG.png");
-    setProgressTImer(ProgressTimer::create(Sprite::createWithSpriteFrameName("unit/progressBar.png")));
-    progress->addChild(_pProgressTimer);
-    _pSprite->addChild(progress);
-    progress->setPosition(Vec2(58,250));
-    _pProgressTimer->setPercentage(0.0f);
-    _pProgressTimer->runAction(ProgressTo::create(1.0f, 100));
-    _pProgressTimer->setType(ProgressTimer::Type::BAR);
-    _pProgressTimer->setMidpoint(Vec2(0.0f,0.0f));
-    _pProgressTimer->setBarChangeRate(Vec2(1.0f,0.0f));
-    _pProgressTimer->setAnchorPoint(Vec2(0.0f,0.0f));
     
-    
-    
+
+    getProgressTImer()->getParent()->setPosition(Vec2(58,240));
+
     
 
     return true;
@@ -141,31 +125,34 @@ bool CPlayerNode::init()
 
 void CPlayerNode::standAction()
 {
-    auto action =_pSprite->getActionByTag((int)actionTag::STAND);
+    auto sprite = getSprite();
+    auto action =sprite->getActionByTag((int)actionTag::STAND);
     if(action && !action->isDone())
     {
         return;
     }
-    _pSprite->stopAllActions();
+    sprite->stopAllActions();
     auto animation = AnimationCache::getInstance()->getAnimation("player_stand");
     auto ani = RepeatForever::create(Animate::create(animation));
-    auto jump = RepeatForever::create(CCSequence::create(MoveTo::create(1.0f, Vec2(0.0f, 10.0f)),MoveTo::create(1.0f, Vec2(0.0f, 0.0f)), NULL));
+    auto jump = RepeatForever::create(CCSequence::create(MoveBy::create(1.0f, Vec2(0.0f, 10.0f)),MoveBy::create(1.0f, Vec2(0.0f, -10.0f)), NULL));
     
     ani->setTag((int)actionTag::STAND);
-    _pSprite->runAction(ani);
-    _pSprite->runAction(jump);
+    sprite->runAction(ani);
+    sprite->runAction(jump);
     _iJumpCount = 0;
     _iDashSpeed = 1;
 }
 void CPlayerNode::jumpAction()
 {
+    auto sprite = getSprite();
+    Vec2 centerBottom = Vec2(getContentSize().width/2,0);
     if(CGameManager::getInstance()->getMainTimerNode()->getTimer()->isPause())
     {
         return;
     }
     
-    if(_pSprite->getActionByTag((int)actionTag::JUMP) &&
-       (_pSprite->getPositionY()<80 || _pSprite->getPositionY()>110)
+    if(sprite->getActionByTag((int)actionTag::JUMP) &&
+       (sprite->getPositionY()<80 || sprite->getPositionY()>110)
        )
     {
         _iJumpCount++;
@@ -182,7 +169,7 @@ void CPlayerNode::jumpAction()
         return;
     }
     _iJumpCount++;
-    _pSprite->stopAllActions();
+    sprite->stopAllActions();
     
     Animate* aniList[] =
     {
@@ -195,7 +182,7 @@ void CPlayerNode::jumpAction()
      aniList[0],
      Spawn::create
      (aniList[1],
-      JumpTo::create(1.0f, Vec2(0.0f, 0.0f), 100.0f, 1),
+      JumpTo::create(1.0f, centerBottom, 100.0f, 1),
       NULL
       ),
      aniList[0],
@@ -204,12 +191,13 @@ void CPlayerNode::jumpAction()
      NULL);
     action->setTag((int)actionTag::JUMP);
     
-    _pSprite->runAction(action);
+    sprite->runAction(action);
     _pCamera->runAction(JumpBy::create(1.0f, Vec2(0, 0), 50, 1));
     
 }
 void CPlayerNode::dashAction()
 {
+    auto _pSprite = getSprite();
     if(_pSprite->getActionByTag((int)actionTag::DASH))
     {
         return;
@@ -250,12 +238,18 @@ void CPlayerNode::update(float dt)
         {
             percent = 99;
         }
-        _pProgressTimer->setPercentage(percent);
+        getProgressTImer()->setPercentage(percent);
     }
+    std::string txt;
+    txt+=textUtil::addCommaText(getLocalZOrder());
+    txt+=textUtil::addCommaText(_pParticle->getLocalZOrder());
+    
+    getLabel()->setString(txt);
 
 }
 void CPlayerNode::updateMovement(float dt)
 {
+    auto _pSprite = getSprite();
     if(CGameManager::getInstance()->getParent()==NULL)
     {
         return;
@@ -296,7 +290,8 @@ void CPlayerNode::updateMovement(float dt)
     //타일맵하고 충돌검사
     if(movement!=Vec2(0,0) && _pSprite->getPositionY()<40)
     {
-        if(CUtil::isCrashWithTMXTileMapSetting(CGameManager::getInstance()->getTileMap(), "bg", "wall", this)._bCrash)
+        CUtil::sTMXcrashTestValue value =CUtil::isCrashWithTMXTileMapSetting(CGameManager::getInstance()->getTileMap(), "bg", "wall", this->getPosition());
+        if(value._bCrash)
         {
             if(fabsf(movement.x)>0)
             {
@@ -307,6 +302,9 @@ void CPlayerNode::updateMovement(float dt)
                 movement.y = 0;
             }
         }
+        
+        value._pCrashTile->runAction(Sequence::create(FadeTo::create(0.5f,100),FadeTo::create(2.0f,255), NULL));
+        
         if(CUtil::isCrashWithTMXTileMapSetting(CGameManager::getInstance()->getTileMap(), "bg", "charge", this)._bCrash)
         {
             _iChargeSpeed = 30;
@@ -341,10 +339,13 @@ void CPlayerNode::updateMovement(float dt)
         _pParticle->setPosition(getPosition());
     }
 
+
 }
 
 void CPlayerNode::chargeEnergy(float dt)
 {
+    auto _pSprite = getSprite();
+
     Vec2 movement = CGameManager::getInstance()->getTouchMovement();
     if(movement.getLength()>0 || _pSprite->getActionByTag((int)actionTag::JUMP))
     {
@@ -356,13 +357,3 @@ void CPlayerNode::chargeEnergy(float dt)
 }
 
 
-void CPlayerNode::pause()
-{
-    Node::pause();
-    _pSprite->pause();
-}
-void CPlayerNode::resume()
-{
-    Node::resume();
-    _pSprite->resume();
-}
