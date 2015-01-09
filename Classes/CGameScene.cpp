@@ -23,6 +23,17 @@ bool CGameScene::init()
     
     
     SimpleAudioEngine::getInstance()->playBackgroundMusic("BGM/01 A Night Of Dizzy Spells.mp3",true);
+    auto colorBg1 = LayerColor::create(Color4B(100, 150, 255, 255));
+    addChild(colorBg1);
+    colorBg1->setRotation3D(Vec3(0,0,0));
+    colorBg1->setPosition3D(Vec3(-winsize.width*5,0,-50));
+    colorBg1->setContentSize(winsize*10);
+    
+    auto colorBg = LayerColor::create(Color4B(255, 255, 255, 255));
+    addChild(colorBg);
+    colorBg->setRotation3D(Vec3(-90,0,0));
+    colorBg->setPosition3D(Vec3(-winsize.width*5,-50,-50));
+    colorBg->setContentSize(winsize*1000);
     
 //    배경 레이어 초기화
     auto gameFeald = Layer::create();
@@ -38,7 +49,7 @@ bool CGameScene::init()
     tileMap->setPosition(Vec2(0,-winsize.height/2));
     tileMap->setPosition3D(Vec3(0.0f, tileMap->getContentSize().height/3, winsize.height/2));
     tileMap->setRotation3D(Vec3(-90, 0, 0));
-    CUtil::setTMXTileMapAntialias(tileMap);
+   CUtil::setTMXTileMapAntialias(tileMap);
     addChild(tileMap,(int)CUtil::zorderList::BACKGROUND);
     
     
@@ -51,19 +62,19 @@ bool CGameScene::init()
     auto bgLeft =TMXTiledMap::create("tilemap/map3.tmx");
     bgLeft->setPosition3D(Vec3(0,0,bgLeft->getContentSize().width));
     bgLeft->setRotation3D(Vec3(0, 90, 0));
-    CUtil::setTMXTileMapAntialias(bgLeft);
+   // CUtil::setTMXTileMapAntialias(bgLeft);
     tileMap->addChild(bgLeft);
     
     auto bgRight =TMXTiledMap::create("tilemap/map3.tmx");
     bgRight->setPosition3D(Vec3(tileMap->getContentSize().width,0,bgRight->getContentSize().width));
     bgRight->setRotation3D(Vec3(0, 90, 0));
-    CUtil::setTMXTileMapAntialias(bgRight);
+//    CUtil::setTMXTileMapAntialias(bgRight);
     tileMap->addChild(bgRight);
   
     auto bgTop = TMXTiledMap::create("tilemap/map2.tmx");
     bgTop->setPosition3D(Vec3(0, 0, winsize.height/2));
     tileMap->addChild(bgTop);
-    CUtil::setTMXTileMapAntialias(bgTop);
+   CUtil::setTMXTileMapAntialias(bgTop);
     
     
     

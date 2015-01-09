@@ -57,10 +57,12 @@ bool CPlayerCharacterNode::init()
     CAnimationHelper::addAnimation("unit/c1_%02d.png", 3, 4, "player_down",0.1f,false);
     CAnimationHelper::addAnimation("unit/c1_%02d.png", 4, 2, "player_up",0.1f,true);
 
+    setHPmax(500);
+    setAttack(10);
     auto sprite = getSprite();
     sprite->setSpriteFrame("unit/c1_01.png");
     sprite->setAnchorPoint(Vec2(0.5f, 0.0f));
-    sprite->setPosition3D(Vec3(0.0f,0.0f,5.0f));
+    sprite->setPosition3D(Vec3(0.0f,0.0f,0.0f));
     sprite->setPosition(Vec2(sprite->getContentSize().width/2,0));
     setContentSize(sprite->getContentSize());
     setAnchorPoint(sprite->getAnchorPoint());
@@ -71,6 +73,7 @@ bool CPlayerCharacterNode::init()
     _pParticle->setPositionType(cocos2d::ParticleSystem::PositionType::RELATIVE);
     _pParticle->setPosition(this->getPosition());
     _pParticle->setPosition3D(Vec3(200,100,0));
+    _pParticle->setScale(0.5f);
 
     scheduleUpdate();
     standAction();
@@ -80,13 +83,14 @@ bool CPlayerCharacterNode::init()
     setCamera(Camera::createPerspective(50, winsize.width/winsize.height, 1, 3800));
     
     _pCamera->setRotation3D(Vec3(-10,0,0));
-    _pCamera->setPosition3D(Vec3(0,winsize.height/3,winsize.height*0.7f));
+    _pCamera->setPosition3D(Vec3(getContentSize().width/2,winsize.height/3,winsize.height*0.7f));
     _pCamera->setCameraFlag(CameraFlag::DEFAULT);
     addChild(_pCamera);
     
+ 
     
 
-    getProgressTImer()->getParent()->setPosition(Vec2(58,240));
+    getProgressTimer1()->getParent()->setPosition(Vec2(58,240));
 
     
 
@@ -113,6 +117,10 @@ void CPlayerCharacterNode::standAction()
     sprite->runAction(jump);
     _iJumpCount = 0;
     _iDashSpeed = 1;
+    if(getSprite()->getPositionY()>1)
+    {
+        getSprite()->runAction(MoveTo::create(1.0f, Vec2(sprite->getContentSize().width/2,0)));
+    }
 }
 void CPlayerCharacterNode::jumpAction()
 {
@@ -197,6 +205,7 @@ void CPlayerCharacterNode::dashAction()
 }
 void CPlayerCharacterNode::update(float dt)
 {
+    CUnitNode::update(dt);
     updateMovement(dt);
     
     //프로그레스바 갱신
@@ -210,7 +219,7 @@ void CPlayerCharacterNode::update(float dt)
         {
             percent = 99;
         }
-        getProgressTImer()->setPercentage(percent);
+        getProgressTimer1()->setPercentage(percent);
     }
     std::string txt;
     txt+=textUtil::addCommaText(getLocalZOrder());
@@ -262,7 +271,10 @@ void CPlayerCharacterNode::updateMovement(float dt)
     //타일맵하고 충돌검사
     if(movement!=Vec2(0,0) && _pSprite->getPositionY()<40)
     {
-        CUtil::sTMXcrashTestValue value =CUtil::isCrashWithTMXTileMapSetting(CGameManager::getInstance()->getTileMap(), "bg", "wall", this->getPosition());
+        Vec2 testpos = getPosition();
+        testpos.y+=40;
+        testpos+=movement;
+        CUtil::sTMXcrashTestValue value =CUtil::isCrashWithTMXTileMapSetting(CGameManager::getInstance()->getTileMap(), "bg", "wall", testpos);
         if(value._bCrash)
         {
             if(fabsf(movement.x)>0)

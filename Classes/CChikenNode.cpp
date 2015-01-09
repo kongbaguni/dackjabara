@@ -33,30 +33,34 @@ bool CChikenNode::init()
     _pSprite->setSpriteFrame("unit/egg.png");
     setContentSize(_pSprite->getContentSize());
     setAnchorPoint(_pSprite->getAnchorPoint());
-    _pSprite->setPosition(Vec2(_pSprite->getContentSize().width/2, -_pSprite->getContentSize().height));
+    //_pSprite->setPosition(Vec2(_pSprite->getContentSize().width/2, -_pSprite->getContentSize().height));
     _pSprite->setAnchorPoint(Vec2(0.5f,0.0f));
                           
   
-    setRotation3D(Vec3(0, 0, 0));
+//    setRotation3D(Vec3(0, 0, 0));
     resetTimer();
     getTimer()->start();
     
     scheduleUpdate();
-    setPosition3D(Vec3(0,0,this->getContentSize().height/4-10));
+    //setPosition3D(Vec3(0,0,this->getContentSize().height/4-10));
     setAnchorPoint(Vec2(0.5, 0.0));
     setScale(0.5f);
     
     
     getTimer()->setMaxTime(CRandom::getInstnace()->Random(20)*1000+3000);
     
-    getProgressTImer()->getParent()->setScale(0.5f);
-    getProgressTImer()->getParent()->setPosition(45.f, -5.0f);
+    getProgressTimer1()->getParent()->setScale(0.5f,1.0f);
+  //  getProgressTimer1()->getParent()->setRotation3D(Vec3(90, 0, 0));
+    getProgressTimer1()->getParent()->setPosition(45.f, -5.0f);
+    
+    setAttack(0);
    
     return true;
 }
 
 void CChikenNode::update(float dt)
 {
+    CUnitNode::update(dt);
     getLabel()->setString(textUtil::addCommaText(getLocalZOrder()));
 
 
@@ -88,29 +92,26 @@ void CChikenNode::update(float dt)
         {
             Vec2 posP = player->getPosition();
             Vec2 pos = getPosition();
+            pos.x-=player->getContentSize().width/4;
             float distance = pos.getDistance(posP);
             bool bPlayerIsJump = player->getSprite()->getPositionY()>10;
-            bool bCrash = distance<20;
+            bool bCrash = distance<25;
             bool bActionNotRun = getActionByTag((int)eAction::DEAD)==NULL;
             if(!bPlayerIsJump & bCrash & bActionNotRun)
             {
                 _pSprite->setColor(Color3B(255, 0, 0));
+                player->addDamage(getAttack());
+                addDamage(player->getAttack());
+                if(getHP()==0)
+                {
+                    getSprite()->runAction
+                    (Sequence::create
+                     (FadeOut::create(1.0f),
+                      CallFunc::create(CC_CALLBACK_0(CChikenNode::dead, this))
+                      , NULL));
+                    
+                }
                 
-                
-                //            _vec2Movement = Vec2(0, 0);
-                ////            setFlippedY(true);
-                //            auto action =
-                //            Sequence::create
-                //            (DelayTime::create(1.0f),
-                //             Spawn::create
-                //             (MoveBy::create(1.0f, Vec2(0,300)),
-                //              FadeTo::create(1.0f,0),
-                //              NULL),
-                //             CallFunc::create(CC_CALLBACK_0(CChikenNode::dead, this)),
-                //             NULL);
-                //            action->setTag((int)eAction::DEAD);
-                //            runAction(action);
-                //            return;
             }else
             {
                 _pSprite->setColor(Color3B(255, 255, 255));
@@ -168,7 +169,7 @@ void CChikenNode::update(float dt)
         {
             ff = 99;
         }
-        getProgressTImer()->setPercentage(ff);
+        getProgressTimer1()->setPercentage(ff);
         if(ff>0)
         {
             return;
@@ -219,7 +220,7 @@ void CChikenNode::update(float dt)
                 auto egg = CChikenNode::create();
                 getParent()->addChild(egg);
                 egg->setPosition(getPosition());
-                runAction(JumpBy::create(0.3f, Vec2(0,0), 50, 1));
+                getSprite()->runAction(JumpBy::create(0.3f, Vec2(0,0), 50, 1));
             }
         }break;
         default:
@@ -250,6 +251,7 @@ void CChikenNode::update(float dt)
                     break;
                 case state::HEN:
                     frameName+="hen.png";
+                    setAttack(10);
                     break;
                 default:
                     break;

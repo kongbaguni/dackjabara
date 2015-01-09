@@ -75,7 +75,7 @@ bool CGameManager::init()
 //    Director::getInstance()->setDepthTest(true);
     
     Size winsize = Director::getInstance()->getWinSize();
-    setDebugLogLabel(Label::createWithBMFont(CUtil::getHDSDname("fonts/title%s.fnt"), "0"));
+    setDebugLogLabel(Label::createWithBMFont(CUtil::getHDSDname("fonts/title%s.fnt"), ""));
     _pDebugLogLabel->setAnchorPoint(Vec2(0.0f, 1.0f));
     _pDebugLogLabel->setPosition(Vec2(winsize.width-10.0f,0));
     
