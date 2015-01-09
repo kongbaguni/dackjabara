@@ -33,7 +33,7 @@
             <key>unit/c1_03.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{94,2},{58,102}}</string>
+                <string>{{120,2},{58,102}}</string>
                 <key>offset</key>
                 <string>{0,-3}</string>
                 <key>rotated</key>
@@ -46,7 +46,7 @@
             <key>unit/c1_04.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{62,106},{58,94}}</string>
+                <string>{{84,147},{58,94}}</string>
                 <key>offset</key>
                 <string>{0,-7}</string>
                 <key>rotated</key>
@@ -59,7 +59,7 @@
             <key>unit/chick.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{62,2},{20,21}}</string>
+                <string>{{84,73},{20,21}}</string>
                 <key>offset</key>
                 <string>{0,-16}</string>
                 <key>rotated</key>
@@ -85,7 +85,7 @@
             <key>unit/cock.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{122,106},{52,53}}</string>
+                <string>{{62,18},{52,53}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -98,7 +98,7 @@
             <key>unit/egg.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{62,25},{16,17}}</string>
+                <string>{{62,73},{16,17}}</string>
                 <key>offset</key>
                 <string>{0,-16}</string>
                 <key>rotated</key>
@@ -124,7 +124,7 @@
             <key>unit/hen.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{94,202},{40,49}}</string>
+                <string>{{62,96},{40,49}}</string>
                 <key>offset</key>
                 <string>{-1,-2}</string>
                 <key>rotated</key>
@@ -137,7 +137,7 @@
             <key>unit/progressBar.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{176,2},{56,7}}</string>
+                <string>{{62,2},{56,7}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -147,10 +147,36 @@
                 <key>sourceSize</key>
                 <string>{58,9}</string>
             </dict>
+            <key>unit/progressBar1.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{62,11},{56,5}}</string>
+                <key>offset</key>
+                <string>{0,2}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{1,0},{56,5}}</string>
+                <key>sourceSize</key>
+                <string>{58,9}</string>
+            </dict>
+            <key>unit/progressBar2.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{2,249},{56,5}}</string>
+                <key>offset</key>
+                <string>{0,-1}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{1,3},{56,5}}</string>
+                <key>sourceSize</key>
+                <string>{58,9}</string>
+            </dict>
             <key>unit/progressBarBG.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{34,245},{58,9}}</string>
+                <string>{{60,245},{58,9}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -183,7 +209,7 @@
             <key>size</key>
             <string>{256,256}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:ec36e49f29415115a68aa361ea8dac92:9061f0c05290ecbe38c7de6fcd7a431f:52ac833776d3de1ab64d6632c7113e8c$</string>
+            <string>$TexturePacker:SmartUpdate:54fbfb4e5cb0208f28637fb2d9ff5af6:d35e8faf4b2e9222ffc64a7375e0ae9e:52ac833776d3de1ab64d6632c7113e8c$</string>
             <key>textureFileName</key>
             <string>unit-sd.pvr.ccz</string>
         </dict>

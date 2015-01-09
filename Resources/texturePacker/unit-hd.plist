@@ -137,13 +137,39 @@
             <key>unit/progressBar.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{120,479},{112,13}}</string>
+                <string>{{120,488},{112,13}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
                 <string>{{2,2},{112,13}}</string>
+                <key>sourceSize</key>
+                <string>{116,17}</string>
+            </dict>
+            <key>unit/progressBar1.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{120,503},{112,7}}</string>
+                <key>offset</key>
+                <string>{0,3}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{2,2},{112,7}}</string>
+                <key>sourceSize</key>
+                <string>{116,17}</string>
+            </dict>
+            <key>unit/progressBar2.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{108,479},{112,7}}</string>
+                <key>offset</key>
+                <string>{0,-3}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{2,8},{112,7}}</string>
                 <key>sourceSize</key>
                 <string>{116,17}</string>
             </dict>
@@ -183,7 +209,7 @@
             <key>size</key>
             <string>{512,512}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:ec36e49f29415115a68aa361ea8dac92:9061f0c05290ecbe38c7de6fcd7a431f:52ac833776d3de1ab64d6632c7113e8c$</string>
+            <string>$TexturePacker:SmartUpdate:54fbfb4e5cb0208f28637fb2d9ff5af6:d35e8faf4b2e9222ffc64a7375e0ae9e:52ac833776d3de1ab64d6632c7113e8c$</string>
             <key>textureFileName</key>
             <string>unit-hd.pvr.ccz</string>
         </dict>
