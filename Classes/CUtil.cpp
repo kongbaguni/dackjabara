@@ -76,9 +76,11 @@ CUtil::sTMXcrashTestValue CUtil::isCrashWithTMXTileMapSetting(cocos2d::TMXTiledM
     {
         result._bCrash = true;
         result._eCrashDirction = eDirection8::NOT_MOVE;
+        result._pCrashTile = NULL;
         return result;
     }
-    TMXLayer* layer = tileMap->getLayer(layerName);
+    static TMXLayer* layer;
+    layer= tileMap->getLayer(layerName);
     uint32_t iGid = layer->getTileGIDAt(fixPos);
     result._pCrashTile = layer->getTileAt(fixPos);
     auto value = tileMap->getPropertiesForGID(iGid);

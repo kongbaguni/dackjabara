@@ -23,11 +23,13 @@ bool CGameScene::init()
     
     
     SimpleAudioEngine::getInstance()->playBackgroundMusic("BGM/01 A Night Of Dizzy Spells.mp3",true);
-    auto colorBg1 = LayerColor::create(Color4B(100, 150, 255, 255));
+    auto colorBg1 = LayerGradient::create(Color4B(30, 70, 200, 255), Color4B(255,255,255,255));
+    float h = colorBg1->getContentSize().height;
+    colorBg1->setVector(Vec2(0,-h/4));
     addChild(colorBg1);
     colorBg1->setRotation3D(Vec3(0,0,0));
     colorBg1->setPosition3D(Vec3(-winsize.width*5,0,-50));
-    colorBg1->setContentSize(winsize*10);
+    colorBg1->setContentSize(Size(winsize.width*1000, winsize.height));
     
     auto colorBg = LayerColor::create(Color4B(255, 255, 255, 255));
     addChild(colorBg);

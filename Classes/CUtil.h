@@ -37,8 +37,8 @@ public:
     enum class zorderList
     {
         BACKGROUND,
-        GAME_FEALD,
         GAME_UI,
+        GAME_FEALD,
     };
     
     struct sTMXcrashTestValue

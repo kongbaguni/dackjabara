@@ -207,6 +207,20 @@ void CPlayerCharacterNode::update(float dt)
 {
     CUnitNode::update(dt);
     updateMovement(dt);
+    //플레이어가 점프하여 높이값이 바뀌면 카메라 스케일 업
+    {
+        
+        Size winsize = Director::getInstance()->getWinSize();
+        Vec3 pos =
+        Vec3(getContentSize().width/2,winsize.height/3,winsize.height*0.7f);
+        
+        float fY = getSprite()->getPositionY()/2;
+        if(fY<10)
+        {
+            fY = 0;
+        }
+        _pCamera->setPosition3D(Vec3(pos.x,pos.y,pos.z-fY));
+    }
     
     //프로그레스바 갱신
     {
@@ -287,7 +301,14 @@ void CPlayerCharacterNode::updateMovement(float dt)
             }
         }
         
-        value._pCrashTile->runAction(Sequence::create(FadeTo::create(0.5f,100),FadeTo::create(2.0f,255), NULL));
+        
+        if(value._pCrashTile!=NULL && !value._pCrashTile->getActionByTag(123))
+        {
+            auto action =Sequence::create(FadeTo::create(0.5f,100),FadeTo::create(2.0f,255), NULL);
+            action->setTag(123);
+            value._pCrashTile->setColor(Color3B(255,255,255));
+            value._pCrashTile->runAction(action);
+        }
         
         if(CUtil::isCrashWithTMXTileMapSetting(CGameManager::getInstance()->getTileMap(), "bg", "charge", this)._bCrash)
         {
@@ -322,6 +343,10 @@ void CPlayerCharacterNode::updateMovement(float dt)
         }
         _pParticle->setPosition(getPosition());
     }
+    else
+    {
+        CCLOG("!!");
+    }
 
 
 }
@@ -341,3 +366,14 @@ void CPlayerCharacterNode::chargeEnergy(float dt)
 }
 
 
+void CPlayerCharacterNode::pause()
+{
+    _pCamera->pause();
+    CUnitNode::pause();
+}
+
+void CPlayerCharacterNode::resume()
+{
+    _pCamera->resume();
+    CUnitNode::resume();
+}

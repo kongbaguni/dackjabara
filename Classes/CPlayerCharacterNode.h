@@ -48,6 +48,9 @@ protected:
     CC_SYNTHESIZE_READONLY(int, _iChargeSpeed, ChargeSpeed);
     CC_SYNTHESIZE_RETAIN(Camera*, _pCamera, Camera);
     
+    virtual void pause();
+    virtual void resume();
+    
  
 };
 

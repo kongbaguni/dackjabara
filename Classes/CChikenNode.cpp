@@ -128,7 +128,21 @@ void CChikenNode::update(float dt)
             case state::HEN:
             {
                 Vec2 prePos = getPosition()+_vec2Movement;
-                bool bCrashWall =CUtil::isCrashWithTMXTileMapSetting(CGameManager::getInstance()->getTileMap(), "bg", "wall", this)._bCrash;
+                prePos.y+=getContentSize().height/2;
+                prePos.x-=getContentSize().width/4;
+                CUtil::sTMXcrashTestValue value = CUtil::isCrashWithTMXTileMapSetting(CGameManager::getInstance()->getTileMap(), "bg", "wall", prePos);
+                
+                if(value._pCrashTile!=NULL && !value._pCrashTile->getActionByTag(123))
+                {
+                    auto action =Sequence::create(FadeTo::create(0.5f,100),FadeTo::create(2.0f,255), NULL);
+                    action->setTag(123);
+                    
+                    value._pCrashTile->runAction(action);
+                    value._pCrashTile->setColor(Color3B(255,255,130));
+                }
+                
+                bool bCrashWall =value._bCrash;
+                
                 bool bCrashCharge =
                 CUtil::isCrashWithTMXTileMapSetting(CGameManager::getInstance()->getTileMap(), "bg", "charge", this)._bCrash;
                 if(bCrashWall | bCrashCharge)
