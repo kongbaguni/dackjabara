@@ -79,24 +79,24 @@ CUtil::sTMXcrashTestValue CUtil::isCrashWithTMXTileMapSetting(cocos2d::TMXTiledM
         result._pCrashTile = NULL;
         return result;
     }
-    static TMXLayer* layer;
-    layer= tileMap->getLayer(layerName);
+    TMXLayer* layer= tileMap->getLayer(layerName);
     uint32_t iGid = layer->getTileGIDAt(fixPos);
     result._pCrashTile = layer->getTileAt(fixPos);
-    auto value = tileMap->getPropertiesForGID(iGid);
-    if(value.getType()==Value::Type::MAP)
+    auto properties = tileMap->getPropertiesForGID(iGid);
+    
+    if(properties.getType()==Value::Type::MAP && !properties.asValueMap().empty())
     {
-        ValueMap valueMap = value.asValueMap();
-        ValueMap::const_iterator w = valueMap.find(key);
-        if(w!=valueMap.end())
+        auto collision = properties.asValueMap()[key].asString();
+        if("true"==collision)
         {
             result._bCrash = true;
         }
-        else
-        {
-            result._bCrash = false;
-            result._eCrashDirction = eDirection8::NOT_MOVE;
-        }
+    }
+    else
+    {
+        result._bCrash = false;
+        result._eCrashDirction = eDirection8::NOT_MOVE;
+        
     }
     return result;
 
