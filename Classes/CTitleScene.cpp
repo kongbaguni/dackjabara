@@ -29,7 +29,7 @@ bool CTitleScene::init()
     addChild(layer2);
     
 
-    auto title = Label::createWithBMFont(CUtil::getHDSDname("fonts/title%s.fnt"), "Game Title");
+    auto title = Label::createWithBMFont(CUtil::getHDSDname("fonts/title%s.fnt"), "Dack Jab A Ra");
     title->setPosition(winsize.width/2, winsize.height/2);
     addChild(title);
     

@@ -11,7 +11,7 @@
 
 #include <stdio.h>
 #include "cocos2d.h"
-#include "CPlayerNode.h"
+#include "CPlayerCharacterNode.h"
 #include "CMainTimerNode.h"
 #include "CPauseLayer.h"
 
@@ -46,7 +46,7 @@ private:
     CC_SYNTHESIZE_READONLY(float, _fPlayerSpeed, PlayerSpeed);
 
     CC_SYNTHESIZE_RETAIN(Node*, _pGameField, GameField);
-    CC_SYNTHESIZE_RETAIN(CPlayerNode*, _pPlayerNode, PlayerNode);
+    CC_SYNTHESIZE_RETAIN(CPlayerCharacterNode*, _pPlayerNode, PlayerNode);
     CC_SYNTHESIZE_RETAIN(TMXTiledMap*, _pTileMap, TileMap);
     CC_SYNTHESIZE_RETAIN(Label*, _pDebugLogLabel, DebugLogLabel);
     CC_SYNTHESIZE_RETAIN(CMainTimerNode*, _pMainTimerNode, MainTimerNode);

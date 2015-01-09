@@ -1,23 +1,23 @@
 //
-//  CChikenSprite.h
+//  CChikenNode.h
 //  dackjabara
 //
 //  Created by SeoChangyul on 2015. 1. 6..
 //
 //
 
-#ifndef __dackjabara__CChikenSprite__
-#define __dackjabara__CChikenSprite__
+#ifndef __dackjabara__CChikenNode__
+#define __dackjabara__CChikenNode__
 
 #include <stdio.h>
 #include "CUtil.h"
 #include "CTimer.h"
 #include "CUnitNode.h"
-class CChikenSprite : public CUnitNode
+class CChikenNode : public CUnitNode
 {
 public:
     virtual bool init();
-    CREATE_FUNC(CChikenSprite);
+    CREATE_FUNC(CChikenNode);
     
     enum class state
     {
@@ -35,8 +35,8 @@ public:
     
 protected:
     virtual void update(float dt);
-    CChikenSprite();
-    ~CChikenSprite();
+    CChikenNode();
+    ~CChikenNode();
     CC_SYNTHESIZE_READONLY(state, _eState, State);
     CC_SYNTHESIZE_READONLY(Vec2, _vec2Movement, Movement);
     void resetTimer();
@@ -45,4 +45,4 @@ protected:
     
 };
 
-#endif /* defined(__dackjabara__CChikenSprite__) */
+#endif /* defined(__dackjabara__CChikenNode__) */

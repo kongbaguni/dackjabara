@@ -35,7 +35,11 @@ void CTimer::start()
 
 void CTimer::switchTimmer()
 {
-    if(isPause())
+    if(!isStart())
+    {
+        start();
+    }
+    else if(isPause())
     {
         resume();
     }
@@ -105,4 +109,25 @@ int CTimer::getTime()
     return time;
 }
 
+
+void CTimer::getTimes(int &times, int &time)
+{
+    if(_iMaxTime==0)
+    {
+        times=0;
+        time=getTime();
+    }
+    
+    int iInterval = timeUtil::millisecondNow()-_lStartTime;
+    
+    if(_lPauseTime)
+    {
+        int iIntervalPause = timeUtil::millisecondNow()-_lPauseTime;
+        iInterval-=iIntervalPause;
+    }
+    
+    times = iInterval/_iMaxTime;
+    time = iInterval%_iMaxTime;
+    _lStartTime = timeUtil::millisecondNow()+time;
+}
 

@@ -1,28 +1,28 @@
 //
-//  CChikenSprite.cpp
+//  CChikenNode.cpp
 //  dackjabara
 //
 //  Created by SeoChangyul on 2015. 1. 6..
 //
 //
 
-#include "CChikenSprite.h"
+#include "CChikenNode.h"
 #include "CGameManager.h"
 
-CChikenSprite::CChikenSprite():
+CChikenNode::CChikenNode():
 _eState(state::EGG),
 _vec2Movement(Vec2(0, 0))
 {
     
 }
-CChikenSprite::~CChikenSprite()
+CChikenNode::~CChikenNode()
 {
     unscheduleUpdate();
  //   CUnitNode::~CUnitNode();
     
 }
 
-bool CChikenSprite::init()
+bool CChikenNode::init()
 {
     if(!CUnitNode::init())
     {
@@ -55,7 +55,7 @@ bool CChikenSprite::init()
     return true;
 }
 
-void CChikenSprite::update(float dt)
+void CChikenNode::update(float dt)
 {
     getLabel()->setString(textUtil::addCommaText(getLocalZOrder()));
 
@@ -82,7 +82,7 @@ void CChikenSprite::update(float dt)
     }
     //플레이어하고 충돌검사
     {
-        CPlayerNode* player = CGameManager::getInstance()->getPlayerNode();
+        auto player = CGameManager::getInstance()->getPlayerNode();
         auto _pSprite = getSprite();
         if(player)
         {
@@ -106,7 +106,7 @@ void CChikenSprite::update(float dt)
                 //             (MoveBy::create(1.0f, Vec2(0,300)),
                 //              FadeTo::create(1.0f,0),
                 //              NULL),
-                //             CallFunc::create(CC_CALLBACK_0(CChikenSprite::dead, this)),
+                //             CallFunc::create(CC_CALLBACK_0(CChikenNode::dead, this)),
                 //             NULL);
                 //            action->setTag((int)eAction::DEAD);
                 //            runAction(action);
@@ -216,7 +216,7 @@ void CChikenSprite::update(float dt)
         {
             if(getParent()->getChildrenCount()<100)
             {
-                auto egg = CChikenSprite::create();
+                auto egg = CChikenNode::create();
                 getParent()->addChild(egg);
                 egg->setPosition(getPosition());
                 runAction(JumpBy::create(0.3f, Vec2(0,0), 50, 1));
@@ -262,12 +262,12 @@ void CChikenSprite::update(float dt)
     
     
 }
-void CChikenSprite::dead()
+void CChikenNode::dead()
 {
     removeFromParent();
 }
 
-void CChikenSprite::resetTimer()
+void CChikenNode::resetTimer()
 {
     if(getReferenceCount()==0 || getLabel()==NULL)
     {

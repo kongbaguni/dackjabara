@@ -1,45 +1,17 @@
 //
-//  CPlayerNode.cpp
+//  CPlayerCharacterNode.cpp
 //  shootinggamePrototype
 //
 //  Created by SeoChangyul on 2015. 1. 2..
 //
 //
 
-#include "CPlayerNode.h"
+#include "CPlayerCharacterNode.h"
 #include "CAnimationHelper.h"
 #include "CUtil.h"
 #include "CGameManager.h"
-CPlayerModel::CPlayerModel():
-_iEnergyMax(2000),
-_iEnergyUse(0)
-{
-    
-}
-CPlayerModel::~CPlayerModel()
-{
-    
-}
-void CPlayerModel::reset()
-{
-    _iEnergyUse = 0;
-}
 
-bool CPlayerModel::useEnergy(int useValue)
-{
-    if(useValue==0)
-    {
-        return false;
-    }
-    if(_iEnergyUse+useValue>_iEnergyMax)
-    {
-        return false;
-    }
-    _iEnergyUse+=useValue;
-
-    return true;
-}
-void CPlayerModel::chargeEnergy(int charge)
+void CPlayerCharacterModel::chargeEnergy(int charge)
 {
     if(_iEnergyUse==0)
     {
@@ -52,7 +24,7 @@ void CPlayerModel::chargeEnergy(int charge)
     }
 }
 
-float CPlayerModel::getEnergyPercent()
+float CPlayerCharacterModel::getEnergyPercent()
 {
     float result = (float)(_iEnergyMax-_iEnergyUse)/(float)_iEnergyMax;
     return result;
@@ -60,7 +32,7 @@ float CPlayerModel::getEnergyPercent()
 
 
 
-CPlayerNode::CPlayerNode(void) :
+CPlayerCharacterNode::CPlayerCharacterNode(void) :
 _pParticle(NULL),
 _iJumpCount(0),
 _iDashSpeed(1),
@@ -69,13 +41,13 @@ _pCamera(NULL)
     
     
 }
-CPlayerNode::~CPlayerNode(void)
+CPlayerCharacterNode::~CPlayerCharacterNode(void)
 {
     CC_SAFE_RELEASE_NULL(_pParticle);
     CC_SAFE_RELEASE_NULL(_pCamera);
 }
 
-bool CPlayerNode::init()
+bool CPlayerCharacterNode::init()
 {
     if(!CUnitNode::init())
     {
@@ -123,7 +95,7 @@ bool CPlayerNode::init()
 
 
 
-void CPlayerNode::standAction()
+void CPlayerCharacterNode::standAction()
 {
     auto sprite = getSprite();
     auto action =sprite->getActionByTag((int)actionTag::STAND);
@@ -142,7 +114,7 @@ void CPlayerNode::standAction()
     _iJumpCount = 0;
     _iDashSpeed = 1;
 }
-void CPlayerNode::jumpAction()
+void CPlayerCharacterNode::jumpAction()
 {
     auto sprite = getSprite();
     Vec2 centerBottom = Vec2(getContentSize().width/2,0);
@@ -187,7 +159,7 @@ void CPlayerNode::jumpAction()
       ),
      aniList[0],
      aniList[1],
-     CallFunc::create(CC_CALLBACK_0(CPlayerNode::standAction, this)),
+     CallFunc::create(CC_CALLBACK_0(CPlayerCharacterNode::standAction, this)),
      NULL);
     action->setTag((int)actionTag::JUMP);
     
@@ -195,7 +167,7 @@ void CPlayerNode::jumpAction()
     _pCamera->runAction(JumpBy::create(1.0f, Vec2(0, 0), 50, 1));
     
 }
-void CPlayerNode::dashAction()
+void CPlayerCharacterNode::dashAction()
 {
     auto _pSprite = getSprite();
     if(_pSprite->getActionByTag((int)actionTag::DASH))
@@ -216,14 +188,14 @@ void CPlayerNode::dashAction()
      DelayTime::create(0.1f),
      Animate::create(AnimationCache::getInstance()->getAnimation("player_up")),
 
-     CallFunc::create(CC_CALLBACK_0(CPlayerNode::standAction, this)),
+     CallFunc::create(CC_CALLBACK_0(CPlayerCharacterNode::standAction, this)),
      NULL);
     
     action->setTag((int)actionTag::DASH);
     _pSprite->runAction(action);
     
 }
-void CPlayerNode::update(float dt)
+void CPlayerCharacterNode::update(float dt)
 {
     updateMovement(dt);
     
@@ -247,7 +219,7 @@ void CPlayerNode::update(float dt)
     getLabel()->setString(txt);
 
 }
-void CPlayerNode::updateMovement(float dt)
+void CPlayerCharacterNode::updateMovement(float dt)
 {
     auto _pSprite = getSprite();
     if(CGameManager::getInstance()->getParent()==NULL)
@@ -342,7 +314,7 @@ void CPlayerNode::updateMovement(float dt)
 
 }
 
-void CPlayerNode::chargeEnergy(float dt)
+void CPlayerCharacterNode::chargeEnergy(float dt)
 {
     auto _pSprite = getSprite();
 

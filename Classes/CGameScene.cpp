@@ -7,10 +7,10 @@
 //
 
 #include "CGameScene.h"
-#include "CPlayerNode.h"
+#include "CPlayerCharacterNode.h"
 #include "CUtil.h"
 #include "CGameManager.h"
-#include "CChikenSprite.h"
+#include "CChikenNode.h"
 
 bool CGameScene::init()
 {
@@ -80,7 +80,7 @@ bool CGameScene::init()
         int x = CRandom::getInstnace()->Random(tw-50)+25;
         int y = CRandom::getInstnace()->Random(th) - th/2;
         
-        auto chicken = CChikenSprite::create();
+        auto chicken = CChikenNode::create();
         chicken->setPosition(x,y);
         gameFeald->addChild(chicken,(int)CUtil::zorderList::BACKGROUND);
         //        chicken->setScale(1.0f);
@@ -89,7 +89,7 @@ bool CGameScene::init()
     
     //    플레이어 초기화
     
-    auto player = CPlayerNode::create();
+    auto player = CPlayerCharacterNode::create();
     if(player)
     {
         player->setPosition(winsize.width/2,10);
