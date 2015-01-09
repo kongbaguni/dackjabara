@@ -53,7 +53,7 @@ bool CChikenNode::init()
   //  getProgressTimer1()->getParent()->setRotation3D(Vec3(90, 0, 0));
     getProgressTimer1()->getParent()->setPosition(45.f, -5.0f);
     
-    setAttack(0);
+    setAttack(-10);
    
     return true;
 }
@@ -143,9 +143,7 @@ void CChikenNode::update(float dt)
                 
                 bool bCrashWall =value._bCrash;
                 
-                bool bCrashCharge =
-                CUtil::isCrashWithTMXTileMapSetting(CGameManager::getInstance()->getTileMap(), "bg", "charge", this)._bCrash;
-                if(bCrashWall | bCrashCharge)
+                if(bCrashWall)
                 {
                   CUtil::eDirection8 move8 = CUtil::getMove8(_vec2Movement);
                     switch (move8) {
@@ -253,6 +251,7 @@ void CChikenNode::update(float dt)
                     break;
                 case state::EGG_BROKEN:
                     frameName+="eggBroken.png";
+                    setAttack(100);
                     break;
                 case state::CHICK:
                     frameName+="chick.png";
@@ -262,6 +261,7 @@ void CChikenNode::update(float dt)
                     break;
                 case state::COCK:
                     frameName+="cock.png";
+                    setAttack(50);
                     break;
                 case state::HEN:
                     frameName+="hen.png";

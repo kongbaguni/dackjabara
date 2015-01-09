@@ -310,9 +310,9 @@ void CPlayerCharacterNode::updateMovement(float dt)
             value._pCrashTile->runAction(action);
         }
         
-        if(CUtil::isCrashWithTMXTileMapSetting(CGameManager::getInstance()->getTileMap(), "bg", "charge", this)._bCrash)
+        if(CUtil::isCrashWithTMXTileMapSetting(CGameManager::getInstance()->getTileMap(), "bg", "charge", testpos)._bCrash)
         {
-            _iChargeSpeed = 30;
+            _iChargeSpeed = 100;
         }
         else
         {

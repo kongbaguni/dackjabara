@@ -59,18 +59,19 @@ bool CGameScene::init()
     auto bgBack =TMXTiledMap::create("tilemap/map4.tmx");
     bgBack->setPosition3D(Vec3(0, tileMap->getContentSize().height,0));
     bgBack->setRotation3D(Vec3(90,0,0));
+    CUtil::setTMXTileMapAntialias(bgBack);
     tileMap->addChild(bgBack);
     
     auto bgLeft =TMXTiledMap::create("tilemap/map3.tmx");
     bgLeft->setPosition3D(Vec3(0,0,bgLeft->getContentSize().width));
     bgLeft->setRotation3D(Vec3(0, 90, 0));
-   // CUtil::setTMXTileMapAntialias(bgLeft);
+    CUtil::setTMXTileMapAntialias(bgLeft);
     tileMap->addChild(bgLeft);
     
     auto bgRight =TMXTiledMap::create("tilemap/map3.tmx");
     bgRight->setPosition3D(Vec3(tileMap->getContentSize().width,0,bgRight->getContentSize().width));
     bgRight->setRotation3D(Vec3(0, 90, 0));
-//    CUtil::setTMXTileMapAntialias(bgRight);
+    CUtil::setTMXTileMapAntialias(bgRight);
     tileMap->addChild(bgRight);
   
     auto bgTop = TMXTiledMap::create("tilemap/map2.tmx");
