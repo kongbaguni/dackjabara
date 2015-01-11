@@ -32,16 +32,19 @@ public:
     CREATE_FUNC(CPlayerCharacterNode);
     void standAction();
     void jumpAction();
+    void jumpActionWithEnergyUse(int iEnergy);
     void dashAction();
 protected:
     CPlayerCharacterNode(void);
     virtual ~CPlayerCharacterNode(void);
     virtual void update(float dt);
     
+    
     void updateMovement(float dt);
     void chargeEnergy(float dt);
     
     CC_SYNTHESIZE_RETAIN(ParticleSystemQuad*, _pParticle, Particle);
+    CC_SYNTHESIZE_READONLY(long,_lJumpStartTime,JumpStartTime);
     CC_SYNTHESIZE_READONLY(int, _iJumpCount, JumpCount);
     CC_SYNTHESIZE_READONLY(int, _iDashSpeed, DashSpeed);
     CC_SYNTHESIZE(CPlayerCharacterModel, _cModel, Model);

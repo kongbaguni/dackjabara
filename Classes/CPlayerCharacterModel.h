@@ -20,10 +20,16 @@ public:
     bool useEnergy(int useValue);
     void chargeEnergy(int charge);
     float getEnergyPercent();
-    
+    enum class state
+    {
+        NORMAL,
+        FEFER,
+        DEAD
+    };
 protected:
     CC_SYNTHESIZE(int, _iEnergyMax, EnergyMax);
     CC_SYNTHESIZE_READONLY(int, _iEnergyUse, EnergyUse);
+    CC_SYNTHESIZE(state, _eState, State);
     
 };
 

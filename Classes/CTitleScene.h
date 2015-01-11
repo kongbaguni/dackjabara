@@ -18,6 +18,8 @@ public:
     virtual bool init();
     CREATE_FUNC(CTitleScene);
 private:
+    virtual void onEnter();
+    virtual void onExit();
     void changeScene(float dt);
 };
 

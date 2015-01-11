@@ -7,9 +7,8 @@
 //
 
 #include "CTitleScene.h"
-#include "CGameScene.h"
+#include "CSceneManager.h"
 #include "CUtil.h"
-#include <SimpleAudioEngine.h>
 using namespace CocosDenshion;
 
 bool CTitleScene::init()
@@ -33,17 +32,29 @@ bool CTitleScene::init()
     title->setPosition(winsize.width/2, winsize.height/2);
     addChild(title);
     
-    schedule(schedule_selector(CTitleScene::changeScene), 3.0f);
     
     SimpleAudioEngine::getInstance()->preloadBackgroundMusic("BGM/01 A Night Of Dizzy Spells.mp3");
     
     
 
-    
+
     return true;
 }
 
 void CTitleScene::changeScene(float dt)
 {
-    Director::getInstance()->replaceScene(CGameScene::create());
+   Director::getInstance()->pushScene(CSceneManager::getInstance()->getScene("game"));
+}
+
+void CTitleScene::onEnter()
+{
+    Scene::onEnter();
+    schedule(schedule_selector(CTitleScene::changeScene), 3.0f);
+
+}
+
+
+void CTitleScene::onExit()
+{
+    Scene::onExit();
 }

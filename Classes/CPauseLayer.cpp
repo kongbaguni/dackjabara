@@ -32,13 +32,16 @@ bool CPauseLayer::init()
     auto menuResume =
     MenuItemLabel::create(resumeLabel, CC_CALLBACK_1(CPauseLayer::menuCallback, this));
     menuResume->setTag((int)menuType::RESUME);
+
     
-    auto menu = Menu::create(menuTitle,menuResume, NULL);
+    auto menu = Menu::create(menuTitle,menuResume, nullptr);
     menu->alignItemsVertically();
     addChild(menu);
     menu->setRotation3D(Vec3(-10,0,0));
-    
+    menu->runAction(RepeatForever::create(JumpTo::create(1.0f, Vec2(0,0), 100, 2)));;
+
     Titlelabel->runAction(EaseExponentialOut::create(MoveBy::create(0.4f, Vec2(-200,0))));
+    
     
     
     return true;

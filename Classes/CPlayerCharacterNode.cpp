@@ -11,32 +11,14 @@
 #include "CUtil.h"
 #include "CGameManager.h"
 
-void CPlayerCharacterModel::chargeEnergy(int charge)
-{
-    if(_iEnergyUse==0)
-    {
-        return;
-    }
-    _iEnergyUse-=charge;
-    if(_iEnergyUse<0)
-    {
-        _iEnergyUse = 0;
-    }
-}
-
-float CPlayerCharacterModel::getEnergyPercent()
-{
-    float result = (float)(_iEnergyMax-_iEnergyUse)/(float)_iEnergyMax;
-    return result;
-}
-
 
 
 CPlayerCharacterNode::CPlayerCharacterNode(void) :
 _pParticle(NULL),
 _iJumpCount(0),
 _iDashSpeed(1),
-_pCamera(NULL)
+_pCamera(NULL),
+_lJumpStartTime(0)
 {
     
     
@@ -124,6 +106,15 @@ void CPlayerCharacterNode::standAction()
 }
 void CPlayerCharacterNode::jumpAction()
 {
+    jumpActionWithEnergyUse(100);
+}
+void CPlayerCharacterNode::jumpActionWithEnergyUse(int iEnergy)
+{
+    if(!_cModel.useEnergy(iEnergy) || _cModel.getState()==CPlayerCharacterModel::state::DEAD)
+    {
+        return;
+    }
+    
     auto sprite = getSprite();
     Vec2 centerBottom = Vec2(getContentSize().width/2,0);
     if(CGameManager::getInstance()->getMainTimerNode()->getTimer()->isPause())
@@ -139,12 +130,6 @@ void CPlayerCharacterNode::jumpAction()
         return;
     }
     if(_iJumpCount>=2)
-    {
-        return;
-    }
-    bool useEnergy = _cModel.useEnergy(100);
-    bool lowEnergy = _cModel.getEnergyPercent()<0.3f;
-    if(!useEnergy | lowEnergy)
     {
         return;
     }
@@ -173,6 +158,8 @@ void CPlayerCharacterNode::jumpAction()
     
     sprite->runAction(action);
     _pCamera->runAction(JumpBy::create(1.0f, Vec2(0, 0), 50, 1));
+    _lJumpStartTime = timeUtil::millisecondNow();
+
     
 }
 void CPlayerCharacterNode::dashAction()
@@ -206,6 +193,25 @@ void CPlayerCharacterNode::dashAction()
 void CPlayerCharacterNode::update(float dt)
 {
     CUnitNode::update(dt);
+    
+    //플레이어가 죽었다. 어떡해.... 행동불능 처리.
+    if(_cModel.getState()==CPlayerCharacterModel::state::DEAD)
+    {
+        return;
+    }
+    
+    if(getHP()==0)
+    {
+        bool d = (bool)CRandom::getInstnace()->Random(1);
+        float fd = d ? 90 : -90;
+        getSprite()->stopAllActions();
+        _cModel.setState(CPlayerCharacterModel::state::DEAD);
+        _pParticle->stopSystem();
+        getSprite()->runAction(RotateTo::create(1.0f, fd, fd));
+        return;
+    }
+    
+    
     updateMovement(dt);
     //플레이어가 점프하여 높이값이 바뀌면 카메라 스케일 업
     {

@@ -94,27 +94,48 @@ void CChikenNode::update(float dt)
             Vec2 pos = getPosition();
             pos.x-=player->getContentSize().width/4;
             float distance = pos.getDistance(posP);
-            bool bPlayerIsJump = player->getSprite()->getPositionY()>10;
+            float pSY =player->getSprite()->getPositionY();
+            long pJumpTimeInterval = timeUtil::millisecondNow()-player->getJumpStartTime();
+            
+            bool bPlayerIsJumping = pSY > 30;
+            bool bPlayerIsAfertJump = pSY > 10 && !bPlayerIsJumping && pJumpTimeInterval>300;
             bool bCrash = distance<25;
             bool bActionNotRun = getActionByTag((int)eAction::DEAD)==NULL;
-            if(!bPlayerIsJump & bCrash & bActionNotRun)
+            if(bCrash & bActionNotRun)
             {
-                _pSprite->setColor(Color3B(255, 0, 0));
-                player->addDamage(getAttack());
-                addDamage(player->getAttack());
-                if(getHP()==0)
+                if(bPlayerIsAfertJump)
+                 {
+                    _pSprite->setColor(Color3B(255, 0, 0));
+                    addDamage(player->getAttack()*player->getJumpCount());
+                    getSprite()->
+                    runAction
+                    (CCSequence::create
+                     (EaseExponentialInOut::create(ScaleTo::create(0.3f, 1.2f, 0.3f)),
+                      EaseExponentialInOut::create(ScaleTo::create(0.3f, 1.0f,1.0f)),
+                      NULL
+                      )
+                     );
+                      
+                    if(getHP()==0)
+                    {
+                        getSprite()->runAction
+                        (Sequence::create
+                         (FadeOut::create(1.0f),
+                          CallFunc::create(CC_CALLBACK_0(CChikenNode::dead, this))
+                          , NULL));
+                        
+                    }
+                }
+                else if(!bPlayerIsJumping)
                 {
-                    getSprite()->runAction
-                    (Sequence::create
-                     (FadeOut::create(1.0f),
-                      CallFunc::create(CC_CALLBACK_0(CChikenNode::dead, this))
-                      , NULL));
-                    
+                    player->addDamage(getAttack());
+                    player->getSprite()->setColor(Color3B(255,0,0));
                 }
                 
             }else
             {
                 _pSprite->setColor(Color3B(255, 255, 255));
+                player->getSprite()->setColor(Color3B(255,255,255));
             }
         }
     }

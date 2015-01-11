@@ -32,6 +32,10 @@
 		1E1C27FD1A59BBB600C15532 /* CTitleScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1E1C27F01A59BBB600C15532 /* CTitleScene.cpp */; };
 		1E1C27FE1A59BBB600C15532 /* CUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1E1C27F21A59BBB600C15532 /* CUtil.cpp */; };
 		1E1C27FF1A59BBB600C15532 /* CUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1E1C27F21A59BBB600C15532 /* CUtil.cpp */; };
+		1E4340B71A62484A0045C4C5 /* CSceneManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1E4340B51A62484A0045C4C5 /* CSceneManager.cpp */; };
+		1E4340B81A624C340045C4C5 /* CSceneManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1E4340B51A62484A0045C4C5 /* CSceneManager.cpp */; };
+		1E4340BB1A625B770045C4C5 /* CPauseScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1E4340B91A625B770045C4C5 /* CPauseScene.cpp */; };
+		1E4340BC1A625C810045C4C5 /* CPauseScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1E4340B91A625B770045C4C5 /* CPauseScene.cpp */; };
 		1E69AF611A5F716F00B6B906 /* CPlayerCharacterModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1E69AF5F1A5F716F00B6B906 /* CPlayerCharacterModel.cpp */; };
 		1E69AF621A5F717900B6B906 /* CPlayerCharacterModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1E69AF5F1A5F716F00B6B906 /* CPlayerCharacterModel.cpp */; };
 		1E69AF651A5F720600B6B906 /* CPlayerModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1E69AF631A5F720600B6B906 /* CPlayerModel.cpp */; };
@@ -155,6 +159,10 @@
 		1E1C27F11A59BBB600C15532 /* CTitleScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTitleScene.h; sourceTree = "<group>"; };
 		1E1C27F21A59BBB600C15532 /* CUtil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CUtil.cpp; sourceTree = "<group>"; };
 		1E1C27F31A59BBB600C15532 /* CUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CUtil.h; sourceTree = "<group>"; };
+		1E4340B51A62484A0045C4C5 /* CSceneManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CSceneManager.cpp; sourceTree = "<group>"; };
+		1E4340B61A62484A0045C4C5 /* CSceneManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSceneManager.h; sourceTree = "<group>"; };
+		1E4340B91A625B770045C4C5 /* CPauseScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CPauseScene.cpp; sourceTree = "<group>"; };
+		1E4340BA1A625B770045C4C5 /* CPauseScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPauseScene.h; sourceTree = "<group>"; };
 		1E69AF5F1A5F716F00B6B906 /* CPlayerCharacterModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CPlayerCharacterModel.cpp; sourceTree = "<group>"; };
 		1E69AF601A5F716F00B6B906 /* CPlayerCharacterModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPlayerCharacterModel.h; sourceTree = "<group>"; };
 		1E69AF631A5F720600B6B906 /* CPlayerModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CPlayerModel.cpp; sourceTree = "<group>"; };
@@ -333,6 +341,10 @@
 				1E1C27ED1A59BBB600C15532 /* CGameScene.h */,
 				1EF30E9E1A5BDC47003E32FC /* CPauseLayer.cpp */,
 				1EF30E9F1A5BDC47003E32FC /* CPauseLayer.h */,
+				1E4340B51A62484A0045C4C5 /* CSceneManager.cpp */,
+				1E4340B61A62484A0045C4C5 /* CSceneManager.h */,
+				1E4340B91A625B770045C4C5 /* CPauseScene.cpp */,
+				1E4340BA1A625B770045C4C5 /* CPauseScene.h */,
 			);
 			name = Scene;
 			sourceTree = "<group>";
@@ -624,10 +636,12 @@
 			files = (
 				1E1C27F81A59BBB600C15532 /* CGameScene.cpp in Sources */,
 				1E1C27FA1A59BBB600C15532 /* CPlayerCharacterNode.cpp in Sources */,
+				1E4340B71A62484A0045C4C5 /* CSceneManager.cpp in Sources */,
 				46880B8819C43A87006E1F66 /* AppDelegate.cpp in Sources */,
 				1E1C27FC1A59BBB600C15532 /* CTitleScene.cpp in Sources */,
 				1E69AF611A5F716F00B6B906 /* CPlayerCharacterModel.cpp in Sources */,
 				1EF30EA41A5C11E0003E32FC /* CChikenNode.cpp in Sources */,
+				1E4340BB1A625B770045C4C5 /* CPauseScene.cpp in Sources */,
 				1EF30E9C1A5BD512003E32FC /* CMainTimerNode.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
 				1EC38DDB1A5E713900305BE1 /* CUnitNode.cpp in Sources */,
@@ -656,11 +670,13 @@
 				1E1C27FF1A59BBB600C15532 /* CUtil.cpp in Sources */,
 				1E1C27FB1A59BBB600C15532 /* CPlayerCharacterNode.cpp in Sources */,
 				1EF30EA11A5BDC47003E32FC /* CPauseLayer.cpp in Sources */,
+				1E4340BC1A625C810045C4C5 /* CPauseScene.cpp in Sources */,
 				1EF30E991A5BC0E3003E32FC /* CTimer.cpp in Sources */,
 				1EC38DDC1A5E713900305BE1 /* CUnitNode.cpp in Sources */,
 				46880B8919C43A87006E1F66 /* AppDelegate.cpp in Sources */,
 				1EF30E941A5BBED7003E32FC /* CRandom.cpp in Sources */,
 				503AE10517EB98FF00D1A890 /* main.cpp in Sources */,
+				1E4340B81A624C340045C4C5 /* CSceneManager.cpp in Sources */,
 				1E1C27FD1A59BBB600C15532 /* CTitleScene.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -8,6 +8,8 @@
 
 #include "CGameManager.h"
 #include "CUtil.h"
+#include "CSceneManager.h"
+#include "CTitleScene.h"
 CGameManager::CGameManager():
 _vec2TouchStartPointLeft(Vec2(0.0f,0.0f)),
 _vec2TouchStartPointRight(Vec2(0.0f,0.0f)),
@@ -18,7 +20,7 @@ _pGameField(NULL),
 _pDebugLogLabel(NULL),
 _pMainTimerNode(NULL),
 _pPauseLayer(NULL),
-_fPlayerSpeed(5)
+_fPlayerSpeed(2.5f)
 {
     EventDispatcher* dispatcher = Director::getInstance()->getEventDispatcher();
     //터치 리스너 등록
@@ -227,7 +229,7 @@ void CGameManager::onTouchesCancelled(const std::vector<Touch *> &touches, cocos
 
 void CGameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, cocos2d::Event *event)
 {
-    float fPlayerSpeed = 5;
+    float fPlayerSpeed = _fPlayerSpeed;
     switch (keyCode) {
         case cocos2d::EventKeyboard::KeyCode::KEY_UP_ARROW:
             _vec2TouchMovement.y = fPlayerSpeed;
@@ -293,18 +295,27 @@ void CGameManager::onKeyReleased(EventKeyboard::KeyCode keyCode, cocos2d::Event 
             _pPlayerNode->dashAction();
             break;
         case cocos2d::EventKeyboard::KeyCode::KEY_ESCAPE:
-            if(_pPauseLayer->getParent()==NULL)
-            {
-                Size winsize = Director::getInstance()->getWinSize();
-                _pPauseLayer->setPosition3D(Vec3(-winsize.width/2, 0, -_pTileMap->getContentSize().height/2));
-                _pPauseLayer->setScale(0.4f);
-                _pPlayerNode->addChild(_pPauseLayer,(int)CUtil::zorderList::GAME_UI);
-            }
-            else
-            {
-                _pPlayerNode->removeChild(_pPauseLayer,100);
-            }
-                
+        {
+            getParent()->removeChild(this);
+            Director::getInstance()->pushScene
+            (TransitionPageTurn::create
+             (0.5f,
+              CSceneManager::getInstance()->getScene("pause"),
+              true
+              ));
+//
+//            if(_pPauseLayer->getParent()==NULL)
+//            {
+//                Size winsize = Director::getInstance()->getWinSize();
+//                _pPauseLayer->setPositionX(_pPlayerNode->getPositionX()-winsize.width/2);
+//                getParent()->addChild(_pPauseLayer,(int)CUtil::zorderList::GAME_UI_Front);
+//            }
+//            else
+//            {
+//                getParent()->removeChild(_pPauseLayer,100);
+//            }
+        }
+            
             break;
         default:
             break;

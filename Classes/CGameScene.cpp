@@ -22,7 +22,6 @@ bool CGameScene::init()
     Size winsize = Director::getInstance()->getWinSize();
     
     
-    SimpleAudioEngine::getInstance()->playBackgroundMusic("BGM/01 A Night Of Dizzy Spells.mp3",true);
     auto colorBg1 = LayerGradient::create(Color4B(30, 70, 200, 255), Color4B(255,255,255,255));
     float h = colorBg1->getContentSize().height;
     colorBg1->setVector(Vec2(0,-h/4));
@@ -114,7 +113,6 @@ bool CGameScene::init()
     
     
 //    게임매니져 붙이기
-    addChild(CGameManager::getInstance(),(int)CUtil::zorderList::GAME_UI,(int)CUtil::zorderList::GAME_UI);
     CGameManager::getInstance()->setGameField(gameFeald);
     
     
@@ -122,4 +120,34 @@ bool CGameScene::init()
     
     
     return true;
+}
+
+CGameScene::CGameScene()
+{
+    
+}
+CGameScene::~CGameScene()
+{
+ //   removeChild(CGameManager::getInstance());
+}
+
+void CGameScene::onEnter()
+{
+    Scene::onEnter();
+    SimpleAudioEngine::getInstance()->playBackgroundMusic("BGM/01 A Night Of Dizzy Spells.mp3",true);
+    CGameManager::getInstance()->getMainTimerNode()->getTimer()->resume();
+    
+    addChild(CGameManager::getInstance(),(int)CUtil::zorderList::GAME_UI_Back,(int)CUtil::zorderList::GAME_UI_Back);
+    CGameManager::getInstance()->getMainTimerNode()->scheduleUpdate();
+    CGameManager::getInstance()->getMainTimerNode()->getTimer()->resume();
+    
+}
+void CGameScene::onExit()
+{
+    Scene::onExit();
+    SimpleAudioEngine::getInstance()->stopBackgroundMusic();
+    SimpleAudioEngine::getInstance()->stopAllEffects();
+    removeChild(CGameManager::getInstance());
+    CGameManager::getInstance()->getMainTimerNode()->getTimer()->pause();
+
 }

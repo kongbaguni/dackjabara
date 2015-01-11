@@ -1,5 +1,10 @@
 #include "AppDelegate.h"
 #include "CTitleScene.h"
+#include "CGameScene.h"
+#include "CSceneManager.h"
+#include "CGameManager.h"
+#include "CPauseScene.h"
+
 #include "CUtil.h"
 
 USING_NS_CC;
@@ -46,12 +51,19 @@ bool AppDelegate::applicationDidFinishLaunching() {
     director->setAnimationInterval(1.0 / 60);
 
     // create a scene. it's an autorelease object
-    auto scene = CTitleScene::create();
+
+    CSceneManager::getInstance()->addScene(CTitleScene::create(), "title");
+    CSceneManager::getInstance()->addScene(CGameScene::create(), "game");
+    CSceneManager::getInstance()->addScene(CPauseScene::create(), "pause");
+
+    auto scene = CSceneManager::getInstance()->getScene("title");
 
     // run
     director->runWithScene(scene);
-    Texture2D::PVRImagesHavePremultipliedAlpha(true                                               );
 
+
+    
+    
     return true;
 }
 
