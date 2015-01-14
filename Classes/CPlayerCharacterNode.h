@@ -53,6 +53,7 @@ protected:
     
     virtual void pause();
     virtual void resume();
+    virtual void onEnter();
     
  
 };

@@ -10,8 +10,7 @@
 #include "CAnimationHelper.h"
 #include "CUtil.h"
 #include "CGameManager.h"
-
-
+#include "CControllerLayer.h"
 
 CPlayerCharacterNode::CPlayerCharacterNode(void) :
 _pParticle(NULL),
@@ -68,7 +67,6 @@ bool CPlayerCharacterNode::init()
     _pCamera->setPosition3D(Vec3(getContentSize().width/2,winsize.height/3,winsize.height*0.7f));
     _pCamera->setCameraFlag(CameraFlag::DEFAULT);
     addChild(_pCamera);
-    
  
     
 
@@ -77,6 +75,16 @@ bool CPlayerCharacterNode::init()
     
 
     return true;
+}
+void CPlayerCharacterNode::onEnter()
+{
+    Node::onEnter();
+    addChild(CControllerLayer::getInstance());
+    Size winsize = Director::getInstance()->getWinSize();
+    
+    CControllerLayer::getInstance()->setPosition(-winsize.width*0.25f, -winsize.height/7);
+    CControllerLayer::getInstance()->setScale(0.63);
+    
 }
 
 
@@ -170,7 +178,7 @@ void CPlayerCharacterNode::dashAction()
         return;
     }
     
-    Vec2 movement = CGameManager::getInstance()->getTouchMovement();
+    Vec2 movement = CControllerLayer::getInstance()->getTouchMovement();
     if(movement.length()==0 || _cModel.getEnergyPercent()<0.3f)
     {
         return;
@@ -264,7 +272,7 @@ void CPlayerCharacterNode::updateMovement(float dt)
     
     Size winsize = Director::getInstance()->getWinSize();
     Size mapSize = CGameManager::getInstance()->getTileMap()->getContentSize();
-    Vec2 movement = CGameManager::getInstance()->getTouchMovement()*_iDashSpeed;
+    Vec2 movement = CControllerLayer::getInstance()->getTouchMovement()*_iDashSpeed;
     Vec2 prePos = pos+movement;
     float fPadding = 30.0f;
     const bool bROUT_TOP = prePos.y>mapSize.height/2-fPadding;
@@ -361,7 +369,7 @@ void CPlayerCharacterNode::chargeEnergy(float dt)
 {
     auto _pSprite = getSprite();
 
-    Vec2 movement = CGameManager::getInstance()->getTouchMovement();
+    Vec2 movement = CControllerLayer::getInstance()->getTouchMovement();
     if(movement.getLength()>0 || _pSprite->getActionByTag((int)actionTag::JUMP))
     {
         return;

@@ -160,3 +160,13 @@ CUtil::eDirection8 CUtil::getMove8(cocos2d::Vec2 vec)
     }
     return eDirection8::NOT_MOVE;
 }
+
+float CUtil::getMove8Rotate(cocos2d::Vec2 vec)
+{
+    eDirection8 d = getMove8(vec);
+    int i = (int)d;
+    i*=-45.0f;
+    i-=(180.0f+45.0f) ;
+    return i;
+    
+}

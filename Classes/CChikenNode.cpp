@@ -41,7 +41,6 @@ bool CChikenNode::init()
     resetTimer();
     getTimer()->start();
     
-    scheduleUpdate();
     //setPosition3D(Vec3(0,0,this->getContentSize().height/4-10));
     setAnchorPoint(Vec2(0.5, 0.0));
     setScale(0.5f);
@@ -56,6 +55,12 @@ bool CChikenNode::init()
     setAttack(-10);
    
     return true;
+}
+void CChikenNode::onEnter()
+{
+    CUnitNode::onEnter();
+    scheduleUpdate();
+
 }
 
 void CChikenNode::update(float dt)

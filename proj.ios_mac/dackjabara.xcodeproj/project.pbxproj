@@ -11,6 +11,8 @@
 		1AC6FB30180E99EB004C840B /* libcocos2d iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AC6FB07180E9839004C840B /* libcocos2d iOS.a */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
+		1E0FEDCD1A667EA600614696 /* CControllerLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1E0FEDCB1A667EA600614696 /* CControllerLayer.cpp */; };
+		1E0FEDCE1A66813900614696 /* CControllerLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1E0FEDCB1A667EA600614696 /* CControllerLayer.cpp */; };
 		1E1C27DE1A59BB9F00C15532 /* BGM in Resources */ = {isa = PBXBuildFile; fileRef = 1E1C27D91A59BB9F00C15532 /* BGM */; };
 		1E1C27DF1A59BB9F00C15532 /* BGM in Resources */ = {isa = PBXBuildFile; fileRef = 1E1C27D91A59BB9F00C15532 /* BGM */; };
 		1E1C27E01A59BB9F00C15532 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = 1E1C27DA1A59BB9F00C15532 /* fonts */; };
@@ -142,6 +144,8 @@
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D6058910D05DD3D006BFB54 /* dackjabara iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "dackjabara iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		1E0FEDCB1A667EA600614696 /* CControllerLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CControllerLayer.cpp; sourceTree = "<group>"; };
+		1E0FEDCC1A667EA600614696 /* CControllerLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CControllerLayer.h; sourceTree = "<group>"; };
 		1E1C27D91A59BB9F00C15532 /* BGM */ = {isa = PBXFileReference; lastKnownFileType = folder; path = BGM; sourceTree = "<group>"; };
 		1E1C27DA1A59BB9F00C15532 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
 		1E1C27DB1A59BB9F00C15532 /* particle */ = {isa = PBXFileReference; lastKnownFileType = folder; path = particle; sourceTree = "<group>"; };
@@ -315,6 +319,8 @@
 				1EC38DDA1A5E713900305BE1 /* CUnitNode.h */,
 				1E1C27EE1A59BBB600C15532 /* CPlayerCharacterNode.cpp */,
 				1E1C27EF1A59BBB600C15532 /* CPlayerCharacterNode.h */,
+				1E0FEDCB1A667EA600614696 /* CControllerLayer.cpp */,
+				1E0FEDCC1A667EA600614696 /* CControllerLayer.h */,
 			);
 			name = Node;
 			sourceTree = "<group>";
@@ -650,6 +656,7 @@
 				1EF30EA01A5BDC47003E32FC /* CPauseLayer.cpp in Sources */,
 				1EF30E981A5BC0E3003E32FC /* CTimer.cpp in Sources */,
 				1E1C27F41A59BBB600C15532 /* CAnimationHelper.cpp in Sources */,
+				1E0FEDCD1A667EA600614696 /* CControllerLayer.cpp in Sources */,
 				1E69AF651A5F720600B6B906 /* CPlayerModel.cpp in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
@@ -662,6 +669,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1EF30E9D1A5BD512003E32FC /* CMainTimerNode.cpp in Sources */,
+				1E0FEDCE1A66813900614696 /* CControllerLayer.cpp in Sources */,
 				1E69AF621A5F717900B6B906 /* CPlayerCharacterModel.cpp in Sources */,
 				1E1C27F91A59BBB600C15532 /* CGameScene.cpp in Sources */,
 				1E1C27F51A59BBB600C15532 /* CAnimationHelper.cpp in Sources */,
