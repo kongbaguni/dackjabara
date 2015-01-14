@@ -22,6 +22,9 @@ class CGameManager : public Layer
 public:
     virtual bool init();
     static CGameManager* getInstance();
+
+    void gameOver();
+
 private:
     CGameManager();
     virtual ~CGameManager();

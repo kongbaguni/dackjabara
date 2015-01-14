@@ -9,6 +9,7 @@
 #include "CGameManager.h"
 #include "CUtil.h"
 #include "CSceneManager.h"
+#include "CGameScene.h"
 #include "CTitleScene.h"
 CGameManager::CGameManager():
 _vec2TouchStartPointLeft(Vec2(0.0f,0.0f)),
@@ -66,6 +67,11 @@ CGameManager::~CGameManager()
     
 }
 
+void CGameManager::gameOver()
+{
+    getParent()->removeChild(this);
+    CSceneManager::getInstance()->addScene(CGameScene::create(), "game");
+}
 bool CGameManager::init()
 {
     if(!Layer::init())
@@ -88,7 +94,6 @@ bool CGameManager::init()
 
     
     setPauseLayer(CPauseLayer::create());
-    schedule(schedule_selector(CGameManager::reorderUnitZindex));
     
     return true;
 }
@@ -112,6 +117,8 @@ void CGameManager::onEnter()
     Size tileSize = _pTileMap->getContentSize();
     _pMainTimerNode->setPosition3D
     (Vec3(tileSize.width/2,tileSize.height-50,-tileSize.height/2+1));
+    schedule(schedule_selector(CGameManager::reorderUnitZindex));
+
     
 }
 

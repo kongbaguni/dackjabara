@@ -43,10 +43,7 @@ bool CPauseScene::init()
 void CPauseScene::menuCallback(cocos2d::Ref *sender)
 {
     Director::getInstance()->pushScene
-    (TransitionCrossFade::create
-     (2.5f,
-      CSceneManager::getInstance()->getScene("game")
-      ));
+    (CSceneManager::getInstance()->getScene("game"));
 
     
 }
