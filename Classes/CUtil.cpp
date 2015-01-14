@@ -76,25 +76,27 @@ CUtil::sTMXcrashTestValue CUtil::isCrashWithTMXTileMapSetting(cocos2d::TMXTiledM
     {
         result._bCrash = true;
         result._eCrashDirction = eDirection8::NOT_MOVE;
+        result._pCrashTile = NULL;
         return result;
     }
-    TMXLayer* layer = tileMap->getLayer(layerName);
+    TMXLayer* layer= tileMap->getLayer(layerName);
     uint32_t iGid = layer->getTileGIDAt(fixPos);
     result._pCrashTile = layer->getTileAt(fixPos);
-    auto value = tileMap->getPropertiesForGID(iGid);
-    if(value.getType()==Value::Type::MAP)
+    auto properties = tileMap->getPropertiesForGID(iGid);
+    
+    if(properties.getType()==Value::Type::MAP && !properties.asValueMap().empty())
     {
-        ValueMap valueMap = value.asValueMap();
-        ValueMap::const_iterator w = valueMap.find(key);
-        if(w!=valueMap.end())
+        auto collision = properties.asValueMap()[key].asString();
+        if("true"==collision)
         {
             result._bCrash = true;
         }
-        else
-        {
-            result._bCrash = false;
-            result._eCrashDirction = eDirection8::NOT_MOVE;
-        }
+    }
+    else
+    {
+        result._bCrash = false;
+        result._eCrashDirction = eDirection8::NOT_MOVE;
+        
     }
     return result;
 
@@ -157,4 +159,14 @@ CUtil::eDirection8 CUtil::getMove8(cocos2d::Vec2 vec)
         return eDirection8::RIGHT;
     }
     return eDirection8::NOT_MOVE;
+}
+
+float CUtil::getMove8Rotate(cocos2d::Vec2 vec)
+{
+    eDirection8 d = getMove8(vec);
+    int i = (int)d;
+    i*=-45.0f;
+    i-=(180.0f+45.0f) ;
+    return i;
+    
 }

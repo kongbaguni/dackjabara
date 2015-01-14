@@ -42,6 +42,7 @@ protected:
     void resetTimer();
     
     void dead();
+    virtual void onEnter();
     
 };
 

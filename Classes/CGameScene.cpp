@@ -22,7 +22,19 @@ bool CGameScene::init()
     Size winsize = Director::getInstance()->getWinSize();
     
     
-    SimpleAudioEngine::getInstance()->playBackgroundMusic("BGM/01 A Night Of Dizzy Spells.mp3",true);
+    auto colorBg1 = LayerGradient::create(Color4B(30, 70, 200, 255), Color4B(255,255,255,255));
+    float h = colorBg1->getContentSize().height;
+    colorBg1->setVector(Vec2(0,-h/4));
+    addChild(colorBg1);
+    colorBg1->setRotation3D(Vec3(0,0,0));
+    colorBg1->setPosition3D(Vec3(-winsize.width*5,0,-50));
+    colorBg1->setContentSize(Size(winsize.width*1000, winsize.height));
+    
+    auto colorBg = LayerColor::create(Color4B(255, 255, 255, 255));
+    addChild(colorBg);
+    colorBg->setRotation3D(Vec3(-90,0,0));
+    colorBg->setPosition3D(Vec3(-winsize.width*5,-50,-50));
+    colorBg->setContentSize(winsize*1000);
     
 //    배경 레이어 초기화
     auto gameFeald = Layer::create();
@@ -38,7 +50,7 @@ bool CGameScene::init()
     tileMap->setPosition(Vec2(0,-winsize.height/2));
     tileMap->setPosition3D(Vec3(0.0f, tileMap->getContentSize().height/3, winsize.height/2));
     tileMap->setRotation3D(Vec3(-90, 0, 0));
-    CUtil::setTMXTileMapAntialias(tileMap);
+   CUtil::setTMXTileMapAntialias(tileMap);
     addChild(tileMap,(int)CUtil::zorderList::BACKGROUND);
     
     
@@ -46,6 +58,7 @@ bool CGameScene::init()
     auto bgBack =TMXTiledMap::create("tilemap/map4.tmx");
     bgBack->setPosition3D(Vec3(0, tileMap->getContentSize().height,0));
     bgBack->setRotation3D(Vec3(90,0,0));
+    CUtil::setTMXTileMapAntialias(bgBack);
     tileMap->addChild(bgBack);
     
     auto bgLeft =TMXTiledMap::create("tilemap/map3.tmx");
@@ -63,7 +76,7 @@ bool CGameScene::init()
     auto bgTop = TMXTiledMap::create("tilemap/map2.tmx");
     bgTop->setPosition3D(Vec3(0, 0, winsize.height/2));
     tileMap->addChild(bgTop);
-    CUtil::setTMXTileMapAntialias(bgTop);
+   CUtil::setTMXTileMapAntialias(bgTop);
     
     
     
@@ -100,7 +113,6 @@ bool CGameScene::init()
     
     
 //    게임매니져 붙이기
-    addChild(CGameManager::getInstance(),(int)CUtil::zorderList::GAME_UI,(int)CUtil::zorderList::GAME_UI);
     CGameManager::getInstance()->setGameField(gameFeald);
     
     
@@ -108,4 +120,34 @@ bool CGameScene::init()
     
     
     return true;
+}
+
+CGameScene::CGameScene()
+{
+    
+}
+CGameScene::~CGameScene()
+{
+ //   removeChild(CGameManager::getInstance());
+}
+
+void CGameScene::onEnter()
+{
+    Scene::onEnter();
+    SimpleAudioEngine::getInstance()->playBackgroundMusic("BGM/01 A Night Of Dizzy Spells.mp3",true);
+    CGameManager::getInstance()->getMainTimerNode()->getTimer()->resume();
+    
+    addChild(CGameManager::getInstance(),(int)CUtil::zorderList::GAME_UI_Back,(int)CUtil::zorderList::GAME_UI_Back);
+    CGameManager::getInstance()->getMainTimerNode()->scheduleUpdate();
+    CGameManager::getInstance()->getMainTimerNode()->getTimer()->resume();
+    
+}
+void CGameScene::onExit()
+{
+    Scene::onExit();
+    SimpleAudioEngine::getInstance()->stopBackgroundMusic();
+    SimpleAudioEngine::getInstance()->stopAllEffects();
+    removeChild(CGameManager::getInstance());
+    CGameManager::getInstance()->getMainTimerNode()->getTimer()->pause();
+
 }

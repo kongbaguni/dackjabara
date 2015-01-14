@@ -14,6 +14,7 @@
 #include <SimpleAudioEngine.h>
 #include "CInlineFunctions.h"
 #include "CRandom.h"
+#include "CControllerLayer.h"
 
 USING_NS_CC;
 using namespace CocosDenshion;
@@ -33,12 +34,14 @@ public:
         DOWN_LEFT,
     };
     static eDirection8 getMove8(Vec2 vec);
+    static float getMove8Rotate(Vec2 vec);
     
     enum class zorderList
     {
         BACKGROUND,
+        GAME_UI_Back,
         GAME_FEALD,
-        GAME_UI,
+        GAME_UI_Front
     };
     
     struct sTMXcrashTestValue

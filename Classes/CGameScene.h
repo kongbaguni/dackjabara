@@ -15,8 +15,12 @@ USING_NS_CC;
 class CGameScene : public Scene
 {
 public:
+    CGameScene();
+    ~CGameScene();
     virtual bool init();
     CREATE_FUNC(CGameScene);
+    virtual void onEnter();
+    virtual void onExit();
 };
 
 #endif /* defined(__shootinggamePrototype__CGameScene__) */

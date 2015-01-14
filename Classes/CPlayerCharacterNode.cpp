@@ -10,33 +10,14 @@
 #include "CAnimationHelper.h"
 #include "CUtil.h"
 #include "CGameManager.h"
-
-void CPlayerCharacterModel::chargeEnergy(int charge)
-{
-    if(_iEnergyUse==0)
-    {
-        return;
-    }
-    _iEnergyUse-=charge;
-    if(_iEnergyUse<0)
-    {
-        _iEnergyUse = 0;
-    }
-}
-
-float CPlayerCharacterModel::getEnergyPercent()
-{
-    float result = (float)(_iEnergyMax-_iEnergyUse)/(float)_iEnergyMax;
-    return result;
-}
-
-
+#include "CControllerLayer.h"
 
 CPlayerCharacterNode::CPlayerCharacterNode(void) :
 _pParticle(NULL),
 _iJumpCount(0),
 _iDashSpeed(1),
-_pCamera(NULL)
+_pCamera(NULL),
+_lJumpStartTime(0)
 {
     
     
@@ -57,10 +38,12 @@ bool CPlayerCharacterNode::init()
     CAnimationHelper::addAnimation("unit/c1_%02d.png", 3, 4, "player_down",0.1f,false);
     CAnimationHelper::addAnimation("unit/c1_%02d.png", 4, 2, "player_up",0.1f,true);
 
+    setHPmax(500);
+    setAttack(10);
     auto sprite = getSprite();
     sprite->setSpriteFrame("unit/c1_01.png");
     sprite->setAnchorPoint(Vec2(0.5f, 0.0f));
-    sprite->setPosition3D(Vec3(0.0f,0.0f,5.0f));
+    sprite->setPosition3D(Vec3(0.0f,0.0f,0.0f));
     sprite->setPosition(Vec2(sprite->getContentSize().width/2,0));
     setContentSize(sprite->getContentSize());
     setAnchorPoint(sprite->getAnchorPoint());
@@ -71,6 +54,7 @@ bool CPlayerCharacterNode::init()
     _pParticle->setPositionType(cocos2d::ParticleSystem::PositionType::RELATIVE);
     _pParticle->setPosition(this->getPosition());
     _pParticle->setPosition3D(Vec3(200,100,0));
+    _pParticle->setScale(0.5f);
 
     scheduleUpdate();
     standAction();
@@ -80,17 +64,27 @@ bool CPlayerCharacterNode::init()
     setCamera(Camera::createPerspective(50, winsize.width/winsize.height, 1, 3800));
     
     _pCamera->setRotation3D(Vec3(-10,0,0));
-    _pCamera->setPosition3D(Vec3(0,winsize.height/3,winsize.height*0.7f));
+    _pCamera->setPosition3D(Vec3(getContentSize().width/2,winsize.height/3,winsize.height*0.7f));
     _pCamera->setCameraFlag(CameraFlag::DEFAULT);
     addChild(_pCamera);
-    
+ 
     
 
-    getProgressTImer()->getParent()->setPosition(Vec2(58,240));
+    getProgressTimer1()->getParent()->setPosition(Vec2(58,240));
 
     
 
     return true;
+}
+void CPlayerCharacterNode::onEnter()
+{
+    Node::onEnter();
+    addChild(CControllerLayer::getInstance());
+    Size winsize = Director::getInstance()->getWinSize();
+    
+    CControllerLayer::getInstance()->setPosition(-winsize.width*0.25f, -winsize.height/7);
+    CControllerLayer::getInstance()->setScale(0.63);
+    
 }
 
 
@@ -113,9 +107,22 @@ void CPlayerCharacterNode::standAction()
     sprite->runAction(jump);
     _iJumpCount = 0;
     _iDashSpeed = 1;
+    if(getSprite()->getPositionY()>1)
+    {
+        getSprite()->runAction(MoveTo::create(1.0f, Vec2(sprite->getContentSize().width/2,0)));
+    }
 }
 void CPlayerCharacterNode::jumpAction()
 {
+    jumpActionWithEnergyUse(100);
+}
+void CPlayerCharacterNode::jumpActionWithEnergyUse(int iEnergy)
+{
+    if(!_cModel.useEnergy(iEnergy) || _cModel.getState()==CPlayerCharacterModel::state::DEAD)
+    {
+        return;
+    }
+    
     auto sprite = getSprite();
     Vec2 centerBottom = Vec2(getContentSize().width/2,0);
     if(CGameManager::getInstance()->getMainTimerNode()->getTimer()->isPause())
@@ -131,12 +138,6 @@ void CPlayerCharacterNode::jumpAction()
         return;
     }
     if(_iJumpCount>=2)
-    {
-        return;
-    }
-    bool useEnergy = _cModel.useEnergy(100);
-    bool lowEnergy = _cModel.getEnergyPercent()<0.3f;
-    if(!useEnergy | lowEnergy)
     {
         return;
     }
@@ -165,6 +166,8 @@ void CPlayerCharacterNode::jumpAction()
     
     sprite->runAction(action);
     _pCamera->runAction(JumpBy::create(1.0f, Vec2(0, 0), 50, 1));
+    _lJumpStartTime = timeUtil::millisecondNow();
+
     
 }
 void CPlayerCharacterNode::dashAction()
@@ -175,7 +178,7 @@ void CPlayerCharacterNode::dashAction()
         return;
     }
     
-    Vec2 movement = CGameManager::getInstance()->getTouchMovement();
+    Vec2 movement = CControllerLayer::getInstance()->getTouchMovement();
     if(movement.length()==0 || _cModel.getEnergyPercent()<0.3f)
     {
         return;
@@ -197,7 +200,41 @@ void CPlayerCharacterNode::dashAction()
 }
 void CPlayerCharacterNode::update(float dt)
 {
+    CUnitNode::update(dt);
+    
+    //플레이어가 죽었다. 어떡해.... 행동불능 처리.
+    if(_cModel.getState()==CPlayerCharacterModel::state::DEAD)
+    {
+        return;
+    }
+    
+    if(getHP()==0)
+    {
+        bool d = (bool)CRandom::getInstnace()->Random(1);
+        float fd = d ? 90 : -90;
+        getSprite()->stopAllActions();
+        _cModel.setState(CPlayerCharacterModel::state::DEAD);
+        _pParticle->stopSystem();
+        getSprite()->runAction(RotateTo::create(1.0f, fd, fd));
+        return;
+    }
+    
+    
     updateMovement(dt);
+    //플레이어가 점프하여 높이값이 바뀌면 카메라 스케일 업
+    {
+        
+        Size winsize = Director::getInstance()->getWinSize();
+        Vec3 pos =
+        Vec3(getContentSize().width/2,winsize.height/3,winsize.height*0.7f);
+        
+        float fY = getSprite()->getPositionY()/2;
+        if(fY<10)
+        {
+            fY = 0;
+        }
+        _pCamera->setPosition3D(Vec3(pos.x,pos.y,pos.z-fY));
+    }
     
     //프로그레스바 갱신
     {
@@ -210,7 +247,7 @@ void CPlayerCharacterNode::update(float dt)
         {
             percent = 99;
         }
-        getProgressTImer()->setPercentage(percent);
+        getProgressTimer1()->setPercentage(percent);
     }
     std::string txt;
     txt+=textUtil::addCommaText(getLocalZOrder());
@@ -235,7 +272,7 @@ void CPlayerCharacterNode::updateMovement(float dt)
     
     Size winsize = Director::getInstance()->getWinSize();
     Size mapSize = CGameManager::getInstance()->getTileMap()->getContentSize();
-    Vec2 movement = CGameManager::getInstance()->getTouchMovement()*_iDashSpeed;
+    Vec2 movement = CControllerLayer::getInstance()->getTouchMovement()*_iDashSpeed;
     Vec2 prePos = pos+movement;
     float fPadding = 30.0f;
     const bool bROUT_TOP = prePos.y>mapSize.height/2-fPadding;
@@ -262,7 +299,10 @@ void CPlayerCharacterNode::updateMovement(float dt)
     //타일맵하고 충돌검사
     if(movement!=Vec2(0,0) && _pSprite->getPositionY()<40)
     {
-        CUtil::sTMXcrashTestValue value =CUtil::isCrashWithTMXTileMapSetting(CGameManager::getInstance()->getTileMap(), "bg", "wall", this->getPosition());
+        Vec2 testpos = getPosition();
+        testpos.y+=40;
+        testpos+=movement;
+        CUtil::sTMXcrashTestValue value =CUtil::isCrashWithTMXTileMapSetting(CGameManager::getInstance()->getTileMap(), "bg", "wall", testpos);
         if(value._bCrash)
         {
             if(fabsf(movement.x)>0)
@@ -275,11 +315,18 @@ void CPlayerCharacterNode::updateMovement(float dt)
             }
         }
         
-        value._pCrashTile->runAction(Sequence::create(FadeTo::create(0.5f,100),FadeTo::create(2.0f,255), NULL));
         
-        if(CUtil::isCrashWithTMXTileMapSetting(CGameManager::getInstance()->getTileMap(), "bg", "charge", this)._bCrash)
+        if(value._pCrashTile!=NULL && !value._pCrashTile->getActionByTag(123))
         {
-            _iChargeSpeed = 30;
+            auto action =Sequence::create(FadeTo::create(0.5f,100),FadeTo::create(2.0f,255), NULL);
+            action->setTag(123);
+            value._pCrashTile->setColor(Color3B(255,255,255));
+            value._pCrashTile->runAction(action);
+        }
+        
+        if(CUtil::isCrashWithTMXTileMapSetting(CGameManager::getInstance()->getTileMap(), "bg", "charge", testpos)._bCrash)
+        {
+            _iChargeSpeed = 100;
         }
         else
         {
@@ -310,6 +357,10 @@ void CPlayerCharacterNode::updateMovement(float dt)
         }
         _pParticle->setPosition(getPosition());
     }
+    else
+    {
+        CCLOG("!!");
+    }
 
 
 }
@@ -318,7 +369,7 @@ void CPlayerCharacterNode::chargeEnergy(float dt)
 {
     auto _pSprite = getSprite();
 
-    Vec2 movement = CGameManager::getInstance()->getTouchMovement();
+    Vec2 movement = CControllerLayer::getInstance()->getTouchMovement();
     if(movement.getLength()>0 || _pSprite->getActionByTag((int)actionTag::JUMP))
     {
         return;
@@ -329,3 +380,14 @@ void CPlayerCharacterNode::chargeEnergy(float dt)
 }
 
 
+void CPlayerCharacterNode::pause()
+{
+    _pCamera->pause();
+    CUnitNode::pause();
+}
+
+void CPlayerCharacterNode::resume()
+{
+    _pCamera->resume();
+    CUnitNode::resume();
+}

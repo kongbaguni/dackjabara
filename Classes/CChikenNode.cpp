@@ -33,30 +33,39 @@ bool CChikenNode::init()
     _pSprite->setSpriteFrame("unit/egg.png");
     setContentSize(_pSprite->getContentSize());
     setAnchorPoint(_pSprite->getAnchorPoint());
-    _pSprite->setPosition(Vec2(_pSprite->getContentSize().width/2, -_pSprite->getContentSize().height));
+    //_pSprite->setPosition(Vec2(_pSprite->getContentSize().width/2, -_pSprite->getContentSize().height));
     _pSprite->setAnchorPoint(Vec2(0.5f,0.0f));
                           
   
-    setRotation3D(Vec3(0, 0, 0));
+//    setRotation3D(Vec3(0, 0, 0));
     resetTimer();
     getTimer()->start();
     
-    scheduleUpdate();
-    setPosition3D(Vec3(0,0,this->getContentSize().height/4-10));
+    //setPosition3D(Vec3(0,0,this->getContentSize().height/4-10));
     setAnchorPoint(Vec2(0.5, 0.0));
     setScale(0.5f);
     
     
     getTimer()->setMaxTime(CRandom::getInstnace()->Random(20)*1000+3000);
     
-    getProgressTImer()->getParent()->setScale(0.5f);
-    getProgressTImer()->getParent()->setPosition(45.f, -5.0f);
+    getProgressTimer1()->getParent()->setScale(0.5f,1.0f);
+  //  getProgressTimer1()->getParent()->setRotation3D(Vec3(90, 0, 0));
+    getProgressTimer1()->getParent()->setPosition(45.f, -5.0f);
+    
+    setAttack(-10);
    
     return true;
+}
+void CChikenNode::onEnter()
+{
+    CUnitNode::onEnter();
+    scheduleUpdate();
+
 }
 
 void CChikenNode::update(float dt)
 {
+    CUnitNode::update(dt);
     getLabel()->setString(textUtil::addCommaText(getLocalZOrder()));
 
 
@@ -88,32 +97,50 @@ void CChikenNode::update(float dt)
         {
             Vec2 posP = player->getPosition();
             Vec2 pos = getPosition();
+            pos.x-=player->getContentSize().width/4;
             float distance = pos.getDistance(posP);
-            bool bPlayerIsJump = player->getSprite()->getPositionY()>10;
-            bool bCrash = distance<20;
+            float pSY =player->getSprite()->getPositionY();
+            long pJumpTimeInterval = timeUtil::millisecondNow()-player->getJumpStartTime();
+            
+            bool bPlayerIsJumping = pSY > 30;
+            bool bPlayerIsAfertJump = pSY > 10 && !bPlayerIsJumping && pJumpTimeInterval>300;
+            bool bCrash = distance<25;
             bool bActionNotRun = getActionByTag((int)eAction::DEAD)==NULL;
-            if(!bPlayerIsJump & bCrash & bActionNotRun)
+            if(bCrash & bActionNotRun)
             {
-                _pSprite->setColor(Color3B(255, 0, 0));
+                if(bPlayerIsAfertJump)
+                 {
+                    _pSprite->setColor(Color3B(255, 0, 0));
+                    addDamage(player->getAttack()*player->getJumpCount());
+                    getSprite()->
+                    runAction
+                    (CCSequence::create
+                     (EaseExponentialInOut::create(ScaleTo::create(0.3f, 1.2f, 0.3f)),
+                      EaseExponentialInOut::create(ScaleTo::create(0.3f, 1.0f,1.0f)),
+                      NULL
+                      )
+                     );
+                      
+                    if(getHP()==0)
+                    {
+                        getSprite()->runAction
+                        (Sequence::create
+                         (FadeOut::create(1.0f),
+                          CallFunc::create(CC_CALLBACK_0(CChikenNode::dead, this))
+                          , NULL));
+                        
+                    }
+                }
+                else if(!bPlayerIsJumping)
+                {
+                    player->addDamage(getAttack());
+                    player->getSprite()->setColor(Color3B(255,0,0));
+                }
                 
-                
-                //            _vec2Movement = Vec2(0, 0);
-                ////            setFlippedY(true);
-                //            auto action =
-                //            Sequence::create
-                //            (DelayTime::create(1.0f),
-                //             Spawn::create
-                //             (MoveBy::create(1.0f, Vec2(0,300)),
-                //              FadeTo::create(1.0f,0),
-                //              NULL),
-                //             CallFunc::create(CC_CALLBACK_0(CChikenNode::dead, this)),
-                //             NULL);
-                //            action->setTag((int)eAction::DEAD);
-                //            runAction(action);
-                //            return;
             }else
             {
                 _pSprite->setColor(Color3B(255, 255, 255));
+                player->getSprite()->setColor(Color3B(255,255,255));
             }
         }
     }
@@ -127,10 +154,22 @@ void CChikenNode::update(float dt)
             case state::HEN:
             {
                 Vec2 prePos = getPosition()+_vec2Movement;
-                bool bCrashWall =CUtil::isCrashWithTMXTileMapSetting(CGameManager::getInstance()->getTileMap(), "bg", "wall", this)._bCrash;
-                bool bCrashCharge =
-                CUtil::isCrashWithTMXTileMapSetting(CGameManager::getInstance()->getTileMap(), "bg", "charge", this)._bCrash;
-                if(bCrashWall | bCrashCharge)
+                prePos.y+=getContentSize().height/2;
+                prePos.x-=getContentSize().width/4;
+                CUtil::sTMXcrashTestValue value = CUtil::isCrashWithTMXTileMapSetting(CGameManager::getInstance()->getTileMap(), "bg", "wall", prePos);
+                
+                if(value._pCrashTile!=NULL && !value._pCrashTile->getActionByTag(123))
+                {
+                    auto action =Sequence::create(FadeTo::create(0.5f,100),FadeTo::create(2.0f,255), NULL);
+                    action->setTag(123);
+                    
+                    value._pCrashTile->runAction(action);
+                    value._pCrashTile->setColor(Color3B(255,255,130));
+                }
+                
+                bool bCrashWall =value._bCrash;
+                
+                if(bCrashWall)
                 {
                   CUtil::eDirection8 move8 = CUtil::getMove8(_vec2Movement);
                     switch (move8) {
@@ -168,7 +207,7 @@ void CChikenNode::update(float dt)
         {
             ff = 99;
         }
-        getProgressTImer()->setPercentage(ff);
+        getProgressTimer1()->setPercentage(ff);
         if(ff>0)
         {
             return;
@@ -219,7 +258,7 @@ void CChikenNode::update(float dt)
                 auto egg = CChikenNode::create();
                 getParent()->addChild(egg);
                 egg->setPosition(getPosition());
-                runAction(JumpBy::create(0.3f, Vec2(0,0), 50, 1));
+                getSprite()->runAction(JumpBy::create(0.3f, Vec2(0,0), 50, 1));
             }
         }break;
         default:
@@ -238,6 +277,7 @@ void CChikenNode::update(float dt)
                     break;
                 case state::EGG_BROKEN:
                     frameName+="eggBroken.png";
+                    setAttack(100);
                     break;
                 case state::CHICK:
                     frameName+="chick.png";
@@ -247,9 +287,11 @@ void CChikenNode::update(float dt)
                     break;
                 case state::COCK:
                     frameName+="cock.png";
+                    setAttack(50);
                     break;
                 case state::HEN:
                     frameName+="hen.png";
+                    setAttack(10);
                     break;
                 default:
                     break;

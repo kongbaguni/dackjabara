@@ -9,7 +9,8 @@
 #include "CPlayerCharacterModel.h"
 CPlayerCharacterModel::CPlayerCharacterModel():
 _iEnergyMax(2000),
-_iEnergyUse(0)
+_iEnergyUse(0),
+_eState(state::NORMAL)
 {
     
 }
@@ -26,7 +27,7 @@ bool CPlayerCharacterModel::useEnergy(int useValue)
 {
     if(useValue==0)
     {
-        return false;
+        return true;
     }
     if(_iEnergyUse+useValue>_iEnergyMax)
     {
@@ -35,4 +36,23 @@ bool CPlayerCharacterModel::useEnergy(int useValue)
     _iEnergyUse+=useValue;
     
     return true;
+}
+
+void CPlayerCharacterModel::chargeEnergy(int charge)
+{
+    if(_iEnergyUse==0)
+    {
+        return;
+    }
+    _iEnergyUse-=charge;
+    if(_iEnergyUse<0)
+    {
+        _iEnergyUse = 0;
+    }
+}
+
+float CPlayerCharacterModel::getEnergyPercent()
+{
+    float result = (float)(_iEnergyMax-_iEnergyUse)/(float)_iEnergyMax;
+    return result;
 }

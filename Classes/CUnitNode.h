@@ -21,13 +21,22 @@ public:
     virtual bool init();
     virtual void pause();
     virtual void resume();
+    
+    void addDamage(int iDamage);
+    int getHP();
+    
 protected:
+    virtual void update(float dt);
     CC_SYNTHESIZE_RETAIN(Sprite*, _pSprite, Sprite);
     CC_SYNTHESIZE_RETAIN(Label*, _pLabel, Label);
     CC_SYNTHESIZE_RETAIN(CTimer*, _pTimer, Timer);
-    CC_SYNTHESIZE_RETAIN(ProgressTimer*, _pProgressTimer, ProgressTImer);
+    CC_SYNTHESIZE_RETAIN(ProgressTimer*, _pProgressTimer1, ProgressTimer1);
+    CC_SYNTHESIZE_RETAIN(ProgressTimer*, _pProgressTimer2, ProgressTimer2);
 
-
+    CC_SYNTHESIZE(int, _iHPmax, HPmax);
+    int _iDamage;
+    
+    CC_SYNTHESIZE(int, _iAttack, Attack);
     
 };
 
