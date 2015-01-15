@@ -20,6 +20,7 @@ CPlayerCharacterModel::~CPlayerCharacterModel()
 }
 void CPlayerCharacterModel::reset()
 {
+    _eState = state::NORMAL;
     _iEnergyUse = 0;
 }
 

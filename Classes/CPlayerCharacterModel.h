@@ -10,6 +10,8 @@
 #define __dackjabara__CPlayerCharacterModel__
 
 #include <stdio.h>
+#include "cocos2d.h"
+
 class CPlayerCharacterModel
 {
 public:

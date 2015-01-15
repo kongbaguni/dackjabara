@@ -7,14 +7,14 @@
 //
 
 #include "CPlayerModel.h"
-void CPlayerModel::CPlayerModel():
+CPlayerModel::CPlayerModel():
 _iCredit(0),
 _iRealUse(0),
 _iRealMax(30)
 {
     
 }
-void CPlayerModel::~CPlayerModel()
+CPlayerModel::~CPlayerModel()
 {
     
 }

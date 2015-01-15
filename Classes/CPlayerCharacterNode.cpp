@@ -45,6 +45,7 @@ bool CPlayerCharacterNode::init()
     sprite->setAnchorPoint(Vec2(0.5f, 0.0f));
     sprite->setPosition3D(Vec3(0.0f,0.0f,0.0f));
     sprite->setPosition(Vec2(sprite->getContentSize().width/2,0));
+    sprite->setScale(0.5f);
     setContentSize(sprite->getContentSize());
     setAnchorPoint(sprite->getAnchorPoint());
     
@@ -68,9 +69,9 @@ bool CPlayerCharacterNode::init()
     _pCamera->setCameraFlag(CameraFlag::DEFAULT);
     addChild(_pCamera);
  
-    
 
     getProgressTimer1()->getParent()->setPosition(Vec2(58,240));
+    
 
     
 
@@ -85,6 +86,11 @@ void CPlayerCharacterNode::onEnter()
     CControllerLayer::getInstance()->setPosition(-winsize.width*0.25f, -winsize.height/7);
     CControllerLayer::getInstance()->setScale(0.63);
     
+}
+void CPlayerCharacterNode::onExit()
+{
+    Node::onExit();
+    removeChild(CControllerLayer::getInstance());
 }
 
 
@@ -198,6 +204,11 @@ void CPlayerCharacterNode::dashAction()
     _pSprite->runAction(action);
     
 }
+void CPlayerCharacterNode::dead()
+{
+    removeChild(getSprite());
+    CGameManager::getInstance()->gameOver();
+}
 void CPlayerCharacterNode::update(float dt)
 {
     CUnitNode::update(dt);
@@ -215,7 +226,13 @@ void CPlayerCharacterNode::update(float dt)
         getSprite()->stopAllActions();
         _cModel.setState(CPlayerCharacterModel::state::DEAD);
         _pParticle->stopSystem();
-        getSprite()->runAction(RotateTo::create(1.0f, fd, fd));
+        getSprite()->runAction
+        (Sequence::create
+         (RotateTo::create(1.0f, fd, fd),
+          FadeOut::create(1.0f),
+          CallFunc::create(CC_CALLBACK_0(CPlayerCharacterNode::dead, this))
+         , NULL))
+        ;
         return;
     }
     
@@ -302,8 +319,18 @@ void CPlayerCharacterNode::updateMovement(float dt)
         Vec2 testpos = getPosition();
         testpos.y+=40;
         testpos+=movement;
-        CUtil::sTMXcrashTestValue value =CUtil::isCrashWithTMXTileMapSetting(CGameManager::getInstance()->getTileMap(), "bg", "wall", testpos);
-        if(value._bCrash)
+        bool bCharge =CUtil::isCrashWithTMXTileMapSetting(CGameManager::getInstance()->getTileMap(), "bg", "charge", testpos,movement)._bCrash;
+        CUtil::sTMXcrashTestValue value =CUtil::isCrashWithTMXTileMapSetting(CGameManager::getInstance()->getTileMap(), "bg", "wall", testpos, movement);
+
+        if(bCharge)
+        {
+            _iChargeSpeed = 100;
+        }
+        else
+        {
+            _iChargeSpeed = 10;
+        }
+        if(!bCharge & value._bCrash)
         {
             if(fabsf(movement.x)>0)
             {
@@ -324,14 +351,6 @@ void CPlayerCharacterNode::updateMovement(float dt)
             value._pCrashTile->runAction(action);
         }
         
-        if(CUtil::isCrashWithTMXTileMapSetting(CGameManager::getInstance()->getTileMap(), "bg", "charge", testpos)._bCrash)
-        {
-            _iChargeSpeed = 100;
-        }
-        else
-        {
-            _iChargeSpeed = 10;
-        }
         
     }
     

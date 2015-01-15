@@ -54,7 +54,9 @@ protected:
     virtual void pause();
     virtual void resume();
     virtual void onEnter();
+    virtual void onExit();
     
+    void dead();
  
 };
 

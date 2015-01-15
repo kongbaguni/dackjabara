@@ -12,20 +12,23 @@ LOCAL_MODULE_FILENAME := libcocos2dcpp
 
 LOCAL_SRC_FILES := hellocpp/main.cpp \
 ../../Classes/AppDelegate.cpp \
-../../Classes/CPlayerCharacterModel.cpp \
+../../Classes/CGameManager.cpp \
 ../../Classes/CGameScene.cpp \
+../../Classes/CTitleScene.cpp \
+../../Classes/CPauseScene.cpp \
+../../Classes/CPauseLayer.cpp \
+../../Classes/CSceneManager.cpp \
+../../Classes/CPlayerCharacterModel.cpp \
+../../Classes/CPlayerModel.cpp \
+../../Classes/CMainTimerNode.cpp \
+../../Classes/CControllerLayer.cpp \
+../../Classes/CPlayerCharacterNode.cpp \
+../../Classes/CTimer.cpp \
 ../../Classes/CUtil.cpp \
 ../../Classes/CAnimationHelper.cpp \
-../../Classes/CPlayerCharacterNode.cpp \
-../../Classes/CGameManager.cpp \
 ../../Classes/CRandom.cpp \
-../../Classes/CTimer.cpp \
-../../Classes/CMainTimerNode.cpp \
-../../Classes/CPauseLayer.cpp \
-../../Classes/CChikenSprite.cpp \
-../../Classes/CUnitNode.cpp \
-../../Classes/CControllerLayer.cpp \
-../../Classes/CTitleScene.cpp
+../../Classes/CChikenNode.cpp \
+../../Classes/CUnitNode.cpp 
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes
 

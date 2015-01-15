@@ -10,8 +10,7 @@
 #include "CGameManager.h"
 
 CChikenNode::CChikenNode():
-_eState(state::EGG),
-_vec2Movement(Vec2(0, 0))
+_eState(state::EGG)
 {
     
 }
@@ -156,7 +155,7 @@ void CChikenNode::update(float dt)
                 Vec2 prePos = getPosition()+_vec2Movement;
                 prePos.y+=getContentSize().height/2;
                 prePos.x-=getContentSize().width/4;
-                CUtil::sTMXcrashTestValue value = CUtil::isCrashWithTMXTileMapSetting(CGameManager::getInstance()->getTileMap(), "bg", "wall", prePos);
+                CUtil::sTMXcrashTestValue value = CUtil::isCrashWithTMXTileMapSetting(CGameManager::getInstance()->getTileMap(), "bg", "wall", prePos, getMovement());
                 
                 if(value._pCrashTile!=NULL && !value._pCrashTile->getActionByTag(123))
                 {

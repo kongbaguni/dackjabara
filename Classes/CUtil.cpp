@@ -61,11 +61,11 @@ Vec2 CUtil::getCoordWithVec2(cocos2d::TMXTiledMap *tileMap, cocos2d::Vec2 vec)
     return Vec2(iXx,iY-iYy-1);
 }
 
-CUtil::sTMXcrashTestValue CUtil::isCrashWithTMXTileMapSetting(cocos2d::TMXTiledMap *tileMap, std::string layerName, std::string key, Node* node)
+CUtil::sTMXcrashTestValue CUtil::isCrashWithTMXTileMapSetting(cocos2d::TMXTiledMap *tileMap, std::string layerName, std::string key, CUnitNode* node)
 {
-    return CUtil::isCrashWithTMXTileMapSetting(tileMap, layerName, key, node->getPosition());
+    return CUtil::isCrashWithTMXTileMapSetting(tileMap, layerName, key, node->getPosition(), node->getMovement());
 }
-CUtil::sTMXcrashTestValue CUtil::isCrashWithTMXTileMapSetting(cocos2d::TMXTiledMap *tileMap, std::string layerName, std::string key, Vec2 pos)
+CUtil::sTMXcrashTestValue CUtil::isCrashWithTMXTileMapSetting(cocos2d::TMXTiledMap *tileMap, std::string layerName, std::string key, Vec2 pos, Vec2 movement)
 
 {
     sTMXcrashTestValue result;
@@ -90,6 +90,7 @@ CUtil::sTMXcrashTestValue CUtil::isCrashWithTMXTileMapSetting(cocos2d::TMXTiledM
         if("true"==collision)
         {
             result._bCrash = true;
+            result._eCrashDirction = CUtil::getMove8(movement);
         }
     }
     else

@@ -5,7 +5,7 @@
  </tileset>
  <layer name="bg" width="50" height="10">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA2NkYGBgHuKYaRC4YRSP4lE8ikfxKB5IDAAaFIL10AcAAA==
+   H4sIAAAAAAAAA+3SNw7CUBRE0W+RbaDDJBM6okn7Xxyn8R6evlyc7jYjTZFSKjJRs2bDlh17Gg4cOXFmFbDvdly5cefBk5YXbz58+XEJ2Hc7howYM2HKjJKKOQuWDAL2/a9i9f2vYvW5/SoHf7zRzOPQBwAA
   </data>
  </layer>
 </map>

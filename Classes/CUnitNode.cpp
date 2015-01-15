@@ -7,6 +7,7 @@
 //
 
 #include "CUnitNode.h"
+#include "CUtil.h"
 CUnitNode::CUnitNode():
 _pSprite(NULL),
 _pLabel(NULL),
@@ -15,7 +16,8 @@ _pProgressTimer1(NULL),
 _pProgressTimer2(NULL),
 _iHPmax(30),
 _iDamage(0),
-_iAttack(1)
+_iAttack(1),
+_vec2Movement(Vec2(0,0))
 {
     
 }
@@ -46,6 +48,7 @@ bool CUnitNode::init()
     setTimer(CTimer::create());
  
     setRotation3D(CUtil::getRotate3D());
+    _iDamage = 0;
     
     
     auto progress = Sprite::createWithSpriteFrameName("unit/progressBarBG.png");

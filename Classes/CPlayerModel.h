@@ -12,6 +12,8 @@
 #include <stdio.h>
 #include "CUtil.h"
 #include "CTimer.h"
+#include "cocos2d.h"
+
 
 class CPlayerModel : public Ref
 {

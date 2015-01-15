@@ -99,27 +99,33 @@ bool CGameScene::init()
         //        chicken->setScale(1.0f);
     }
 
-    
-    //    플레이어 초기화
-    
-    auto player = CPlayerCharacterNode::create();
-    if(player)
-    {
-        player->setPosition(winsize.width/2,10);
-        player->getSprite()->setScale(0.5f);
-        gameFeald->addChild(player);
-        CGameManager::getInstance()->setPlayerNode(player);
-    }
-    
-    
-//    게임매니져 붙이기
+
+    //    게임매니져 붙이기
     CGameManager::getInstance()->setGameField(gameFeald);
+
+    //    플레이어 초기화
+    makePlayer();
+    
     
     
     
     
     
     return true;
+}
+
+void CGameScene::makePlayer()
+{
+    auto player = CPlayerCharacterNode::create();
+    if(player)
+    {
+        Size winsize = Director::getInstance()->getWinSize();
+        player->setPosition(winsize.width/2,10);
+        player->getSprite()->setScale(0.5f);
+        CGameManager::getInstance()->getGameField()->addChild(player);
+        CGameManager::getInstance()->setPlayerNode(player);
+    }
+    
 }
 
 CGameScene::CGameScene()
@@ -140,6 +146,10 @@ void CGameScene::onEnter()
     addChild(CGameManager::getInstance(),(int)CUtil::zorderList::GAME_UI_Back,(int)CUtil::zorderList::GAME_UI_Back);
     CGameManager::getInstance()->getMainTimerNode()->scheduleUpdate();
     CGameManager::getInstance()->getMainTimerNode()->getTimer()->resume();
+    if(CGameManager::getInstance()->getPlayerNode()==NULL)
+    {
+        makePlayer();
+    }
     
 }
 void CGameScene::onExit()

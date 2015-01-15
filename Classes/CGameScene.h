@@ -21,6 +21,8 @@ public:
     CREATE_FUNC(CGameScene);
     virtual void onEnter();
     virtual void onExit();
+protected:
+    void makePlayer();
 };
 
 #endif /* defined(__shootinggamePrototype__CGameScene__) */

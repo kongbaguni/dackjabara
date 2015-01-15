@@ -38,7 +38,6 @@ protected:
     CChikenNode();
     ~CChikenNode();
     CC_SYNTHESIZE_READONLY(state, _eState, State);
-    CC_SYNTHESIZE_READONLY(Vec2, _vec2Movement, Movement);
     void resetTimer();
     
     void dead();

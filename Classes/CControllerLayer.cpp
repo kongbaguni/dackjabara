@@ -17,7 +17,7 @@ _pControllerLeftSelect(NULL),
 _pControllerLeftBg(NULL),
 _pControllerRightSelect(NULL),
 _pControllerRightBg(NULL),
-_fPlayerSpeed(2.5f)
+_fPlayerSpeed(5.0f)
 {
     std::string fileName = CUtil::getHDSDname("texturePacker/unit%s.plist");
     SpriteFrameCache::getInstance()->addSpriteFramesWithFile(fileName);
@@ -59,7 +59,7 @@ _fPlayerSpeed(2.5f)
         
         setControllerLeftSelect(Sprite::createWithSpriteFrameName("UI/control_left_select.png"));
         _pControllerLeftBg->addChild(_pControllerLeftSelect);
-        _pControllerLeftBg->setScale(0.5f);
+        _pControllerLeftBg->setOpacity(100);
         Size s = _pControllerLeftBg->getContentSize();
         _pControllerLeftSelect->setPosition(Vec2(s.width/2,s.height/2));
         _pControllerLeftSelect->setOpacity(0);
@@ -70,13 +70,13 @@ _fPlayerSpeed(2.5f)
         
         setControllerRightSelect(Sprite::createWithSpriteFrameName("UI/control_right_select.png"));
         _pControllerRightBg->addChild(_pControllerRightSelect);
-        _pControllerRightBg->setScale(0.5f);
         
         
         _pControllerLeftBg->setVisible(false);
         _pControllerRightBg->setVisible(false);
         _pControllerRightSelect->setPosition(s.width/2, s.height/2);
         _pControllerRightSelect->setOpacity(0);
+        _pControllerRightBg->setOpacity(100);
     }
     
 }
@@ -171,7 +171,7 @@ void CControllerLayer::onTouchesMoved(const std::vector<Touch *> &touches, cocos
                 break;
             default:
             {
-                _pControllerLeftSelect->setOpacity(255);
+                _pControllerLeftSelect->setOpacity(100);
                 _pControllerLeftSelect->setRotation(_vec2TouchMovement.getAngle()*-57.3f+90.0f);
             }
                 break;
@@ -194,7 +194,7 @@ void CControllerLayer::onTouchesMoved(const std::vector<Touch *> &touches, cocos
                 _pControllerRightSelect->setOpacity(0);
                 break;
             default:
-                _pControllerRightSelect->setOpacity(255);
+                _pControllerRightSelect->setOpacity(100);
                 _pControllerRightSelect->setRotation(CUtil::getMove8Rotate(movement));
                 break;
                 
@@ -235,6 +235,9 @@ void CControllerLayer::onTouchesEnded(const std::vector<Touch *> &touches, cocos
             case CUtil::eDirection8::DOWN_LEFT:
             case CUtil::eDirection8::DOWN_RIGHT:
                 CGameManager::getInstance()->getPlayerNode()->dashAction();
+                break;
+            case CUtil::eDirection8::DOWN:
+                onKeyReleased(EventKeyboard::KeyCode::KEY_ESCAPE, unused_event);
                 break;
             default:
                 break;

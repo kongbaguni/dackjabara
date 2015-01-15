@@ -10,7 +10,8 @@
 #define __dackjabara__CUnitNode__
 
 #include <stdio.h>
-#include "CUtil.h"
+#include "cocos2d.h"
+USING_NS_CC;
 #include "CTimer.h"
 
 class CUnitNode : public Node
@@ -37,6 +38,7 @@ protected:
     int _iDamage;
     
     CC_SYNTHESIZE(int, _iAttack, Attack);
+    CC_SYNTHESIZE(Vec2, _vec2Movement, Movement);
     
 };
 

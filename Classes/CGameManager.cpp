@@ -36,7 +36,10 @@ CGameManager::~CGameManager()
 void CGameManager::gameOver()
 {
     getParent()->removeChild(this);
-    CSceneManager::getInstance()->addScene(CGameScene::create(), "game");
+    _pPlayerNode->getModel().reset();
+    _pPlayerNode->init();
+   // CSceneManager::getInstance()->addScene(CGameScene::create(), "game");
+    Director::getInstance()->pushScene(CSceneManager::getInstance()->getScene("title"));
 }
 bool CGameManager::init()
 {
