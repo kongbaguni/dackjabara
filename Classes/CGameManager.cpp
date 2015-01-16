@@ -11,6 +11,7 @@
 #include "CSceneManager.h"
 #include "CGameScene.h"
 #include "CTitleScene.h"
+#include "CChikenNode.h"
 CGameManager::CGameManager():
 _pTileMap(NULL),
 _pPlayerNode(NULL),
@@ -36,10 +37,12 @@ CGameManager::~CGameManager()
 void CGameManager::gameOver()
 {
     getParent()->removeChild(this);
-    _pPlayerNode->getModel().reset();
-    _pPlayerNode->init();
+    _pPlayerNode->getModel()->reset();
+   // _pPlayerNode->init();
    // CSceneManager::getInstance()->addScene(CGameScene::create(), "game");
+    getMainTimerNode()->getTimer()->stop();
     Director::getInstance()->pushScene(CSceneManager::getInstance()->getScene("title"));
+    
 }
 bool CGameManager::init()
 {
@@ -84,6 +87,7 @@ void CGameManager::onEnter()
     _pMainTimerNode->setPosition3D
     (Vec3(tileSize.width/2,tileSize.height-50,-tileSize.height/2+1));
     schedule(schedule_selector(CGameManager::reorderUnitZindex));
+    scheduleUpdate();
 
     
 }
@@ -97,5 +101,25 @@ CGameManager* CGameManager::getInstance()
         instance->init();
     }
     return instance;
+}
+
+void CGameManager::update(float dt)
+{
+    if(_pGameField->getChildrenCount()<10 && _pGameField!=nullptr)
+    {
+        for(int i=0; i<40; i++)
+        {
+            float tw = _pTileMap->getContentSize().width/2;
+            float th = _pTileMap->getContentSize().height/2;
+            int x = CRandom::getInstnace()->Random(tw-50)+25;
+            int y = CRandom::getInstnace()->Random(th) - th/2;
+            
+            auto chicken = CChikenNode::create();
+            chicken->setPosition(x,y);
+            _pGameField->addChild(chicken,(int)CUtil::zorderList::BACKGROUND);
+            //        chicken->setScale(1.0f);
+        }
+        
+    }
 }
 

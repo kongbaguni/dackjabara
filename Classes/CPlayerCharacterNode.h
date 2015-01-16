@@ -47,7 +47,7 @@ protected:
     CC_SYNTHESIZE_READONLY(long,_lJumpStartTime,JumpStartTime);
     CC_SYNTHESIZE_READONLY(int, _iJumpCount, JumpCount);
     CC_SYNTHESIZE_READONLY(int, _iDashSpeed, DashSpeed);
-    CC_SYNTHESIZE(CPlayerCharacterModel, _cModel, Model);
+    CC_SYNTHESIZE_RETAIN(CPlayerCharacterModel*, _pModel, Model);
     CC_SYNTHESIZE_READONLY(int, _iChargeSpeed, ChargeSpeed);
     CC_SYNTHESIZE_RETAIN(Camera*, _pCamera, Camera);
     

@@ -53,13 +53,21 @@ bool CGameScene::init()
    CUtil::setTMXTileMapAntialias(tileMap);
     addChild(tileMap,(int)CUtil::zorderList::BACKGROUND);
     
-    
+
+    auto bgBack2 =TMXTiledMap::create("tilemap/map5.tmx");
+    bgBack2->setPosition3D(Vec3(0, tileMap->getContentSize().height*2,0));
+    bgBack2->setRotation3D(Vec3(90,0,0));
+    CUtil::setTMXTileMapAntialias(bgBack2);
+    tileMap->addChild(bgBack2);
+
   
     auto bgBack =TMXTiledMap::create("tilemap/map4.tmx");
     bgBack->setPosition3D(Vec3(0, tileMap->getContentSize().height,0));
     bgBack->setRotation3D(Vec3(90,0,0));
     CUtil::setTMXTileMapAntialias(bgBack);
     tileMap->addChild(bgBack);
+    
+    
     
     auto bgLeft =TMXTiledMap::create("tilemap/map3.tmx");
     bgLeft->setPosition3D(Vec3(0,0,bgLeft->getContentSize().width));
@@ -86,18 +94,7 @@ bool CGameScene::init()
 
 
     //닭 집어넣기
-    for(int i=0; i<10; i++)
-    {
-        float tw = tileMap->getContentSize().width/2;
-        float th = tileMap->getContentSize().height/2;
-        int x = CRandom::getInstnace()->Random(tw-50)+25;
-        int y = CRandom::getInstnace()->Random(th) - th/2;
-        
-        auto chicken = CChikenNode::create();
-        chicken->setPosition(x,y);
-        gameFeald->addChild(chicken,(int)CUtil::zorderList::BACKGROUND);
-        //        chicken->setScale(1.0f);
-    }
+
 
 
     //    게임매니져 붙이기

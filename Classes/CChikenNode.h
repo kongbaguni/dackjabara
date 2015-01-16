@@ -27,6 +27,7 @@ public:
         CHICK_DEAD,
         HEN,
         COCK,
+        STATE_MAX
     };
     enum class eAction
     {

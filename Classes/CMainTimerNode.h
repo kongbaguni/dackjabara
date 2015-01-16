@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include "CUtil.h"
 #include "CTimer.h"
+#include "CLabelAnimate.h"
 class CMainTimerNode : public Node
 {
 public:
@@ -25,6 +26,7 @@ protected:
     
     CC_SYNTHESIZE_RETAIN(CTimer*, _pTimer, Timer);
     CC_SYNTHESIZE_RETAIN(Label*, _pLabel, Label);
+    CC_SYNTHESIZE_RETAIN(CLabelAnimate*, _pLabelScore, LabelScore);
 };
 
 #endif /* defined(__dackjabara__CMainTimerNode__) */

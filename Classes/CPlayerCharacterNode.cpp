@@ -17,8 +17,10 @@ _pParticle(NULL),
 _iJumpCount(0),
 _iDashSpeed(1),
 _pCamera(NULL),
-_lJumpStartTime(0)
+_lJumpStartTime(0),
+_pModel(NULL)
 {
+    setModel(CPlayerCharacterModel::create());
     
     
 }
@@ -26,6 +28,7 @@ CPlayerCharacterNode::~CPlayerCharacterNode(void)
 {
     CC_SAFE_RELEASE_NULL(_pParticle);
     CC_SAFE_RELEASE_NULL(_pCamera);
+    CC_SAFE_RELEASE_NULL(_pModel);
 }
 
 bool CPlayerCharacterNode::init()
@@ -39,7 +42,7 @@ bool CPlayerCharacterNode::init()
     CAnimationHelper::addAnimation("unit/c1_%02d.png", 4, 2, "player_up",0.1f,true);
 
     setHPmax(500);
-    setAttack(10);
+    setAttack(1);
     auto sprite = getSprite();
     sprite->setSpriteFrame("unit/c1_01.png");
     sprite->setAnchorPoint(Vec2(0.5f, 0.0f));
@@ -59,7 +62,6 @@ bool CPlayerCharacterNode::init()
 
     scheduleUpdate();
     standAction();
-    _cModel.reset();
     
     Size winsize = Director::getInstance()->getWinSize();
     setCamera(Camera::createPerspective(50, winsize.width/winsize.height, 1, 3800));
@@ -124,7 +126,7 @@ void CPlayerCharacterNode::jumpAction()
 }
 void CPlayerCharacterNode::jumpActionWithEnergyUse(int iEnergy)
 {
-    if(!_cModel.useEnergy(iEnergy) || _cModel.getState()==CPlayerCharacterModel::state::DEAD)
+    if(!_pModel->useEnergy(iEnergy) || _pModel->getState()==CPlayerCharacterModel::state::DEAD || getHP()==0)
     {
         return;
     }
@@ -185,7 +187,7 @@ void CPlayerCharacterNode::dashAction()
     }
     
     Vec2 movement = CControllerLayer::getInstance()->getTouchMovement();
-    if(movement.length()==0 || _cModel.getEnergyPercent()<0.3f)
+    if(movement.length()==0 || _pModel->getEnergyPercent()<0.3f)
     {
         return;
     }
@@ -214,17 +216,18 @@ void CPlayerCharacterNode::update(float dt)
     CUnitNode::update(dt);
     
     //플레이어가 죽었다. 어떡해.... 행동불능 처리.
-    if(_cModel.getState()==CPlayerCharacterModel::state::DEAD)
+    if(_pModel->getState()==CPlayerCharacterModel::state::DEAD)
     {
         return;
     }
     
     if(getHP()==0)
     {
+        getProgressTimer1()->getParent()->setVisible(false);
         bool d = (bool)CRandom::getInstnace()->Random(1);
         float fd = d ? 90 : -90;
         getSprite()->stopAllActions();
-        _cModel.setState(CPlayerCharacterModel::state::DEAD);
+        _pModel->setState(CPlayerCharacterModel::state::DEAD);
         _pParticle->stopSystem();
         getSprite()->runAction
         (Sequence::create
@@ -255,7 +258,7 @@ void CPlayerCharacterNode::update(float dt)
     
     //프로그레스바 갱신
     {
-        float ff = _cModel.getEnergyPercent();
+        float ff = _pModel->getEnergyPercent();
         _pParticle->setStartColor(Color4F(1.0f, ff, ff, ff/2+0.5f));
         _pParticle->setEndColor(Color4F(0.0f, 0.0f, 1.0f, ff));
         chargeEnergy(dt);
@@ -362,7 +365,7 @@ void CPlayerCharacterNode::updateMovement(float dt)
         return;
     }
     
-    if(energy<200 && _cModel.useEnergy(energy) )
+    if(energy<200 && _pModel->useEnergy(energy) )
     {
         //케릭터 이동
         this->setPosition(this->getPosition()+movement);
@@ -393,7 +396,7 @@ void CPlayerCharacterNode::chargeEnergy(float dt)
     {
         return;
     }
-    _cModel.chargeEnergy(_iChargeSpeed);
+    _pModel->chargeEnergy(_iChargeSpeed);
     
     
 }

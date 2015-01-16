@@ -90,7 +90,6 @@ CUtil::sTMXcrashTestValue CUtil::isCrashWithTMXTileMapSetting(cocos2d::TMXTiledM
         if("true"==collision)
         {
             result._bCrash = true;
-            result._eCrashDirction = CUtil::getMove8(movement);
         }
     }
     else

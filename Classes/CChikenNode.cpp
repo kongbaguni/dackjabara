@@ -28,6 +28,7 @@ bool CChikenNode::init()
         return false;
     }
     
+    setAttack(0);
     auto _pSprite = getSprite();
     _pSprite->setSpriteFrame("unit/egg.png");
     setContentSize(_pSprite->getContentSize());
@@ -51,7 +52,6 @@ bool CChikenNode::init()
   //  getProgressTimer1()->getParent()->setRotation3D(Vec3(90, 0, 0));
     getProgressTimer1()->getParent()->setPosition(45.f, -5.0f);
     
-    setAttack(-10);
    
     return true;
 }
@@ -102,15 +102,15 @@ void CChikenNode::update(float dt)
             long pJumpTimeInterval = timeUtil::millisecondNow()-player->getJumpStartTime();
             
             bool bPlayerIsJumping = pSY > 30;
-            bool bPlayerIsAfertJump = pSY > 10 && !bPlayerIsJumping && pJumpTimeInterval>300;
-            bool bCrash = distance<25;
+            bool bPlayerIsAfertJump = pJumpTimeInterval>300;
+            bool bCrash = distance<40;
             bool bActionNotRun = getActionByTag((int)eAction::DEAD)==NULL;
-            if(bCrash & bActionNotRun)
+            if(bCrash & bActionNotRun & !bPlayerIsJumping)
             {
-                if(bPlayerIsAfertJump)
+                //if(bPlayerIsAfertJump)
                  {
-                    _pSprite->setColor(Color3B(255, 0, 0));
-                    addDamage(player->getAttack()*player->getJumpCount());
+                    _pSprite->setColor(Color3B(CRandom::getInstnace()->Random(155)+100,CRandom::getInstnace()->Random(155)+100 , 255));
+                    addDamage(player->getAttack()*(player->getJumpCount()*10+1));
                     getSprite()->
                     runAction
                     (CCSequence::create
@@ -130,15 +130,10 @@ void CChikenNode::update(float dt)
                         
                     }
                 }
-                else if(!bPlayerIsJumping)
-                {
-                    player->addDamage(getAttack());
-                    player->getSprite()->setColor(Color3B(255,0,0));
-                }
                 
             }else
             {
-                _pSprite->setColor(Color3B(255, 255, 255));
+                _pSprite->setColor(Color3B(255,255,255));
                 player->getSprite()->setColor(Color3B(255,255,255));
             }
         }
@@ -163,7 +158,7 @@ void CChikenNode::update(float dt)
                     action->setTag(123);
                     
                     value._pCrashTile->runAction(action);
-                    value._pCrashTile->setColor(Color3B(255,255,130));
+                    value._pCrashTile->setColor(Color3B(CRandom::getInstnace()->Random(155)+100,CRandom::getInstnace()->Random(155)+100 , 255));
                 }
                 
                 bool bCrashWall =value._bCrash;
@@ -252,7 +247,7 @@ void CChikenNode::update(float dt)
         }break;
         case state::HEN:
         {
-            if(getParent()->getChildrenCount()<100)
+            if(getParent()->getChildrenCount()<50)
             {
                 auto egg = CChikenNode::create();
                 getParent()->addChild(egg);
@@ -273,24 +268,27 @@ void CChikenNode::update(float dt)
             {
                 case state::EGG:
                     frameName+="egg.png";
+                    setHPmax(50);
                     break;
                 case state::EGG_BROKEN:
                     frameName+="eggBroken.png";
-                    setAttack(100);
+                    setHPmax(10);
                     break;
                 case state::CHICK:
                     frameName+="chick.png";
+                    setHPmax(60);
                     break;
                 case state::CHICK_DEAD:
                     frameName+="chickDead.png";
+                    setHPmax(10);
                     break;
                 case state::COCK:
                     frameName+="cock.png";
-                    setAttack(50);
+                    setHPmax(120);
                     break;
                 case state::HEN:
                     frameName+="hen.png";
-                    setAttack(10);
+                    setHPmax(200);
                     break;
                 default:
                     break;
@@ -305,6 +303,7 @@ void CChikenNode::update(float dt)
 }
 void CChikenNode::dead()
 {
+    CGameManager::getInstance()->getPlayerNode()->getModel()->addScoreWithChicken(this);
     removeFromParent();
 }
 

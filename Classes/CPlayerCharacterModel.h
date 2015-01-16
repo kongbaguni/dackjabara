@@ -11,8 +11,9 @@
 
 #include <stdio.h>
 #include "cocos2d.h"
+#include "CChikenNode.h"
 
-class CPlayerCharacterModel
+class CPlayerCharacterModel : public Ref
 {
 public:
     CPlayerCharacterModel();
@@ -28,11 +29,20 @@ public:
         FEFER,
         DEAD
     };
+  
+    void addScoreWithChicken(CChikenNode* chicken);
+    int getScore(CChikenNode::state state);
+    int getTotalScore();
+    virtual bool init(){return true;};
+    CREATE_FUNC(CPlayerCharacterModel);
+    
 protected:
     CC_SYNTHESIZE(int, _iEnergyMax, EnergyMax);
     CC_SYNTHESIZE_READONLY(int, _iEnergyUse, EnergyUse);
     CC_SYNTHESIZE(state, _eState, State);
+   
     
+    std::map<CChikenNode::state, int> _mapScore;
 };
 
 

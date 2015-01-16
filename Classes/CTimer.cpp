@@ -32,6 +32,11 @@ void CTimer::start()
     _lPauseTime = 0;
     
 }
+void CTimer::stop()
+{
+    _lStartTime = 0;
+    _lPauseTime = 0;
+}
 
 void CTimer::switchTimmer()
 {
@@ -57,6 +62,11 @@ void CTimer::pause()
 
 void CTimer::resume()
 {
+    if(!isStart())
+    {
+        start();
+        return;
+    }
     if(!isPause())
     {
         return;

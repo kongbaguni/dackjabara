@@ -41,6 +41,8 @@
 		1E69AF611A5F716F00B6B906 /* CPlayerCharacterModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1E69AF5F1A5F716F00B6B906 /* CPlayerCharacterModel.cpp */; };
 		1E69AF621A5F717900B6B906 /* CPlayerCharacterModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1E69AF5F1A5F716F00B6B906 /* CPlayerCharacterModel.cpp */; };
 		1E69AF651A5F720600B6B906 /* CPlayerModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1E69AF631A5F720600B6B906 /* CPlayerModel.cpp */; };
+		1EC1E6381A68FA8F00B6DA31 /* CLabelAnimate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1EC1E6361A68FA8F00B6DA31 /* CLabelAnimate.cpp */; };
+		1EC1E6391A69034100B6DA31 /* CLabelAnimate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1EC1E6361A68FA8F00B6DA31 /* CLabelAnimate.cpp */; };
 		1EC38DDB1A5E713900305BE1 /* CUnitNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1EC38DD91A5E713900305BE1 /* CUnitNode.cpp */; };
 		1EC38DDC1A5E713900305BE1 /* CUnitNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1EC38DD91A5E713900305BE1 /* CUnitNode.cpp */; };
 		1EF30E931A5BBED7003E32FC /* CRandom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1EF30E911A5BBED7003E32FC /* CRandom.cpp */; };
@@ -171,6 +173,8 @@
 		1E69AF601A5F716F00B6B906 /* CPlayerCharacterModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPlayerCharacterModel.h; sourceTree = "<group>"; };
 		1E69AF631A5F720600B6B906 /* CPlayerModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CPlayerModel.cpp; sourceTree = "<group>"; };
 		1E69AF641A5F720600B6B906 /* CPlayerModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPlayerModel.h; sourceTree = "<group>"; };
+		1EC1E6361A68FA8F00B6DA31 /* CLabelAnimate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CLabelAnimate.cpp; sourceTree = "<group>"; };
+		1EC1E6371A68FA8F00B6DA31 /* CLabelAnimate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLabelAnimate.h; sourceTree = "<group>"; };
 		1EC38DD91A5E713900305BE1 /* CUnitNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CUnitNode.cpp; sourceTree = "<group>"; };
 		1EC38DDA1A5E713900305BE1 /* CUnitNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CUnitNode.h; sourceTree = "<group>"; };
 		1EF30E911A5BBED7003E32FC /* CRandom.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CRandom.cpp; sourceTree = "<group>"; };
@@ -321,6 +325,8 @@
 				1E1C27EF1A59BBB600C15532 /* CPlayerCharacterNode.h */,
 				1E0FEDCB1A667EA600614696 /* CControllerLayer.cpp */,
 				1E0FEDCC1A667EA600614696 /* CControllerLayer.h */,
+				1EC1E6361A68FA8F00B6DA31 /* CLabelAnimate.cpp */,
+				1EC1E6371A68FA8F00B6DA31 /* CLabelAnimate.h */,
 			);
 			name = Node;
 			sourceTree = "<group>";
@@ -642,6 +648,7 @@
 			files = (
 				1E1C27F81A59BBB600C15532 /* CGameScene.cpp in Sources */,
 				1E1C27FA1A59BBB600C15532 /* CPlayerCharacterNode.cpp in Sources */,
+				1EC1E6381A68FA8F00B6DA31 /* CLabelAnimate.cpp in Sources */,
 				1E4340B71A62484A0045C4C5 /* CSceneManager.cpp in Sources */,
 				46880B8819C43A87006E1F66 /* AppDelegate.cpp in Sources */,
 				1E1C27FC1A59BBB600C15532 /* CTitleScene.cpp in Sources */,
@@ -682,6 +689,7 @@
 				1EF30E991A5BC0E3003E32FC /* CTimer.cpp in Sources */,
 				1EC38DDC1A5E713900305BE1 /* CUnitNode.cpp in Sources */,
 				46880B8919C43A87006E1F66 /* AppDelegate.cpp in Sources */,
+				1EC1E6391A69034100B6DA31 /* CLabelAnimate.cpp in Sources */,
 				1EF30E941A5BBED7003E32FC /* CRandom.cpp in Sources */,
 				503AE10517EB98FF00D1A890 /* main.cpp in Sources */,
 				1E4340B81A624C340045C4C5 /* CSceneManager.cpp in Sources */,
