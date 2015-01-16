@@ -60,7 +60,19 @@ bool CGameScene::init()
     CUtil::setTMXTileMapAntialias(bgBack2);
     tileMap->addChild(bgBack2);
 
-  
+    auto bgLeft2 =TMXTiledMap::create("tilemap/map3.tmx");
+    bgLeft2->setPosition3D(Vec3(0,bgLeft2->getContentSize().height,bgLeft2->getContentSize().width));
+    bgLeft2->setRotation3D(Vec3(0, 90, 0));
+    CUtil::setTMXTileMapAntialias(bgLeft2);
+    tileMap->addChild(bgLeft2);
+    
+    auto bgRight2 =TMXTiledMap::create("tilemap/map3.tmx");
+    bgRight2->setPosition3D(Vec3(tileMap->getContentSize().width,bgRight2->getContentSize().height,bgRight2->getContentSize().width));
+    bgRight2->setRotation3D(Vec3(0, 90, 0));
+    CUtil::setTMXTileMapAntialias(bgRight2);
+    tileMap->addChild(bgRight2);
+
+
     auto bgBack =TMXTiledMap::create("tilemap/map4.tmx");
     bgBack->setPosition3D(Vec3(0, tileMap->getContentSize().height,0));
     bgBack->setRotation3D(Vec3(90,0,0));

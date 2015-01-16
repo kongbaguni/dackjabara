@@ -3,9 +3,9 @@
  <tileset firstgid="1" name="map" tilewidth="32" tileheight="32">
   <image source="map.png" width="576" height="992"/>
  </tileset>
- <layer name="bg" width="50" height="10">
+ <layer name="bg" width="50" height="10" opacity="0.8">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA93TN0+DQQyHcUdCRAiJDUio2YCEvtHrRq8bvW70utHrRq+flSc6LKzTm3fJxvBTdIpjnfP3RUQk8k+0og2jGMMu9jCJKbSYmg50ogsxxFGCUpShHBWoRAKFKEJxFvWDGDKfek+9n86h3y9iCZe4wirWMGBqRkyfpDdjOxq8WbtRjR70og/9qAuoaw7ol8Is5syn3lPvp3PovfT3OqeeZ0yPBdMn15txGPnerOPIwYTpO428gLqCgH7RkBz0rHPovbRe59TzBjaxhR3527uYN+O8uD2xsy6L25MV03dd3F75dYmAfvGQHPSsc/jvwX8vNn+be9KbcVvcXtlZ98Xt1QEOcYRjcXvl1zUH9EuF5KD/s87hvwf/vdj8be7pvTrBKc5wLm6vLkzPa3F7dYNb3OFe3F75dQUB/aIhOWhOOkemHPRs87e5p/fqAY94wrO4vXrBK97wLm6vPvCJL3yL2yu/LhHQLx6Sg59Hphz0bPO3uSd/c68Vtyf14vaqEU3i9qRK3F7VZFGfKQc/j//gB52x27nQBwAA
+   H4sIAAAAAAAAA+3Suw6CQBSE4SUCKiqdgqBgJ+AF8f0fzr8hOcWGsHJiYSD5KmZnAxnPGOM5GnpcuzR7D0iQ4ogMOU44o0CJy8j7ZH5v6dfolf39d1So0eCGOx54osULHd4j/4vMXy39Gr2yv3/vI0CIJVZYI8IGW+wQY6GQ1+iV577ZlW0nrnmN3qm7su3ENa/RO+9q3tWvdvUPPq1TNTXQBwAA
   </data>
  </layer>
 </map>
