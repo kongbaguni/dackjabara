@@ -38,8 +38,8 @@ void CGameManager::gameOver()
 {
     getParent()->removeChild(this);
     _pPlayerNode->getModel()->reset();
-   // _pPlayerNode->init();
-   // CSceneManager::getInstance()->addScene(CGameScene::create(), "game");
+    CControllerLayer::getInstance()->setTouchMovement(Vec2::ZERO);
+    _pPlayerNode->setMovement(Vec2::ZERO);
     getMainTimerNode()->getTimer()->stop();
     Director::getInstance()->pushScene(CSceneManager::getInstance()->getScene("title"));
     
