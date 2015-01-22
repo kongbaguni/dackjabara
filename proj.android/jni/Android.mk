@@ -28,6 +28,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
 ../../Classes/CAnimationHelper.cpp \
 ../../Classes/CRandom.cpp \
 ../../Classes/CChikenNode.cpp \
+../../Classes/CLabelAnimate.cpp \
 ../../Classes/CUnitNode.cpp 
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes
