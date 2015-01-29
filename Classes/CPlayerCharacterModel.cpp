@@ -60,8 +60,7 @@ float CPlayerCharacterModel::getEnergyPercent()
     return result;
 }
 
-
-void CPlayerCharacterModel::addScoreWithChicken(CChikenNode *chicken)
+int CPlayerCharacterModel::getScoreWithChicken(CChikenNode *chicken)
 {
     int score = 1;
     switch (chicken->getState())
@@ -87,7 +86,12 @@ void CPlayerCharacterModel::addScoreWithChicken(CChikenNode *chicken)
         default:
             break;
     }
-    _mapScore[chicken->getState()]+=score;
+    return score;
+}
+
+void CPlayerCharacterModel::addScoreWithChicken(CChikenNode *chicken)
+{
+    _mapScore[chicken->getState()]+=getScoreWithChicken(chicken);
 }
 
 int CPlayerCharacterModel::getScore(CChikenNode::state state)

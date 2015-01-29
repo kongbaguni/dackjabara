@@ -13,7 +13,6 @@
 #include "CTitleScene.h"
 #include "CChikenNode.h"
 CGameManager::CGameManager():
-_pTileMap(NULL),
 _pPlayerNode(NULL),
 _pGameField(NULL),
 _pDebugLogLabel(NULL),
@@ -26,7 +25,6 @@ _pPauseLayer(NULL)
 CGameManager::~CGameManager()
 {
     CC_SAFE_RELEASE_NULL(_pPlayerNode);
-    CC_SAFE_RELEASE_NULL(_pTileMap);
     CC_SAFE_RELEASE_NULL(_pGameField);
     CC_SAFE_RELEASE_NULL(_pDebugLogLabel);
     CC_SAFE_RELEASE_NULL(_pMainTimerNode);
@@ -50,6 +48,7 @@ bool CGameManager::init()
     {
         return false;
     }
+    //Director::getInstance()->setDepthTest(true);
     
     Size winsize = Director::getInstance()->getWinSize();
     setDebugLogLabel(Label::createWithBMFont(CUtil::getHDSDname("fonts/title%s.fnt"), ""));
@@ -67,26 +66,13 @@ bool CGameManager::init()
     return true;
 }
 
-void CGameManager::reorderUnitZindex(float dt)
-{
-    Vector<Node*> childList = _pGameField->getChildren();
-    for(Vector<Node*>::iterator it = childList.begin();
-        it != childList.end();
-        ++it)
-    {
-        Node* child = *it;
-        int zorder = child->getPositionY()+_pTileMap->getContentSize().height;
-        zorder = _pTileMap->getContentSize().height*2-zorder + 1000;
-        child->setLocalZOrder(zorder);
-    }
-}
+
 void CGameManager::onEnter()
 {
     Node::onEnter();
-    Size tileSize = _pTileMap->getContentSize();
+    Size tileSize = _pGameField->getContentSize();
     _pMainTimerNode->setPosition3D
-    (Vec3(tileSize.width/2,tileSize.height-50,-tileSize.height/2+1));
-    schedule(schedule_selector(CGameManager::reorderUnitZindex));
+    (Vec3(tileSize.width/2,330,-tileSize.height+10));
     scheduleUpdate();
 
     
@@ -105,21 +91,42 @@ CGameManager* CGameManager::getInstance()
 
 void CGameManager::update(float dt)
 {
-    if(_pGameField->getChildrenCount()<10 && _pGameField!=nullptr)
+    insertEgg();
+
+}
+void CGameManager::insertEgg()
+{
+    int iCnt = 0;
+    for(auto node:_pGameField->getChildren())
     {
-        for(int i=0; i<40; i++)
+        if(node->getTag()==(int)CUtil::unitTag::UNIT)
         {
-            float tw = _pTileMap->getContentSize().width/2;
-            float th = _pTileMap->getContentSize().height/2;
-            int x = CRandom::getInstnace()->Random(tw-50)+25;
-            int y = CRandom::getInstnace()->Random(th) - th/2;
-            
+            iCnt++;
+        }
+    }
+    if(iCnt>10 || _pGameField==nullptr)
+    {
+        return;
+    }
+
+    for(int i=0; i<40; i++)
+    {
+        float tw = _pGameField->getContentSize().width;
+        float th = _pGameField->getContentSize().height;
+        int x = CRandom::getInstnace()->Random(tw-50)+25;
+        int y = CRandom::getInstnace()->Random(th-50)+25;
+        bool crash = CUtil::isCrashWithTMXTileMapSetting(_pGameField, "meta", "wall", Vec2(x,y),Vec2::ZERO)._bCrash;
+        if(!crash)
+        {
             auto chicken = CChikenNode::create();
             chicken->setPosition(x,y);
-            _pGameField->addChild(chicken,(int)CUtil::zorderList::BACKGROUND);
-            //        chicken->setScale(1.0f);
+            _pGameField->addChild(chicken,(int)CUtil::unitTag::UNIT,(int)CUtil::unitTag::UNIT);
         }
-        
+        else
+        {
+            i--;
+        }
     }
+    
 }
 

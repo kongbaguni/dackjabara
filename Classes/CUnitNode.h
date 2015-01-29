@@ -24,7 +24,8 @@ public:
     virtual void resume();
     
     void addDamage(int iDamage);
-    int getHP();
+    void heal(int iHeal);
+    void setHPmax(int iHPMax);
     
 protected:
     virtual void update(float dt);
@@ -34,8 +35,8 @@ protected:
     CC_SYNTHESIZE_RETAIN(ProgressTimer*, _pProgressTimer1, ProgressTimer1);
     CC_SYNTHESIZE_RETAIN(ProgressTimer*, _pProgressTimer2, ProgressTimer2);
 
-    CC_SYNTHESIZE(int, _iHPmax, HPmax);
-    int _iDamage;
+    CC_SYNTHESIZE_READONLY(int, _iHPmax, HPmax);
+    CC_SYNTHESIZE_READONLY(int ,_iHP,HP);
     
     CC_SYNTHESIZE(int, _iAttack, Attack);
     CC_SYNTHESIZE(Vec2, _vec2Movement, Movement);

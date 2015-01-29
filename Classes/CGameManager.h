@@ -31,9 +31,8 @@ private:
     virtual ~CGameManager();
     
 
-    CC_SYNTHESIZE_RETAIN(Node*, _pGameField, GameField);
+    CC_SYNTHESIZE_RETAIN(TMXTiledMap*, _pGameField, GameField);
     CC_SYNTHESIZE_RETAIN(CPlayerCharacterNode*, _pPlayerNode, PlayerNode);
-    CC_SYNTHESIZE_RETAIN(TMXTiledMap*, _pTileMap, TileMap);
     CC_SYNTHESIZE_RETAIN(Label*, _pDebugLogLabel, DebugLogLabel);
     CC_SYNTHESIZE_RETAIN(CMainTimerNode*, _pMainTimerNode, MainTimerNode);
     
@@ -43,9 +42,9 @@ private:
     
     
     virtual void onEnter();
-    
-    void reorderUnitZindex(float dt);
     virtual void update(float dt);
+    
+    void insertEgg();
     
 };
 

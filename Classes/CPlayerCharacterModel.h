@@ -30,6 +30,7 @@ public:
         DEAD
     };
   
+    int getScoreWithChicken(CChikenNode* chicken);
     void addScoreWithChicken(CChikenNode* chicken);
     int getScore(CChikenNode::state state);
     int getTotalScore();

@@ -27,28 +27,22 @@ bool CGameScene::init()
     colorBg1->setVector(Vec2(0,-h/4));
     addChild(colorBg1);
     colorBg1->setRotation3D(Vec3(0,0,0));
-    colorBg1->setPosition3D(Vec3(-winsize.width*5,0,-50));
-    colorBg1->setContentSize(Size(winsize.width*1000, winsize.height));
+    colorBg1->setPosition3D(Vec3(-winsize.width*5,-120,-1550));
+    colorBg1->setContentSize(Size(winsize.width*1000, winsize.height*2));
     
-    auto colorBg = LayerColor::create(Color4B(255, 255, 255, 255));
+    auto colorBg = LayerColor::create(Color4B(100, 150, 255, 255));
     addChild(colorBg);
     colorBg->setRotation3D(Vec3(-90,0,0));
-    colorBg->setPosition3D(Vec3(-winsize.width*5,-50,-50));
-    colorBg->setContentSize(winsize*1000);
+    colorBg->setPosition3D(Vec3(-winsize.width*5,-150,-50));
+    colorBg->setContentSize(winsize*10000);
     
 //    배경 레이어 초기화
-    auto gameFeald = Layer::create();
-    Vec3 r = CUtil::getRotate3D();
-    gameFeald->setRotation3D(Vec3(-r.x, 0, 0));
-    gameFeald->setPosition(Vec2(0.0f, 200.0f));
-    addChild(gameFeald,(int)CUtil::zorderList::GAME_FEALD);
     
 //    타일맵 초기화
     auto tileMap = TMXTiledMap::create("tilemap/map.tmx");
-    CGameManager::getInstance()->setTileMap(tileMap);
-    
-    tileMap->setPosition(Vec2(0,-winsize.height/2));
-    tileMap->setPosition3D(Vec3(0.0f, tileMap->getContentSize().height/3, winsize.height/2));
+    CGameManager::getInstance()->setGameField(tileMap);
+ //   tileMap->setPosition(Vec2(0.0f,-winsize.height/2));
+//    tileMap->setPosition3D(Vec3(0.0f, winsize.height/5, tileMap->getContentSize().height*0.25f));
     tileMap->setRotation3D(Vec3(-90, 0, 0));
    CUtil::setTMXTileMapAntialias(tileMap);
     addChild(tileMap,(int)CUtil::zorderList::BACKGROUND);
@@ -110,7 +104,7 @@ bool CGameScene::init()
 
 
     //    게임매니져 붙이기
-    CGameManager::getInstance()->setGameField(gameFeald);
+    CGameManager::getInstance()->setGameField(tileMap);
 
     //    플레이어 초기화
     makePlayer();
@@ -129,9 +123,9 @@ void CGameScene::makePlayer()
     if(player)
     {
         Size winsize = Director::getInstance()->getWinSize();
-        player->setPosition(winsize.width/2,10);
+        player->setPosition(winsize.width/2,100);
         player->getSprite()->setScale(0.5f);
-        CGameManager::getInstance()->getGameField()->addChild(player);
+        CGameManager::getInstance()->getGameField()->addChild(player,(int)CUtil::unitTag::UNIT,(int)CUtil::unitTag::UNIT);
         CGameManager::getInstance()->setPlayerNode(player);
     }
     

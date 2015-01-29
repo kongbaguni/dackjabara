@@ -49,16 +49,15 @@ void CUtil::setTMXTileMapAntialias(cocos2d::TMXTiledMap *tileMap)
 
 Vec2 CUtil::getCoordWithVec2(cocos2d::TMXTiledMap *tileMap, cocos2d::Vec2 vec)
 {
-    vec.y+=tileMap->getContentSize().height/2;
     Size size = tileMap->getContentSize();
     Size tileSzie = tileMap->getTileSize();
-//    int iX = size.width/tileSzie.width;
+    
     int iY = size.height/tileSzie.height;
-    
     int iXx = vec.x / tileSzie.width;
-    int iYy = vec.y / tileSzie.height;
+    int iYy = (vec.y / tileSzie.height);
     
-    return Vec2(iXx,iY-iYy-1);
+    
+    return Vec2(iXx,iY-iYy);
 }
 
 CUtil::sTMXcrashTestValue CUtil::isCrashWithTMXTileMapSetting(cocos2d::TMXTiledMap *tileMap, std::string layerName, std::string key, CUnitNode* node)

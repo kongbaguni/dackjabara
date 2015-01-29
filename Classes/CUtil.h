@@ -44,6 +44,11 @@ public:
         GAME_FEALD,
         GAME_UI_Front
     };
+    enum class unitTag
+    {
+        BACKGROUND = 10,
+        UNIT = 11,
+    };
     
     struct sTMXcrashTestValue
     {

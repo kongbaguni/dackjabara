@@ -253,7 +253,7 @@ void CPlayerCharacterNode::update(float dt)
         {
             fY = 0;
         }
-        _pCamera->setPosition3D(Vec3(pos.x,pos.y,pos.z-fY));
+        _pCamera->setPosition3D(Vec3(pos.x,pos.y,pos.z+fY));
     }
     
     //프로그레스바 갱신
@@ -291,12 +291,12 @@ void CPlayerCharacterNode::updateMovement(float dt)
     Vec2 pos = getPosition();
     
     Size winsize = Director::getInstance()->getWinSize();
-    Size mapSize = CGameManager::getInstance()->getTileMap()->getContentSize();
+    Size mapSize = CGameManager::getInstance()->getGameField()->getContentSize();
     Vec2 movement = CControllerLayer::getInstance()->getTouchMovement()*_iDashSpeed;
     Vec2 prePos = pos+movement;
     float fPadding = 30.0f;
-    const bool bROUT_TOP = prePos.y>mapSize.height/2-fPadding;
-    const bool bROUT_BOTTOM = prePos.y<-mapSize.height/2+fPadding;
+    const bool bROUT_TOP = prePos.y>mapSize.height-fPadding;
+    const bool bROUT_BOTTOM = prePos.y<fPadding;
     const bool bROUT_LEFT = prePos.x<fPadding;
     const bool bROUT_RIGHT = prePos.x>mapSize.width-fPadding;
     if(bROUT_TOP | bROUT_BOTTOM)
@@ -322,8 +322,8 @@ void CPlayerCharacterNode::updateMovement(float dt)
         Vec2 testpos = getPosition();
         testpos.y+=40;
         testpos+=movement;
-        bool bCharge =CUtil::isCrashWithTMXTileMapSetting(CGameManager::getInstance()->getTileMap(), "bg", "charge", testpos,movement)._bCrash;
-        CUtil::sTMXcrashTestValue value =CUtil::isCrashWithTMXTileMapSetting(CGameManager::getInstance()->getTileMap(), "bg", "wall", testpos, movement);
+        bool bCharge =CUtil::isCrashWithTMXTileMapSetting(CGameManager::getInstance()->getGameField(), "meta", "charge", testpos,movement)._bCrash;
+        CUtil::sTMXcrashTestValue value =CUtil::isCrashWithTMXTileMapSetting(CGameManager::getInstance()->getGameField(), "meta", "wall", testpos, movement);
 
         if(bCharge)
         {
@@ -350,7 +350,7 @@ void CPlayerCharacterNode::updateMovement(float dt)
         {
             auto action =Sequence::create(FadeTo::create(0.5f,100),FadeTo::create(2.0f,255), NULL);
             action->setTag(123);
-            value._pCrashTile->setColor(Color3B(255,255,255));
+            value._pCrashTile->setColor(Color3B(255,0,255));
             value._pCrashTile->runAction(action);
         }
         

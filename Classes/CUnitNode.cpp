@@ -15,7 +15,7 @@ _pTimer(NULL),
 _pProgressTimer1(NULL),
 _pProgressTimer2(NULL),
 _iHPmax(30),
-_iDamage(0),
+_iHP(30),
 _iAttack(1),
 _vec2Movement(Vec2(0,0))
 {
@@ -48,7 +48,7 @@ bool CUnitNode::init()
     setTimer(CTimer::create());
  
     setRotation3D(CUtil::getRotate3D());
-    _iDamage = 0;
+    _iHP = _iHPmax;
     
     
     auto progress = Sprite::createWithSpriteFrameName("unit/progressBarBG.png");
@@ -83,22 +83,36 @@ bool CUnitNode::init()
 
 void CUnitNode::addDamage(int iDamage)
 {
-    _iDamage+=iDamage;
-    if(_iDamage>_iHPmax)
+    _iHP-=iDamage;
+    if(_iHP<0)
     {
-        _iDamage = _iHPmax;
+        _iHP = 0;
     }
 }
-int CUnitNode::getHP()
+void CUnitNode::heal(int iHeal)
 {
-    int result = _iHPmax-_iDamage;
-    return result;
+    _iHP+=iHeal;
+    if(_iHP>=_iHPmax)
+    {
+        _iHP = _iHPmax;
+    }
+}
+void CUnitNode::setHPmax(int iHPMax)
+{
+    if(iHPMax>_iHPmax)
+    {
+        _iHP = iHPMax;
+    }
+    _iHPmax = iHPMax;
 }
 
 void CUnitNode::update(float dt)
 {
     float p = (float)getHP()/(float)_iHPmax*100.0f;
     _pProgressTimer2->setPercentage(p);
+    
+    setLocalZOrder(10000000-getPositionY());
+
 }
 
 void CUnitNode::pause()

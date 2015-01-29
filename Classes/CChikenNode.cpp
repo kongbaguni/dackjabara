@@ -31,8 +31,8 @@ bool CChikenNode::init()
     setAttack(0);
     auto _pSprite = getSprite();
     _pSprite->setSpriteFrame("unit/egg.png");
-    setContentSize(_pSprite->getContentSize());
-    setAnchorPoint(_pSprite->getAnchorPoint());
+  //  setContentSize(_pSprite->getContentSize());
+   // setAnchorPoint(_pSprite->getAnchorPoint());
     //_pSprite->setPosition(Vec2(_pSprite->getContentSize().width/2, -_pSprite->getContentSize().height));
     _pSprite->setAnchorPoint(Vec2(0.5f,0.0f));
                           
@@ -122,11 +122,39 @@ void CChikenNode::update(float dt)
                       
                     if(getHP()==0)
                     {
-                        getSprite()->runAction
+                        setMovement(Vec2::ZERO);
+                        unscheduleUpdate();
+                        getProgressTimer1()->getParent()->setVisible(false);
+                        getLabel()->setString(textUtil::addCommaText(CGameManager::getInstance()->getPlayerNode()->getModel()->getScoreWithChicken(this)));
+                        getLabel()->setVisible(true);
+                        getLabel()->setOpacity(0);
+                        
+                        getLabel()->runAction
                         (Sequence::create
-                         (FadeOut::create(1.0f),
-                          CallFunc::create(CC_CALLBACK_0(CChikenNode::dead, this))
-                          , NULL));
+                         (FadeIn::create(0.5f),
+                          EaseElasticInOut::create(MoveBy::create(3.0f, Vec2(0,500)), 0.5f),
+                          Spawn::create
+                          (FadeOut::create(2.0f),
+                           ScaleTo::create(2.0f, 3.0f),
+                           NULL),
+                          CallFunc::create(CC_CALLBACK_0(CChikenNode::dead, this)),
+                          NULL
+                          ));
+                        
+                        auto action =Sequence::create
+                        (EaseExponentialInOut::create(ScaleTo::create(0.5f, 1.5f, 0.5f)),
+                         EaseExponentialInOut::create(ScaleTo::create(0.5f, 1.0f)),
+                         Spawn::create
+                         (RotateBy::create(1.0f, 180),
+                          EaseExponentialInOut::create(MoveBy::create(1.0f, Vec2(0.0f,400.0f))),
+                          NULL),
+                         Spawn::create
+                         (EaseExponentialInOut::create(ScaleTo::create(0.5f, 2.0f)),
+                          FadeOut::create(0.5f),
+                          NULL)
+                         , NULL);
+                        getSprite()->runAction(action);
+                        
                         
                     }
                 }
@@ -150,7 +178,7 @@ void CChikenNode::update(float dt)
                 Vec2 prePos = getPosition()+_vec2Movement;
                 prePos.y+=getContentSize().height/2;
                 prePos.x-=getContentSize().width/4;
-                CUtil::sTMXcrashTestValue value = CUtil::isCrashWithTMXTileMapSetting(CGameManager::getInstance()->getTileMap(), "bg", "wall", prePos, getMovement());
+                CUtil::sTMXcrashTestValue value = CUtil::isCrashWithTMXTileMapSetting(CGameManager::getInstance()->getGameField(), "meta", "wall", prePos, getMovement());
                 
                 if(value._pCrashTile!=NULL && !value._pCrashTile->getActionByTag(123))
                 {
