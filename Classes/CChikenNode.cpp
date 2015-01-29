@@ -64,6 +64,11 @@ void CChikenNode::onEnter()
 
 void CChikenNode::update(float dt)
 {
+    if(getParent()==NULL)
+    {
+        return;
+    }
+
     CUnitNode::update(dt);
     getLabel()->setString(textUtil::addCommaText(getLocalZOrder()));
 
@@ -122,10 +127,16 @@ void CChikenNode::update(float dt)
                       
                     if(getHP()==0)
                     {
+                        CGameManager::getInstance()->getNextTargetNode()->catchChicken(this);
+
                         setMovement(Vec2::ZERO);
                         unscheduleUpdate();
                         getProgressTimer1()->getParent()->setVisible(false);
-                        getLabel()->setString(textUtil::addCommaText(CGameManager::getInstance()->getPlayerNode()->getModel()->getScoreWithChicken(this)));
+                        std::string str;
+                        str+=textUtil::addCommaText(CGameManager::getInstance()->getPlayerNode()->getModel()->getScoreWithChicken(this));
+                        str+=" : ";
+                        str+=textUtil::addCommaText(CGameManager::getInstance()->getNextTargetNode()->getCombo());
+                        getLabel()->setString(str);
                         getLabel()->setVisible(true);
                         getLabel()->setOpacity(0);
                         
@@ -154,6 +165,7 @@ void CChikenNode::update(float dt)
                           NULL)
                          , NULL);
                         getSprite()->runAction(action);
+                        return;
                         
                         
                     }
@@ -270,6 +282,7 @@ void CChikenNode::update(float dt)
         case state::CHICK_DEAD:
         case state::EGG_BROKEN:
         {
+            unscheduleUpdate();
             removeFromParentAndCleanup(true);
             return;
         }break;
@@ -325,18 +338,33 @@ void CChikenNode::update(float dt)
             
         }
     }
+    
     resetTimer();
     
     
 }
+
+
 void CChikenNode::dead()
 {
     CGameManager::getInstance()->getPlayerNode()->getModel()->addScoreWithChicken(this);
-    removeFromParent();
+    removeFromParentAndCleanup(true);
 }
 
 void CChikenNode::resetTimer()
 {
+    switch(_eState)
+    {
+        case state::EGG_BROKEN:
+        case state::CHICK_DEAD:
+            return;
+        default:
+            break;
+    }
+    if(getParent()==NULL)
+    {
+        return;
+    }
     if(getReferenceCount()==0 || getLabel()==NULL)
     {
         return;

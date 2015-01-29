@@ -15,6 +15,7 @@
 #include "CMainTimerNode.h"
 #include "CPauseLayer.h"
 #include "CControllerLayer.h"
+#include "CNextTargetPrintNode.h"
 
 #include <map>
 USING_NS_CC;
@@ -35,6 +36,7 @@ private:
     CC_SYNTHESIZE_RETAIN(CPlayerCharacterNode*, _pPlayerNode, PlayerNode);
     CC_SYNTHESIZE_RETAIN(Label*, _pDebugLogLabel, DebugLogLabel);
     CC_SYNTHESIZE_RETAIN(CMainTimerNode*, _pMainTimerNode, MainTimerNode);
+    CC_SYNTHESIZE_RETAIN(CNextTargetPrintNode*, _pNextTargetNode, NextTargetNode);
     
     CC_SYNTHESIZE_RETAIN(CPauseLayer*, _pPauseLayer, PauseLayer);
     CC_SYNTHESIZE_RETAIN(CControllerLayer*, _pControllerLayer, ControllerLayer);

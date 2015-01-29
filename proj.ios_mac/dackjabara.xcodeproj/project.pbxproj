@@ -45,6 +45,8 @@
 		1EC1E6391A69034100B6DA31 /* CLabelAnimate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1EC1E6361A68FA8F00B6DA31 /* CLabelAnimate.cpp */; };
 		1EC38DDB1A5E713900305BE1 /* CUnitNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1EC38DD91A5E713900305BE1 /* CUnitNode.cpp */; };
 		1EC38DDC1A5E713900305BE1 /* CUnitNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1EC38DD91A5E713900305BE1 /* CUnitNode.cpp */; };
+		1ED975561A7A947B0005E5F7 /* CNextTargetPrintNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1ED975541A7A947B0005E5F7 /* CNextTargetPrintNode.cpp */; };
+		1ED975571A7A947B0005E5F7 /* CNextTargetPrintNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1ED975541A7A947B0005E5F7 /* CNextTargetPrintNode.cpp */; };
 		1EF30E931A5BBED7003E32FC /* CRandom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1EF30E911A5BBED7003E32FC /* CRandom.cpp */; };
 		1EF30E941A5BBED7003E32FC /* CRandom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1EF30E911A5BBED7003E32FC /* CRandom.cpp */; };
 		1EF30E981A5BC0E3003E32FC /* CTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1EF30E961A5BC0E3003E32FC /* CTimer.cpp */; };
@@ -177,6 +179,8 @@
 		1EC1E6371A68FA8F00B6DA31 /* CLabelAnimate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLabelAnimate.h; sourceTree = "<group>"; };
 		1EC38DD91A5E713900305BE1 /* CUnitNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CUnitNode.cpp; sourceTree = "<group>"; };
 		1EC38DDA1A5E713900305BE1 /* CUnitNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CUnitNode.h; sourceTree = "<group>"; };
+		1ED975541A7A947B0005E5F7 /* CNextTargetPrintNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CNextTargetPrintNode.cpp; sourceTree = "<group>"; };
+		1ED975551A7A947B0005E5F7 /* CNextTargetPrintNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNextTargetPrintNode.h; sourceTree = "<group>"; };
 		1EF30E911A5BBED7003E32FC /* CRandom.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CRandom.cpp; sourceTree = "<group>"; };
 		1EF30E921A5BBED7003E32FC /* CRandom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRandom.h; sourceTree = "<group>"; };
 		1EF30E951A5BBFAB003E32FC /* CInlineFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CInlineFunctions.h; sourceTree = "<group>"; };
@@ -327,6 +331,8 @@
 				1E0FEDCC1A667EA600614696 /* CControllerLayer.h */,
 				1EC1E6361A68FA8F00B6DA31 /* CLabelAnimate.cpp */,
 				1EC1E6371A68FA8F00B6DA31 /* CLabelAnimate.h */,
+				1ED975541A7A947B0005E5F7 /* CNextTargetPrintNode.cpp */,
+				1ED975551A7A947B0005E5F7 /* CNextTargetPrintNode.h */,
 			);
 			name = Node;
 			sourceTree = "<group>";
@@ -667,6 +673,7 @@
 				1E69AF651A5F720600B6B906 /* CPlayerModel.cpp in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
+				1ED975561A7A947B0005E5F7 /* CNextTargetPrintNode.cpp in Sources */,
 				1E1C27F61A59BBB600C15532 /* CGameManager.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -684,6 +691,7 @@
 				1E1C27F71A59BBB600C15532 /* CGameManager.cpp in Sources */,
 				1E1C27FF1A59BBB600C15532 /* CUtil.cpp in Sources */,
 				1E1C27FB1A59BBB600C15532 /* CPlayerCharacterNode.cpp in Sources */,
+				1ED975571A7A947B0005E5F7 /* CNextTargetPrintNode.cpp in Sources */,
 				1EF30EA11A5BDC47003E32FC /* CPauseLayer.cpp in Sources */,
 				1E4340BC1A625C810045C4C5 /* CPauseScene.cpp in Sources */,
 				1EF30E991A5BC0E3003E32FC /* CTimer.cpp in Sources */,

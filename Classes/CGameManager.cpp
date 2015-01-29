@@ -17,7 +17,8 @@ _pPlayerNode(NULL),
 _pGameField(NULL),
 _pDebugLogLabel(NULL),
 _pMainTimerNode(NULL),
-_pPauseLayer(NULL)
+_pPauseLayer(NULL),
+_pNextTargetNode(NULL)
 {
       
     
@@ -29,6 +30,7 @@ CGameManager::~CGameManager()
     CC_SAFE_RELEASE_NULL(_pDebugLogLabel);
     CC_SAFE_RELEASE_NULL(_pMainTimerNode);
     CC_SAFE_RELEASE_NULL(_pPauseLayer);
+    CC_SAFE_RELEASE_NULL(_pNextTargetNode);
     
 }
 
@@ -63,6 +65,7 @@ bool CGameManager::init()
     
     setPauseLayer(CPauseLayer::create());
     
+    
     return true;
 }
 
@@ -75,6 +78,14 @@ void CGameManager::onEnter()
     (Vec3(tileSize.width/2,330,-tileSize.height+10));
     scheduleUpdate();
 
+    if(_pNextTargetNode==NULL)
+    {
+        setNextTargetNode(CNextTargetPrintNode::create());
+        addChild(_pNextTargetNode);
+        _pNextTargetNode->setPosition3D(_pMainTimerNode->getPosition3D());
+        _pNextTargetNode->setPosition(_pMainTimerNode->getPosition()+Vec2(0, -100));
+        _pNextTargetNode->setRotation3D(Vec3(90,0,0));
+    }
     
 }
 

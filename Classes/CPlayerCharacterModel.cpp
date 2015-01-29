@@ -7,6 +7,7 @@
 //
 
 #include "CPlayerCharacterModel.h"
+#include "CGameManager.h"
 CPlayerCharacterModel::CPlayerCharacterModel():
 _iEnergyMax(10000),
 _iEnergyUse(0),
@@ -86,7 +87,8 @@ int CPlayerCharacterModel::getScoreWithChicken(CChikenNode *chicken)
         default:
             break;
     }
-    return score;
+    int iCombo = CGameManager::getInstance()->getNextTargetNode()->getCombo()+1;
+    return score*iCombo;
 }
 
 void CPlayerCharacterModel::addScoreWithChicken(CChikenNode *chicken)
