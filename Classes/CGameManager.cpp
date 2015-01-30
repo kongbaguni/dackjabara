@@ -43,6 +43,7 @@ void CGameManager::gameOver()
     _pTitleLabel->runAction
     (Sequence::create
      (JumpBy::create(1.0f, Vec2::ZERO, 100, 1),
+      DelayTime::create(5.0f),
       CallFunc::create(CC_CALLBACK_0(CGameManager::gameOver_finish, this))
       , NULL));
 }
@@ -50,6 +51,7 @@ void CGameManager::gameOver()
 void CGameManager::gameOver_finish()
 {
     getParent()->removeChild(this);
+    _pTitleLabel->setString("");
     _pPlayerNode->getModel()->reset();
     CControllerLayer::getInstance()->setTouchMovement(Vec2::ZERO);
     _pPlayerNode->setMovement(Vec2::ZERO);
@@ -77,9 +79,7 @@ bool CGameManager::init()
     
     setPauseLayer(CPauseLayer::create());
     
-    setTitleLabel(Label::createWithBMFont(CUtil::getHDSDname("fonts/title%s.fnt"), "ttt"));
-    addChild(_pTitleLabel);
-    _pTitleLabel->setPosition(Vec2(winsize.width/2,winsize.height/4));
+    setTitleLabel(Label::createWithBMFont(CUtil::getHDSDname("fonts/title%s.fnt"), ""));
     
     
     return true;
@@ -88,19 +88,32 @@ bool CGameManager::init()
 
 void CGameManager::onEnter()
 {
+
     Node::onEnter();
     Size tileSize = _pGameField->getContentSize();
+    Size winsize = Director::getInstance()->getWinSize();
+    
     _pMainTimerNode->setPosition3D
     (Vec3(tileSize.width/2,330,-tileSize.height+10));
     scheduleUpdate();
 
+
+    if(_pTitleLabel->getParent()==NULL)
+    {
+        _pPlayerNode->addChild(_pTitleLabel,200);
+     //   _pTitleLabel->setPosition3D(Vec3(tileSize.width/2,120,-tileSize.height+50));
+    }
+
     if(_pNextTargetNode==NULL)
     {
         setNextTargetNode(CNextTargetPrintNode::create());
-        addChild(_pNextTargetNode);
-        _pNextTargetNode->setPosition3D(_pMainTimerNode->getPosition3D());
-        _pNextTargetNode->setPosition(_pMainTimerNode->getPosition()+Vec2(0, -100));
-        _pNextTargetNode->setRotation3D(Vec3(90,0,0));
+//        _pNextTargetNode->setPosition3D(_pMainTimerNode->getPosition3D());
+//        _pNextTargetNode->setPosition(_pMainTimerNode->getPosition()+Vec2(0, -100));
+//        _pNextTargetNode->setRotation3D(Vec3(90,0,0));
+    }
+    if(_pNextTargetNode->getParent()==NULL)
+    {
+        _pPlayerNode->addChild(_pNextTargetNode);
     }
     
 }
@@ -155,5 +168,14 @@ void CGameManager::insertEgg()
         }
     }
     
+}
+
+void CGameManager::pauseGame()
+{
+    Director::getInstance()->pushScene
+    (TransitionCrossFade::create
+     (0.5f,
+      CSceneManager::getInstance()->getScene("pause")
+      ));
 }
 

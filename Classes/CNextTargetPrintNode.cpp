@@ -55,10 +55,6 @@ void CNextTargetPrintNode::catchChicken(CChikenNode *chicken)
         
         _iCombo++;
     }
-    else
-    {
-        _iCombo = 0;
-    }
 }
 void CNextTargetPrintNode::changePictureWithNextState()
 {

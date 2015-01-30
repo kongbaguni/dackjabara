@@ -102,13 +102,21 @@ void CChikenNode::update(float dt)
             Vec2 posP = player->getPosition();
             Vec2 pos = getPosition();
             pos.x-=player->getContentSize().width/4;
+            
             float distance = pos.getDistance(posP);
+            float distanceParticle = pos.getDistance(player->getParticleAfterJump()->getPosition());
+            
             float pSY =player->getSprite()->getPositionY();
             long pJumpTimeInterval = timeUtil::millisecondNow()-player->getJumpStartTime();
+            int iPlayerJumpCnt = player->getJumpCount()+1;
+            
             
             bool bPlayerIsJumping = pSY > 30;
-            bool bPlayerIsAfertJump = pJumpTimeInterval>300;
-            bool bCrash = distance<40;
+            
+            bool bCrashWithPlayer = distance<40;
+            bool bCrashWithParticle = distanceParticle<100*iPlayerJumpCnt && player->getParticleAfterJump()->isActive();
+            bool bCrash = bCrashWithPlayer || bCrashWithParticle;
+            
             bool bActionNotRun = getActionByTag((int)eAction::DEAD)==NULL;
             if(bCrash & bActionNotRun & !bPlayerIsJumping)
             {

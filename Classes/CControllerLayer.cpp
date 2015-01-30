@@ -320,24 +320,7 @@ void CControllerLayer::onKeyReleased(EventKeyboard::KeyCode keyCode, cocos2d::Ev
             break;
         case cocos2d::EventKeyboard::KeyCode::KEY_ESCAPE:
         {
-            getParent()->removeChild(this);
-            Director::getInstance()->pushScene
-            (TransitionPageTurn::create
-             (0.5f,
-              CSceneManager::getInstance()->getScene("pause"),
-              true
-              ));
-            //
-            //            if(_pPauseLayer->getParent()==NULL)
-            //            {
-            //                Size winsize = Director::getInstance()->getWinSize();
-            //                _pPauseLayer->setPositionX(_pPlayerNode->getPositionX()-winsize.width/2);
-            //                getParent()->addChild(_pPauseLayer,(int)CUtil::zorderList::GAME_UI_Front);
-            //            }
-            //            else
-            //            {
-            //                getParent()->removeChild(_pPauseLayer,100);
-            //            }
+            CGameManager::getInstance()->pauseGame();
         }
             
             break;

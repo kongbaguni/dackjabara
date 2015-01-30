@@ -27,6 +27,8 @@ public:
 
     void gameOver();
     void gameOver_finish();
+    
+    void pauseGame();
 
 private:
     CGameManager();
