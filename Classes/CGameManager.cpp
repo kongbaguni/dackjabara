@@ -18,7 +18,8 @@ _pGameField(NULL),
 _pDebugLogLabel(NULL),
 _pMainTimerNode(NULL),
 _pPauseLayer(NULL),
-_pNextTargetNode(NULL)
+_pNextTargetNode(NULL),
+_pTitleLabel(NULL)
 {
       
     
@@ -31,16 +32,27 @@ CGameManager::~CGameManager()
     CC_SAFE_RELEASE_NULL(_pMainTimerNode);
     CC_SAFE_RELEASE_NULL(_pPauseLayer);
     CC_SAFE_RELEASE_NULL(_pNextTargetNode);
+    CC_SAFE_RELEASE_NULL(_pTitleLabel);
     
 }
 
 void CGameManager::gameOver()
 {
+    getMainTimerNode()->getTimer()->stop();
+    _pTitleLabel->setString("Game Over");
+    _pTitleLabel->runAction
+    (Sequence::create
+     (JumpBy::create(1.0f, Vec2::ZERO, 100, 1),
+      CallFunc::create(CC_CALLBACK_0(CGameManager::gameOver_finish, this))
+      , NULL));
+}
+
+void CGameManager::gameOver_finish()
+{
     getParent()->removeChild(this);
     _pPlayerNode->getModel()->reset();
     CControllerLayer::getInstance()->setTouchMovement(Vec2::ZERO);
     _pPlayerNode->setMovement(Vec2::ZERO);
-    getMainTimerNode()->getTimer()->stop();
     Director::getInstance()->pushScene(CSceneManager::getInstance()->getScene("title"));
     
 }
@@ -64,6 +76,10 @@ bool CGameManager::init()
 
     
     setPauseLayer(CPauseLayer::create());
+    
+    setTitleLabel(Label::createWithBMFont(CUtil::getHDSDname("fonts/title%s.fnt"), "ttt"));
+    addChild(_pTitleLabel);
+    _pTitleLabel->setPosition(Vec2(winsize.width/2,winsize.height/4));
     
     
     return true;

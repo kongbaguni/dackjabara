@@ -26,6 +26,7 @@ public:
     static CGameManager* getInstance();
 
     void gameOver();
+    void gameOver_finish();
 
 private:
     CGameManager();
@@ -40,6 +41,7 @@ private:
     
     CC_SYNTHESIZE_RETAIN(CPauseLayer*, _pPauseLayer, PauseLayer);
     CC_SYNTHESIZE_RETAIN(CControllerLayer*, _pControllerLayer, ControllerLayer);
+    CC_SYNTHESIZE_RETAIN(Label*, _pTitleLabel, TitleLabel);
 
     
     

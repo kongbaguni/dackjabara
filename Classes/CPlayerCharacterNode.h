@@ -44,19 +44,22 @@ protected:
     void chargeEnergy(float dt);
     
     CC_SYNTHESIZE_RETAIN(ParticleSystemQuad*, _pParticle, Particle);
+    CC_SYNTHESIZE_RETAIN(ParticleSystemQuad*, _pParticleAfterJump, ParticleAfterJump);
+    
     CC_SYNTHESIZE_READONLY(long,_lJumpStartTime,JumpStartTime);
     CC_SYNTHESIZE_READONLY(int, _iJumpCount, JumpCount);
     CC_SYNTHESIZE_READONLY(int, _iDashSpeed, DashSpeed);
     CC_SYNTHESIZE_RETAIN(CPlayerCharacterModel*, _pModel, Model);
     CC_SYNTHESIZE_READONLY(int, _iChargeSpeed, ChargeSpeed);
     CC_SYNTHESIZE_RETAIN(Camera*, _pCamera, Camera);
-    
     virtual void pause();
     virtual void resume();
     virtual void onEnter();
     virtual void onExit();
     
     void dead();
+    
+    void jumpAfterParticle();
  
 };
 

@@ -18,7 +18,8 @@ _iJumpCount(0),
 _iDashSpeed(1),
 _pCamera(NULL),
 _lJumpStartTime(0),
-_pModel(NULL)
+_pModel(NULL),
+_pParticleAfterJump(NULL)
 {
     setModel(CPlayerCharacterModel::create());
     
@@ -29,6 +30,7 @@ CPlayerCharacterNode::~CPlayerCharacterNode(void)
     CC_SAFE_RELEASE_NULL(_pParticle);
     CC_SAFE_RELEASE_NULL(_pCamera);
     CC_SAFE_RELEASE_NULL(_pModel);
+    CC_SAFE_RELEASE_NULL(_pParticleAfterJump);
 }
 
 bool CPlayerCharacterNode::init()
@@ -59,6 +61,10 @@ bool CPlayerCharacterNode::init()
     _pParticle->setPosition(this->getPosition());
     _pParticle->setPosition3D(Vec3(200,100,0));
     _pParticle->setScale(0.5f);
+    
+    setParticleAfterJump(ParticleSystemQuad::create("particle/p03.plist"));
+    _pParticleAfterJump->setPosition(Vec2::ZERO);
+    _pParticleAfterJump->stopSystem();
 
     scheduleUpdate();
     standAction();
@@ -142,7 +148,6 @@ void CPlayerCharacterNode::jumpActionWithEnergyUse(int iEnergy)
        (sprite->getPositionY()<80 || sprite->getPositionY()>110)
        )
     {
-        _iJumpCount++;
         return;
     }
     if(_iJumpCount>=2)
@@ -168,6 +173,7 @@ void CPlayerCharacterNode::jumpActionWithEnergyUse(int iEnergy)
       ),
      aniList[0],
      aniList[1],
+     CallFunc::create(CC_CALLBACK_0(CPlayerCharacterNode::jumpAfterParticle, this)),
      CallFunc::create(CC_CALLBACK_0(CPlayerCharacterNode::standAction, this)),
      NULL);
     action->setTag((int)actionTag::JUMP);
@@ -376,6 +382,7 @@ void CPlayerCharacterNode::updateMovement(float dt)
         if(_pParticle->getParent()==NULL)
         {
             getParent()->addChild(_pParticle);
+            getParent()->addChild(_pParticleAfterJump);
         }
         _pParticle->setPosition(getPosition());
     }
@@ -412,4 +419,12 @@ void CPlayerCharacterNode::resume()
 {
     _pCamera->resume();
     CUnitNode::resume();
+}
+
+void CPlayerCharacterNode::jumpAfterParticle()
+{
+    _pParticleAfterJump->setScale(_iJumpCount*0.5f);
+    _pParticleAfterJump->setPosition(getPosition());
+    _pParticleAfterJump->resetSystem();
+
 }
