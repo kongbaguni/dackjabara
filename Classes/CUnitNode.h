@@ -23,7 +23,7 @@ public:
     virtual void pause();
     virtual void resume();
     
-    void addDamage(int iDamage);
+    virtual bool addDamage(int iDamage);
     void heal(int iHeal);
     void setHPmax(int iHPMax);
     
@@ -40,6 +40,8 @@ protected:
     
     CC_SYNTHESIZE(int, _iAttack, Attack);
     CC_SYNTHESIZE(Vec2, _vec2Movement, Movement);
+    
+    void setColorReset(float dt);
     
 };
 

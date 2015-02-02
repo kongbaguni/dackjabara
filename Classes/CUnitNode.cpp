@@ -81,13 +81,18 @@ bool CUnitNode::init()
     return true;
 }
 
-void CUnitNode::addDamage(int iDamage)
+bool CUnitNode::addDamage(int iDamage)
 {
     _iHP-=iDamage;
     if(_iHP<0)
     {
         _iHP = 0;
+        return false;
     }
+    _pSprite->setColor(Color3B(255, 0, 0));
+    unschedule(schedule_selector(CUnitNode::setColorReset));
+    scheduleOnce(schedule_selector(CUnitNode::setColorReset), 1.0f);
+    return true;
 }
 void CUnitNode::heal(int iHeal)
 {
@@ -129,4 +134,9 @@ void CUnitNode::resume()
     _pSprite->resume();
     _pTimer->resume();
     _pLabel->resume();
+}
+
+void CUnitNode::setColorReset(float dt)
+{
+    _pSprite->setColor(Color3B(255, 255, 255));
 }

@@ -29,6 +29,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
 ../../Classes/CRandom.cpp \
 ../../Classes/CChikenNode.cpp \
 ../../Classes/CLabelAnimate.cpp \
+../../Classes/CNextTargetPrintNode.cpp \
 ../../Classes/CUnitNode.cpp 
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes

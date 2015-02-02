@@ -9,6 +9,7 @@
 #include "CTitleScene.h"
 #include "CSceneManager.h"
 #include "CUtil.h"
+#include "CGameManager.h"
 using namespace CocosDenshion;
 
 bool CTitleScene::init()
@@ -43,12 +44,13 @@ bool CTitleScene::init()
 
 void CTitleScene::changeScene(float dt)
 {
-   Director::getInstance()->pushScene(CSceneManager::getInstance()->getScene("game"));
+    Director::getInstance()->pushScene(CSceneManager::getInstance()->getScene("game"));
 }
 
 void CTitleScene::onEnter()
 {
     Scene::onEnter();
+    CGameManager::getInstance()->newGameInit();
     schedule(schedule_selector(CTitleScene::changeScene), 3.0f);
 
 }

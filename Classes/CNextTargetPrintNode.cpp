@@ -9,6 +9,7 @@
 #include "CNextTargetPrintNode.h"
 #include "CGameManager.h"
 #include "CRandom.h"
+#include "CAnimationHelper.h"
 CNextTargetPrintNode::CNextTargetPrintNode():
 _pTargetChicken(NULL),
 _iCombo(0)
@@ -21,6 +22,11 @@ CNextTargetPrintNode::~CNextTargetPrintNode()
     CC_SAFE_RELEASE_NULL(_pTargetChicken);
     
 }
+void CNextTargetPrintNode::reset()
+{
+    _iCombo = 0;
+    
+}
 bool CNextTargetPrintNode::init()
 {
     if(!Node::init())
@@ -28,11 +34,33 @@ bool CNextTargetPrintNode::init()
         return false;
     }
     
+    CAnimationHelper::addAnimation("UI/nextTarget_%02d.png", 1, 3, "nextTargetBubble");
+
+    auto bg = Sprite::createWithSpriteFrameName("UI/nextTarget_01.png");
+    bg->runAction
+    (RepeatForever::create(
+     Animate::create(AnimationCache::getInstance()->getAnimation("nextTargetBubble"))));
+    addChild(bg);
+    bg->setScale(0.5f);
+    bg->setPosition(Vec2(-20, 100));
     setTargetChicken(Sprite::createWithSpriteFrameName("unit/egg.png"));
-    _pTargetChicken->setRotation3D(Vec3(-90, 0, 0));
-    addChild(_pTargetChicken);
+    _pTargetChicken->setPosition(Vec2(100,100));
+    bg->addChild(_pTargetChicken);
+    _pTargetChicken->runAction
+    (RepeatForever::create
+     (Sequence::create
+      (EaseExponentialInOut::create(RotateTo::create(1.0f, -10.0f)),
+       EaseExponentialInOut::create(RotateTo::create(1.0f, 10.0f)),
+       NULL)));
+    
     
     return true;
+}
+
+void CNextTargetPrintNode::onEnter()
+{
+    Node::onEnter();
+    
 }
 
 void CNextTargetPrintNode::catchChicken(CChikenNode *chicken)

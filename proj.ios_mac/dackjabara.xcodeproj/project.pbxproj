@@ -41,12 +41,18 @@
 		1E69AF611A5F716F00B6B906 /* CPlayerCharacterModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1E69AF5F1A5F716F00B6B906 /* CPlayerCharacterModel.cpp */; };
 		1E69AF621A5F717900B6B906 /* CPlayerCharacterModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1E69AF5F1A5F716F00B6B906 /* CPlayerCharacterModel.cpp */; };
 		1E69AF651A5F720600B6B906 /* CPlayerModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1E69AF631A5F720600B6B906 /* CPlayerModel.cpp */; };
+		1EB4C26F1A7F074F00081513 /* CBulletNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1EB4C26D1A7F074F00081513 /* CBulletNode.cpp */; };
+		1EB4C2701A7F074F00081513 /* CBulletNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1EB4C26D1A7F074F00081513 /* CBulletNode.cpp */; };
+		1EB4C2721A7F570A00081513 /* effect in Resources */ = {isa = PBXBuildFile; fileRef = 1EB4C2711A7F570A00081513 /* effect */; };
+		1EB4C2731A7F570A00081513 /* effect in Resources */ = {isa = PBXBuildFile; fileRef = 1EB4C2711A7F570A00081513 /* effect */; };
 		1EC1E6381A68FA8F00B6DA31 /* CLabelAnimate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1EC1E6361A68FA8F00B6DA31 /* CLabelAnimate.cpp */; };
 		1EC1E6391A69034100B6DA31 /* CLabelAnimate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1EC1E6361A68FA8F00B6DA31 /* CLabelAnimate.cpp */; };
 		1EC38DDB1A5E713900305BE1 /* CUnitNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1EC38DD91A5E713900305BE1 /* CUnitNode.cpp */; };
 		1EC38DDC1A5E713900305BE1 /* CUnitNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1EC38DD91A5E713900305BE1 /* CUnitNode.cpp */; };
 		1ED975561A7A947B0005E5F7 /* CNextTargetPrintNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1ED975541A7A947B0005E5F7 /* CNextTargetPrintNode.cpp */; };
 		1ED975571A7A947B0005E5F7 /* CNextTargetPrintNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1ED975541A7A947B0005E5F7 /* CNextTargetPrintNode.cpp */; };
+		1ED9755A1A7BA8FB0005E5F7 /* CGameResultScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1ED975581A7BA8FB0005E5F7 /* CGameResultScene.cpp */; };
+		1ED9755B1A7BA8FB0005E5F7 /* CGameResultScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1ED975581A7BA8FB0005E5F7 /* CGameResultScene.cpp */; };
 		1EF30E931A5BBED7003E32FC /* CRandom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1EF30E911A5BBED7003E32FC /* CRandom.cpp */; };
 		1EF30E941A5BBED7003E32FC /* CRandom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1EF30E911A5BBED7003E32FC /* CRandom.cpp */; };
 		1EF30E981A5BC0E3003E32FC /* CTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1EF30E961A5BC0E3003E32FC /* CTimer.cpp */; };
@@ -175,12 +181,17 @@
 		1E69AF601A5F716F00B6B906 /* CPlayerCharacterModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPlayerCharacterModel.h; sourceTree = "<group>"; };
 		1E69AF631A5F720600B6B906 /* CPlayerModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CPlayerModel.cpp; sourceTree = "<group>"; };
 		1E69AF641A5F720600B6B906 /* CPlayerModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPlayerModel.h; sourceTree = "<group>"; };
+		1EB4C26D1A7F074F00081513 /* CBulletNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CBulletNode.cpp; sourceTree = "<group>"; };
+		1EB4C26E1A7F074F00081513 /* CBulletNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBulletNode.h; sourceTree = "<group>"; };
+		1EB4C2711A7F570A00081513 /* effect */ = {isa = PBXFileReference; lastKnownFileType = folder; path = effect; sourceTree = "<group>"; };
 		1EC1E6361A68FA8F00B6DA31 /* CLabelAnimate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CLabelAnimate.cpp; sourceTree = "<group>"; };
 		1EC1E6371A68FA8F00B6DA31 /* CLabelAnimate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLabelAnimate.h; sourceTree = "<group>"; };
 		1EC38DD91A5E713900305BE1 /* CUnitNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CUnitNode.cpp; sourceTree = "<group>"; };
 		1EC38DDA1A5E713900305BE1 /* CUnitNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CUnitNode.h; sourceTree = "<group>"; };
 		1ED975541A7A947B0005E5F7 /* CNextTargetPrintNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CNextTargetPrintNode.cpp; sourceTree = "<group>"; };
 		1ED975551A7A947B0005E5F7 /* CNextTargetPrintNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNextTargetPrintNode.h; sourceTree = "<group>"; };
+		1ED975581A7BA8FB0005E5F7 /* CGameResultScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CGameResultScene.cpp; sourceTree = "<group>"; };
+		1ED975591A7BA8FB0005E5F7 /* CGameResultScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CGameResultScene.h; sourceTree = "<group>"; };
 		1EF30E911A5BBED7003E32FC /* CRandom.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CRandom.cpp; sourceTree = "<group>"; };
 		1EF30E921A5BBED7003E32FC /* CRandom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRandom.h; sourceTree = "<group>"; };
 		1EF30E951A5BBFAB003E32FC /* CInlineFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CInlineFunctions.h; sourceTree = "<group>"; };
@@ -333,6 +344,8 @@
 				1EC1E6371A68FA8F00B6DA31 /* CLabelAnimate.h */,
 				1ED975541A7A947B0005E5F7 /* CNextTargetPrintNode.cpp */,
 				1ED975551A7A947B0005E5F7 /* CNextTargetPrintNode.h */,
+				1EB4C26D1A7F074F00081513 /* CBulletNode.cpp */,
+				1EB4C26E1A7F074F00081513 /* CBulletNode.h */,
 			);
 			name = Node;
 			sourceTree = "<group>";
@@ -363,6 +376,8 @@
 				1E4340B61A62484A0045C4C5 /* CSceneManager.h */,
 				1E4340B91A625B770045C4C5 /* CPauseScene.cpp */,
 				1E4340BA1A625B770045C4C5 /* CPauseScene.h */,
+				1ED975581A7BA8FB0005E5F7 /* CGameResultScene.cpp */,
+				1ED975591A7BA8FB0005E5F7 /* CGameResultScene.h */,
 			);
 			name = Scene;
 			sourceTree = "<group>";
@@ -420,6 +435,7 @@
 		46880B7519C43A67006E1F66 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				1EB4C2711A7F570A00081513 /* effect */,
 				1E1C27D91A59BB9F00C15532 /* BGM */,
 				1E1C27DA1A59BB9F00C15532 /* fonts */,
 				1E1C27DB1A59BB9F00C15532 /* particle */,
@@ -605,6 +621,7 @@
 				5087E78317EB970100C73F5D /* Icon-152.png in Resources */,
 				46880B8119C43A67006E1F66 /* HelloWorld.png in Resources */,
 				46880B7D19C43A67006E1F66 /* CloseSelected.png in Resources */,
+				1EB4C2721A7F570A00081513 /* effect in Resources */,
 				5087E77D17EB970100C73F5D /* Default-568h@2x.png in Resources */,
 				5087E78517EB970100C73F5D /* Icon-72.png in Resources */,
 				1E1C27DE1A59BB9F00C15532 /* BGM in Resources */,
@@ -641,6 +658,7 @@
 				521A8EAA19F11F5000D177D7 /* fonts in Resources */,
 				46880B7C19C43A67006E1F66 /* CloseNormal.png in Resources */,
 				1E1C27E71A59BB9F00C15532 /* tilemap in Resources */,
+				1EB4C2731A7F570A00081513 /* effect in Resources */,
 				46880B7E19C43A67006E1F66 /* CloseSelected.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -659,6 +677,7 @@
 				46880B8819C43A87006E1F66 /* AppDelegate.cpp in Sources */,
 				1E1C27FC1A59BBB600C15532 /* CTitleScene.cpp in Sources */,
 				1E69AF611A5F716F00B6B906 /* CPlayerCharacterModel.cpp in Sources */,
+				1ED9755A1A7BA8FB0005E5F7 /* CGameResultScene.cpp in Sources */,
 				1EF30EA41A5C11E0003E32FC /* CChikenNode.cpp in Sources */,
 				1E4340BB1A625B770045C4C5 /* CPauseScene.cpp in Sources */,
 				1EF30E9C1A5BD512003E32FC /* CMainTimerNode.cpp in Sources */,
@@ -670,6 +689,7 @@
 				1EF30E981A5BC0E3003E32FC /* CTimer.cpp in Sources */,
 				1E1C27F41A59BBB600C15532 /* CAnimationHelper.cpp in Sources */,
 				1E0FEDCD1A667EA600614696 /* CControllerLayer.cpp in Sources */,
+				1EB4C26F1A7F074F00081513 /* CBulletNode.cpp in Sources */,
 				1E69AF651A5F720600B6B906 /* CPlayerModel.cpp in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
@@ -685,7 +705,9 @@
 				1EF30E9D1A5BD512003E32FC /* CMainTimerNode.cpp in Sources */,
 				1E0FEDCE1A66813900614696 /* CControllerLayer.cpp in Sources */,
 				1E69AF621A5F717900B6B906 /* CPlayerCharacterModel.cpp in Sources */,
+				1EB4C2701A7F074F00081513 /* CBulletNode.cpp in Sources */,
 				1E1C27F91A59BBB600C15532 /* CGameScene.cpp in Sources */,
+				1ED9755B1A7BA8FB0005E5F7 /* CGameResultScene.cpp in Sources */,
 				1E1C27F51A59BBB600C15532 /* CAnimationHelper.cpp in Sources */,
 				1EF30EA51A5C11E0003E32FC /* CChikenNode.cpp in Sources */,
 				1E1C27F71A59BBB600C15532 /* CGameManager.cpp in Sources */,

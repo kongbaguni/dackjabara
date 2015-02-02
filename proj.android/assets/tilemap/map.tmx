@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="left-down" width="50" height="18" tilewidth="32" tileheight="32">
+<map version="1.0" orientation="orthogonal" renderorder="left-down" width="50" height="18" tilewidth="32" tileheight="32" nextobjectid="1">
  <tileset firstgid="1" name="map" tilewidth="32" tileheight="32">
   <image source="map.png" width="576" height="992"/>
   <tile id="0">
@@ -13,7 +13,7 @@
    </properties>
   </tile>
  </tileset>
- <layer name="bg" width="50" height="18">
+ <layer name="meta" width="50" height="18">
   <data encoding="base64" compression="gzip">
    H4sIAAAAAAAAA2NkYGBgHMWDCgvTEWOzjxI3DGd/qNIB4/IHqeaM+mPUH6P+GPUHPfyBDY/6Y2D8QS08EvwxFPFw9McoHjwYAMSD6k8QDgAA
   </data>

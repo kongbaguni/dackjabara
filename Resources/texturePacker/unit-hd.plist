@@ -56,6 +56,45 @@
                 <key>sourceSize</key>
                 <string>{370,370}</string>
             </dict>
+            <key>UI/nextTarget_01.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{846,2},{156,156}}</string>
+                <key>offset</key>
+                <string>{3,3}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{25,19},{156,156}}</string>
+                <key>sourceSize</key>
+                <string>{200,200}</string>
+            </dict>
+            <key>UI/nextTarget_02.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{846,318},{148,146}}</string>
+                <key>offset</key>
+                <string>{4,2}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{30,25},{148,146}}</string>
+                <key>sourceSize</key>
+                <string>{200,200}</string>
+            </dict>
+            <key>UI/nextTarget_03.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{846,160},{152,156}}</string>
+                <key>offset</key>
+                <string>{2,3}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{26,19},{152,156}}</string>
+                <key>sourceSize</key>
+                <string>{200,200}</string>
+            </dict>
             <key>unit/c1_01.png</key>
             <dict>
                 <key>frame</key>
@@ -137,7 +176,7 @@
             <key>unit/cock.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{846,2},{103,105}}</string>
+                <string>{{474,746},{103,105}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -261,7 +300,7 @@
             <key>size</key>
             <string>{1024,1024}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:f7c1a65fe0c25af05eec4c83fed2539d:15aed8d055c92c88b20017f4fe37522e:52ac833776d3de1ab64d6632c7113e8c$</string>
+            <string>$TexturePacker:SmartUpdate:98ad7bdea8d0811f7200a0643f1f43ef:c53435b9ca475b4a0b178f9d9199d719:52ac833776d3de1ab64d6632c7113e8c$</string>
             <key>textureFileName</key>
             <string>unit-hd.pvr.ccz</string>
         </dict>

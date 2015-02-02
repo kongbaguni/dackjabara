@@ -27,6 +27,7 @@ CLabelAnimate* CLabelAnimate::createWithBMFont
         ret->setNumber(iStartNumber);
         ret->setTargetNumber(iEndNumber);
         ret->setString(textUtil::addCommaText(iStartNumber));
+        ret->setChangeSpeed(0.1f);
 
         return ret;
     }
@@ -53,7 +54,7 @@ void CLabelAnimate::update(float dt)
     {
         return ;
     }
-    int i = ceilf(((float)(_iTargetNumber - _iNumber) *0.1f));
+    int i = ceilf(((float)(_iTargetNumber - _iNumber) *_fChangeSpeed));
     _iNumber+=i;
     
     setString(textUtil::addCommaText(_iNumber));

@@ -34,6 +34,8 @@ public:
     void jumpAction();
     void jumpActionWithEnergyUse(int iEnergy);
     void dashAction();
+    
+    void reset();
 protected:
     CPlayerCharacterNode(void);
     virtual ~CPlayerCharacterNode(void);
@@ -45,6 +47,7 @@ protected:
     
     CC_SYNTHESIZE_RETAIN(ParticleSystemQuad*, _pParticle, Particle);
     CC_SYNTHESIZE_RETAIN(ParticleSystemQuad*, _pParticleAfterJump, ParticleAfterJump);
+    CC_SYNTHESIZE_RETAIN(ParticleSystemQuad*, _pParticlePitan, ParticlePitan);
     
     CC_SYNTHESIZE_READONLY(long,_lJumpStartTime,JumpStartTime);
     CC_SYNTHESIZE_READONLY(int, _iJumpCount, JumpCount);
@@ -60,6 +63,7 @@ protected:
     void dead();
     
     void jumpAfterParticle();
+    virtual bool addDamage(int iDamage);
  
 };
 

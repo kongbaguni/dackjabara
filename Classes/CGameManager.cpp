@@ -19,7 +19,8 @@ _pDebugLogLabel(NULL),
 _pMainTimerNode(NULL),
 _pPauseLayer(NULL),
 _pNextTargetNode(NULL),
-_pTitleLabel(NULL)
+_pTitleLabel(NULL),
+_bGamdOver(false)
 {
       
     
@@ -46,16 +47,16 @@ void CGameManager::gameOver()
       DelayTime::create(5.0f),
       CallFunc::create(CC_CALLBACK_0(CGameManager::gameOver_finish, this))
       , NULL));
+    _bGamdOver = true;
 }
 
 void CGameManager::gameOver_finish()
 {
     getParent()->removeChild(this);
     _pTitleLabel->setString("");
-    _pPlayerNode->getModel()->reset();
     CControllerLayer::getInstance()->setTouchMovement(Vec2::ZERO);
     _pPlayerNode->setMovement(Vec2::ZERO);
-    Director::getInstance()->pushScene(CSceneManager::getInstance()->getScene("title"));
+    Director::getInstance()->pushScene(CSceneManager::getInstance()->getScene("gameResult"));
     
 }
 bool CGameManager::init()
@@ -85,9 +86,28 @@ bool CGameManager::init()
     return true;
 }
 
+void CGameManager::newGameInit()
+{
+    if(_pNextTargetNode)
+    {
+        _pNextTargetNode->reset();
+    }
+    if(_pPlayerNode)
+    {
+        _pPlayerNode->reset();
+    }
+    for(auto unit : _pGameField->getChildren())
+    {
+        if(typeid(unit) !=typeid(Sprite) && unit != _pPlayerNode)
+        {
+            removeChild(unit);
+        }
+    }
+}
 
 void CGameManager::onEnter()
 {
+    //newGameInit();
 
     Node::onEnter();
     Size tileSize = _pGameField->getContentSize();
@@ -96,20 +116,16 @@ void CGameManager::onEnter()
     _pMainTimerNode->setPosition3D
     (Vec3(tileSize.width/2,330,-tileSize.height+10));
     scheduleUpdate();
-
+    _bGamdOver = false;
 
     if(_pTitleLabel->getParent()==NULL)
     {
         _pPlayerNode->addChild(_pTitleLabel,200);
-     //   _pTitleLabel->setPosition3D(Vec3(tileSize.width/2,120,-tileSize.height+50));
     }
 
     if(_pNextTargetNode==NULL)
     {
         setNextTargetNode(CNextTargetPrintNode::create());
-//        _pNextTargetNode->setPosition3D(_pMainTimerNode->getPosition3D());
-//        _pNextTargetNode->setPosition(_pMainTimerNode->getPosition()+Vec2(0, -100));
-//        _pNextTargetNode->setRotation3D(Vec3(90,0,0));
     }
     if(_pNextTargetNode->getParent()==NULL)
     {

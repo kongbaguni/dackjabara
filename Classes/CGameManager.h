@@ -29,6 +29,7 @@ public:
     void gameOver_finish();
     
     void pauseGame();
+    void newGameInit();
 
 private:
     CGameManager();
@@ -46,7 +47,7 @@ private:
     CC_SYNTHESIZE_RETAIN(Label*, _pTitleLabel, TitleLabel);
 
     
-    
+    CC_SYNTHESIZE_READONLY(bool, _bGamdOver, IsGameOver);
     virtual void onEnter();
     virtual void update(float dt);
     

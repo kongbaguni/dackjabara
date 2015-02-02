@@ -19,7 +19,8 @@ _iDashSpeed(1),
 _pCamera(NULL),
 _lJumpStartTime(0),
 _pModel(NULL),
-_pParticleAfterJump(NULL)
+_pParticleAfterJump(NULL),
+_pParticlePitan(NULL)
 {
     setModel(CPlayerCharacterModel::create());
     
@@ -31,6 +32,7 @@ CPlayerCharacterNode::~CPlayerCharacterNode(void)
     CC_SAFE_RELEASE_NULL(_pCamera);
     CC_SAFE_RELEASE_NULL(_pModel);
     CC_SAFE_RELEASE_NULL(_pParticleAfterJump);
+    CC_SAFE_RELEASE_NULL(_pParticlePitan);
 }
 
 bool CPlayerCharacterNode::init()
@@ -43,6 +45,11 @@ bool CPlayerCharacterNode::init()
     CAnimationHelper::addAnimation("unit/c1_%02d.png", 3, 4, "player_down",0.1f,false);
     CAnimationHelper::addAnimation("unit/c1_%02d.png", 4, 2, "player_up",0.1f,true);
 
+    SimpleAudioEngine::getInstance()->preloadEffect("effect/jump.mp3");
+    SimpleAudioEngine::getInstance()->preloadEffect("effect/bowFire.mp3");
+    SimpleAudioEngine::getInstance()->preloadEffect("effect/punch.mp3");
+    SimpleAudioEngine::getInstance()->preloadEffect("effect/powerFailure.mp3");
+    
     setHPmax(500);
     setAttack(1);
     auto sprite = getSprite();
@@ -80,6 +87,9 @@ bool CPlayerCharacterNode::init()
 
     getProgressTimer1()->getParent()->setPosition(Vec2(58,240));
     
+    setParticlePitan(ParticleSystemQuad::create("particle/p05.plist"));
+    _pParticlePitan->setPosition(getPosition());
+    _pParticlePitan->stopSystem();
 
     
 
@@ -93,6 +103,7 @@ void CPlayerCharacterNode::onEnter()
     
     CControllerLayer::getInstance()->setPosition(-winsize.width*0.25f, -winsize.height/7);
     CControllerLayer::getInstance()->setScale(0.63);
+    _pParticle->setPosition(getPosition());
     
 }
 void CPlayerCharacterNode::onExit()
@@ -126,13 +137,33 @@ void CPlayerCharacterNode::standAction()
         getSprite()->runAction(MoveTo::create(1.0f, Vec2(sprite->getContentSize().width/2,0)));
     }
 }
+
+void CPlayerCharacterNode::reset()
+{
+    _pModel->reset();
+    if(_pParticle->getParent()==NULL)
+    {
+        getParent()->addChild(_pParticle);
+        _pParticle->resetSystem();
+    }
+    getSprite()->setOpacity(255);
+    getSprite()->setRotation(0);
+    heal(getHPmax());
+    getProgressTimer1()->getParent()->setVisible(true);
+    _pParticle->resetSystem();
+    standAction();
+}
 void CPlayerCharacterNode::jumpAction()
 {
     jumpActionWithEnergyUse(100);
 }
 void CPlayerCharacterNode::jumpActionWithEnergyUse(int iEnergy)
 {
-    if(!_pModel->useEnergy(iEnergy) || _pModel->getState()==CPlayerCharacterModel::state::DEAD || getHP()==0)
+    if(!_pModel->useEnergy(iEnergy) ||
+       _pModel->getState()==CPlayerCharacterModel::state::DEAD ||
+       getHP()==0 ||
+       CGameManager::getInstance()->getIsGameOver()
+       )
     {
         return;
     }
@@ -171,9 +202,9 @@ void CPlayerCharacterNode::jumpActionWithEnergyUse(int iEnergy)
       JumpTo::create(1.0f, centerBottom, 100.0f, 1),
       NULL
       ),
+     CallFunc::create(CC_CALLBACK_0(CPlayerCharacterNode::jumpAfterParticle, this)),
      aniList[0],
      aniList[1],
-     CallFunc::create(CC_CALLBACK_0(CPlayerCharacterNode::jumpAfterParticle, this)),
      CallFunc::create(CC_CALLBACK_0(CPlayerCharacterNode::standAction, this)),
      NULL);
     action->setTag((int)actionTag::JUMP);
@@ -181,6 +212,7 @@ void CPlayerCharacterNode::jumpActionWithEnergyUse(int iEnergy)
     sprite->runAction(action);
     _pCamera->runAction(JumpBy::create(1.0f, Vec2(0, 0), 50, 1));
     _lJumpStartTime = timeUtil::millisecondNow();
+    SimpleAudioEngine::getInstance()->playEffect("effect/jump.mp3");
 
     
 }
@@ -214,7 +246,6 @@ void CPlayerCharacterNode::dashAction()
 }
 void CPlayerCharacterNode::dead()
 {
-    removeChild(getSprite());
     CGameManager::getInstance()->gameOver();
 }
 void CPlayerCharacterNode::update(float dt)
@@ -222,13 +253,16 @@ void CPlayerCharacterNode::update(float dt)
     CUnitNode::update(dt);
     
     //플레이어가 죽었다. 어떡해.... 행동불능 처리.
-    if(_pModel->getState()==CPlayerCharacterModel::state::DEAD)
+    if(_pModel->getState()==CPlayerCharacterModel::state::DEAD ||
+       CGameManager::getInstance()->getIsGameOver()
+       )
     {
         return;
     }
     
     if(getHP()==0)
     {
+        SimpleAudioEngine::getInstance()->playEffect("effect/powerFailure.mp3");
         getProgressTimer1()->getParent()->setVisible(false);
         bool d = (bool)CRandom::getInstnace()->Random(1);
         float fd = d ? 90 : -90;
@@ -382,7 +416,14 @@ void CPlayerCharacterNode::updateMovement(float dt)
         if(_pParticle->getParent()==NULL)
         {
             getParent()->addChild(_pParticle);
+        }
+        if(_pParticleAfterJump->getParent()==NULL)
+        {
             getParent()->addChild(_pParticleAfterJump);
+        }
+        if(_pParticlePitan->getParent()==NULL)
+        {
+            getParent()->addChild(_pParticlePitan);
         }
         _pParticle->setPosition(getPosition());
     }
@@ -423,8 +464,21 @@ void CPlayerCharacterNode::resume()
 
 void CPlayerCharacterNode::jumpAfterParticle()
 {
+    SimpleAudioEngine::getInstance()->playEffect("effect/bowFire.mp3");
     _pParticleAfterJump->setScale(_iJumpCount*0.5f);
     _pParticleAfterJump->setPosition(getPosition());
     _pParticleAfterJump->resetSystem();
 
+}
+
+bool CPlayerCharacterNode::addDamage(int iDamage)
+{
+    if(!CUnitNode::addDamage(iDamage))
+    {
+        return false;
+    }
+    _pParticlePitan->resetSystem();
+    _pParticlePitan->setPosition(getPosition());
+    SimpleAudioEngine::getInstance()->playEffect("effect/punch.mp3");
+    return true;
 }

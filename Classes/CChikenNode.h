@@ -44,6 +44,8 @@ protected:
     void dead();
     virtual void onEnter();
     
+    void shot();
+    
 };
 
 #endif /* defined(__dackjabara__CChikenNode__) */

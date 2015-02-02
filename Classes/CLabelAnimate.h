@@ -27,6 +27,7 @@ protected:
     virtual void onExit();
     CC_SYNTHESIZE(int, _iNumber, Number);
     CC_SYNTHESIZE(int, _iTargetNumber, TargetNumber);
+    CC_SYNTHESIZE(float, _fChangeSpeed, ChangeSpeed);
 
 };
 

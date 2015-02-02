@@ -8,6 +8,7 @@
 
 #include "CChikenNode.h"
 #include "CGameManager.h"
+#include "CBulletNode.h"
 
 CChikenNode::CChikenNode():
 _eState(state::EGG)
@@ -114,7 +115,7 @@ void CChikenNode::update(float dt)
             bool bPlayerIsJumping = pSY > 30;
             
             bool bCrashWithPlayer = distance<40;
-            bool bCrashWithParticle = distanceParticle<100*iPlayerJumpCnt && player->getParticleAfterJump()->isActive();
+            bool bCrashWithParticle = distanceParticle<150*iPlayerJumpCnt && player->getParticleAfterJump()->getChildrenCount()>20;
             bool bCrash = bCrashWithPlayer || bCrashWithParticle;
             
             bool bActionNotRun = getActionByTag((int)eAction::DEAD)==NULL;
@@ -290,8 +291,9 @@ void CChikenNode::update(float dt)
         case state::CHICK_DEAD:
         case state::EGG_BROKEN:
         {
-            unscheduleUpdate();
-            removeFromParentAndCleanup(true);
+           // unscheduleUpdate();
+         //   removeFromParentAndCleanup(true);
+            getTimer()->pause();
             return;
         }break;
         case state::HEN:
@@ -303,6 +305,10 @@ void CChikenNode::update(float dt)
                 egg->setPosition(getPosition());
                 getSprite()->runAction(JumpBy::create(0.3f, Vec2(0,0), 50, 1));
             }
+        }
+        case state::COCK:
+        {
+            shot();
         }break;
         default:
             break;
@@ -352,6 +358,19 @@ void CChikenNode::update(float dt)
     
 }
 
+void CChikenNode::shot()
+{
+    for(float i=0.0f; i<3.14f; i+=0.5f)
+    {
+        i+=(CRandom::getInstnace()->Random(10)*0.1f);
+        auto bullet = CBulletNode::create();
+        bullet->setMovement(Vec2(sinf(i),cosf(i)));
+        bullet->setPosition(getPosition());
+        CGameManager::getInstance()->getGameField()->addChild(bullet);
+        
+    }
+    
+}
 
 void CChikenNode::dead()
 {
