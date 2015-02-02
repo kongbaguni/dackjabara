@@ -20,7 +20,8 @@ _pCamera(NULL),
 _lJumpStartTime(0),
 _pModel(NULL),
 _pParticleAfterJump(NULL),
-_pParticlePitan(NULL)
+_pParticlePitan(NULL),
+_iMoveingSoundId(0)
 {
     setModel(CPlayerCharacterModel::create());
     
@@ -49,6 +50,8 @@ bool CPlayerCharacterNode::init()
     SimpleAudioEngine::getInstance()->preloadEffect("effect/bowFire.mp3");
     SimpleAudioEngine::getInstance()->preloadEffect("effect/punch.mp3");
     SimpleAudioEngine::getInstance()->preloadEffect("effect/powerFailure.mp3");
+    SimpleAudioEngine::getInstance()->preloadEffect("effect/sciFiRobot.mp3");
+    
     
     setHPmax(500);
     setAttack(1);
@@ -213,6 +216,7 @@ void CPlayerCharacterNode::jumpActionWithEnergyUse(int iEnergy)
     _pCamera->runAction(JumpBy::create(1.0f, Vec2(0, 0), 50, 1));
     _lJumpStartTime = timeUtil::millisecondNow();
     SimpleAudioEngine::getInstance()->playEffect("effect/jump.mp3");
+    SimpleAudioEngine::getInstance()->pauseEffect(_iMoveingSoundId);
 
     
 }
@@ -330,9 +334,25 @@ void CPlayerCharacterNode::updateMovement(float dt)
     
     Vec2 pos = getPosition();
     
+    static Vec2 oldMovement = Vec2::ZERO;
+    static bool oldFlip = false;
     Size winsize = Director::getInstance()->getWinSize();
     Size mapSize = CGameManager::getInstance()->getGameField()->getContentSize();
     Vec2 movement = CControllerLayer::getInstance()->getTouchMovement()*_iDashSpeed;
+    if((oldMovement==Vec2::ZERO && movement != Vec2::ZERO)
+       || oldFlip != getSprite()->isFlippedX())
+    {
+        SimpleAudioEngine::getInstance()->stopEffect(_iMoveingSoundId);
+        _iMoveingSoundId = SimpleAudioEngine::getInstance()->playEffect("effect/sciFiRobot.mp3");
+    }
+    if(movement==Vec2::ZERO && oldMovement != Vec2::ZERO)
+    {
+        SimpleAudioEngine::getInstance()->stopEffect(_iMoveingSoundId);
+    }
+    oldMovement = movement;
+    oldFlip = getSprite()->isFlippedX();
+
+    
     Vec2 prePos = pos+movement;
     float fPadding = 30.0f;
     const bool bROUT_TOP = prePos.y>mapSize.height-fPadding;
@@ -465,6 +485,8 @@ void CPlayerCharacterNode::resume()
 void CPlayerCharacterNode::jumpAfterParticle()
 {
     SimpleAudioEngine::getInstance()->playEffect("effect/bowFire.mp3");
+    
+    SimpleAudioEngine::getInstance()->resumeEffect(_iMoveingSoundId);
     _pParticleAfterJump->setScale(_iJumpCount*0.5f);
     _pParticleAfterJump->setPosition(getPosition());
     _pParticleAfterJump->resetSystem();

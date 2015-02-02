@@ -29,6 +29,7 @@ bool CChikenNode::init()
         return false;
     }
     
+    SimpleAudioEngine::getInstance()->preloadEffect("effect/roosterCrow.mp3");
     setAttack(0);
     auto _pSprite = getSprite();
     _pSprite->setSpriteFrame("unit/egg.png");
@@ -108,7 +109,6 @@ void CChikenNode::update(float dt)
             float distanceParticle = pos.getDistance(player->getParticleAfterJump()->getPosition());
             
             float pSY =player->getSprite()->getPositionY();
-            long pJumpTimeInterval = timeUtil::millisecondNow()-player->getJumpStartTime();
             int iPlayerJumpCnt = player->getJumpCount()+1;
             
             
@@ -279,13 +279,14 @@ void CChikenNode::update(float dt)
             {
                 _eState = state::CHICK_DEAD;
             }
-            else if(iRnd<90)
+            else if(iRnd<80)
             {
                 _eState = state::HEN;
             }
             else
             {
                 _eState = state::COCK;
+                getTimer()->setMaxTime(2);
             }
         }break;
         case state::CHICK_DEAD:
@@ -305,7 +306,7 @@ void CChikenNode::update(float dt)
                 egg->setPosition(getPosition());
                 getSprite()->runAction(JumpBy::create(0.3f, Vec2(0,0), 50, 1));
             }
-        }
+        }break;
         case state::COCK:
         {
             shot();
@@ -360,15 +361,16 @@ void CChikenNode::update(float dt)
 
 void CChikenNode::shot()
 {
-    for(float i=0.0f; i<3.14f; i+=0.5f)
+    SimpleAudioEngine::getInstance()->playEffect("effect/roosterCrow.mp3");
+    float f =CRandom::getInstnace()->Random(100)*0.01f;
+    for(float i=0; i<20.0f; i++)
     {
-        i+=(CRandom::getInstnace()->Random(10)*0.1f);
         auto bullet = CBulletNode::create();
-        bullet->setMovement(Vec2(sinf(i),cosf(i)));
+        bullet->setMovement(Vec2(sinf(i*f),cosf(i*f)));
         bullet->setPosition(getPosition());
         CGameManager::getInstance()->getGameField()->addChild(bullet);
-        
     }
+    getSprite()->runAction(JumpBy::create(0.3f, Vec2::ZERO, 100, 1));
     
 }
 

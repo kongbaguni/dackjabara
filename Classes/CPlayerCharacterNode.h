@@ -60,6 +60,7 @@ protected:
     virtual void onEnter();
     virtual void onExit();
     
+    int _iMoveingSoundId;
     void dead();
     
     void jumpAfterParticle();
