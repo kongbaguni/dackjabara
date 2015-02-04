@@ -63,26 +63,26 @@ float CPlayerCharacterModel::getEnergyPercent()
 
 int CPlayerCharacterModel::getScoreWithChicken(CChikenNode *chicken)
 {
-    int score = 1;
+    int score = 100;
     switch (chicken->getState())
     {
         case CChikenNode::state::EGG:
-            score = 5;
-            break;
-        case CChikenNode::state::EGG_BROKEN:
-            score = 200;
-            break;
-        case CChikenNode::state::CHICK:
-            score = 50;
-            break;
-        case CChikenNode::state::CHICK_DEAD:
-            score = 500;
-            break;
-        case CChikenNode::state::COCK:
             score = 100;
             break;
-        case CChikenNode::state::HEN:
+        case CChikenNode::state::EGG_BROKEN:
+            score = 300;
+            break;
+        case CChikenNode::state::CHICK:
+            score = 110;
+            break;
+        case CChikenNode::state::CHICK_DEAD:
             score = 200;
+            break;
+        case CChikenNode::state::COCK:
+            score = 5000;
+            break;
+        case CChikenNode::state::HEN:
+            score = 10000;
             break;
         default:
             break;

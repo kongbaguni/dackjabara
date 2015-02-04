@@ -62,6 +62,11 @@ void CMainTimerNode::update(float dt)
     CGameManager::getInstance()->getPlayerNode()->getModel()->getTotalScore()
     ;
     
+    if(score==0)
+    {
+        _pLabelScore->setNumber(0);
+        _pLabelScore->setString("0");
+    }
     _pLabelScore->setTargetNumber(score);
     
     if(_pTimer->getTime()==0)

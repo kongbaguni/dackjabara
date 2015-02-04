@@ -47,7 +47,9 @@ public:
     enum class unitTag
     {
         BACKGROUND = 10,
-        UNIT = 11,
+        UNIT_CHICKEN = 11,
+        UNIT_PLAYER = 12
+        
     };
     
     struct sTMXcrashTestValue

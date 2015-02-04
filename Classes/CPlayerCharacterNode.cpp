@@ -410,7 +410,6 @@ void CPlayerCharacterNode::updateMovement(float dt)
         {
             auto action =Sequence::create(FadeTo::create(0.5f,100),FadeTo::create(2.0f,255), NULL);
             action->setTag(123);
-            value._pCrashTile->setColor(Color3B(255,0,255));
             value._pCrashTile->runAction(action);
         }
         

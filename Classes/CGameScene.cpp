@@ -125,7 +125,7 @@ void CGameScene::makePlayer()
         Size winsize = Director::getInstance()->getWinSize();
         player->setPosition(winsize.width/2,100);
         player->getSprite()->setScale(0.5f);
-        CGameManager::getInstance()->getGameField()->addChild(player,(int)CUtil::unitTag::UNIT,(int)CUtil::unitTag::UNIT);
+        CGameManager::getInstance()->getGameField()->addChild(player,(int)CUtil::unitTag::UNIT_PLAYER,(int)CUtil::unitTag::UNIT_PLAYER);
         CGameManager::getInstance()->setPlayerNode(player);
     }
     

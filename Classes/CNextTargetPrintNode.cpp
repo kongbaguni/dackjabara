@@ -12,7 +12,10 @@
 #include "CAnimationHelper.h"
 CNextTargetPrintNode::CNextTargetPrintNode():
 _pTargetChicken(NULL),
-_iCombo(0)
+_pTimer(NULL),
+_pProgressTimer(NULL),
+_iCombo(0),
+_pLabelCombo(NULL)
 {
     _eNextTargetChickenState = CChikenNode::state::EGG;
     
@@ -20,12 +23,17 @@ _iCombo(0)
 CNextTargetPrintNode::~CNextTargetPrintNode()
 {
     CC_SAFE_RELEASE_NULL(_pTargetChicken);
+    CC_SAFE_RELEASE_NULL(_pTimer);
+    CC_SAFE_RELEASE_NULL(_pProgressTimer);
+    CC_SAFE_RELEASE_NULL(_pLabelCombo);
     
 }
 void CNextTargetPrintNode::reset()
 {
     _iCombo = 0;
-    
+    _eNextTargetChickenState = CChikenNode::state::EGG;
+    changePictureWithNextState();
+    _pTimer->stop();
 }
 bool CNextTargetPrintNode::init()
 {
@@ -53,6 +61,31 @@ bool CNextTargetPrintNode::init()
        EaseExponentialInOut::create(RotateTo::create(1.0f, 10.0f)),
        NULL)));
     
+    auto pBg = Sprite::createWithSpriteFrameName("unit/progressBar2.png");
+    pBg->setColor(Color3B(255, 0, 0));
+    setProgressTimer(ProgressTimer::create(Sprite::createWithSpriteFrameName("unit/progressBar2.png")));
+    
+    _pProgressTimer->setPercentage(1.0f);
+    _pProgressTimer->setType(ProgressTimer::Type::BAR);
+    _pProgressTimer->setMidpoint(Vec2(0.0f,0.0f));
+    _pProgressTimer->setBarChangeRate(Vec2(1.0f,0.0f));
+    _pProgressTimer->setAnchorPoint(Vec2(0.0f,0.0f));
+    pBg->addChild(_pProgressTimer);
+    bg->addChild(pBg);
+    pBg->setPosition(Vec2(100, 45));
+    pBg->setScale(0.4f, 1.0f);
+    pBg->setOpacity(100);
+    
+    setTimer(CTimer::create());
+    _pTimer->setMaxTime(5000);
+    
+    setLabelCombo(Label::createWithBMFont(CUtil::getHDSDname("fonts/digital%s.fnt"), "0"));
+    bg->addChild(_pLabelCombo);
+    _pLabelCombo->setPosition(Vec2(80,130));
+    _pLabelCombo->setScale(0.5f);
+    
+
+    scheduleUpdate();
     
     return true;
 }
@@ -60,6 +93,52 @@ bool CNextTargetPrintNode::init()
 void CNextTargetPrintNode::onEnter()
 {
     Node::onEnter();
+    _pTimer->start();
+    
+}
+
+void CNextTargetPrintNode::update(float dt)
+{
+
+    std::string txt = textUtil::addCommaText(_iCombo);
+    txt+=" COMBO";
+    _pLabelCombo->setString(txt);
+    _pProgressTimer->setPercentage((float)_pTimer->getTime()/(float)_pTimer->getMaxTime()*100.0f);
+    if(_pTimer->getTime()==0)
+    {
+        changeNextTarget();
+        changePictureWithNextState();
+        _pTimer->start();
+        _iCombo--;
+        if(_iCombo<0)
+        {
+            _iCombo = 0;
+        }
+    }
+}
+void CNextTargetPrintNode::pause()
+{
+    Node::pause();
+    _pTimer->pause();
+}
+void CNextTargetPrintNode::resume()
+{
+    Node::resume();
+    _pTimer->resume();
+}
+
+void CNextTargetPrintNode::changeNextTarget()
+{
+    Vector<Node*> vec = CGameManager::getInstance()->getGameField()->getChildren();
+    for(auto unit : vec)
+    {
+        int a = CRandom::getInstnace()->Random(6);
+        if(unit->getTag()==(int) CUtil::unitTag::UNIT_CHICKEN && unit!=CGameManager::getInstance()->getPlayerNode() && a == 0)
+        {
+            _eNextTargetChickenState = ((CChikenNode*)unit)->getState();
+            break;
+        }
+    }
     
 }
 
@@ -67,20 +146,9 @@ void CNextTargetPrintNode::catchChicken(CChikenNode *chicken)
 {
     if(chicken->getState()==_eNextTargetChickenState)
     {
-        Vector<Node*> vec = CGameManager::getInstance()->getGameField()->getChildren();
-        for(auto unit : vec)
-        {
-            int a = CRandom::getInstnace()->Random(6);
-            if(unit->getTag()==(int) CUtil::unitTag::UNIT && unit!=CGameManager::getInstance()->getPlayerNode() && a == 0)
-            {
-                _eNextTargetChickenState = ((CChikenNode*)unit)->getState();
-                break;
-            }
-        }
-        
+        changeNextTarget();
         changePictureWithNextState();
-        
-        
+        _pTimer->start();
         _iCombo++;
     }
 }
@@ -106,9 +174,11 @@ void CNextTargetPrintNode::changePictureWithNextState()
             break;
         case CChikenNode::state::HEN:
             filename+="hen";
-        default:
             break;
+        default:
+            return;
     }
     filename+=".png";
     _pTargetChicken->setSpriteFrame(filename);
+  //  _pTargetChicken->runAction(JumpBy::create(0.3f, Vec2::ZERO, 100, 1));
 }

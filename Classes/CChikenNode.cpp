@@ -114,8 +114,9 @@ void CChikenNode::update(float dt)
             
             bool bPlayerIsJumping = pSY > 30;
             
-            bool bCrashWithPlayer = distance<40;
-            bool bCrashWithParticle = distanceParticle<150*iPlayerJumpCnt && player->getParticleAfterJump()->getChildrenCount()>20;
+            bool bCrashWithPlayer = distance<50;
+            bool bPlayerParticleJumpActive = player->getParticleAfterJump()->isActive();
+            bool bCrashWithParticle = distanceParticle<50*iPlayerJumpCnt && bPlayerParticleJumpActive;
             bool bCrash = bCrashWithPlayer || bCrashWithParticle;
             
             bool bActionNotRun = getActionByTag((int)eAction::DEAD)==NULL;
@@ -136,7 +137,16 @@ void CChikenNode::update(float dt)
                       
                     if(getHP()==0)
                     {
+                        switch(_eState)
+                        {
+                            case state::EGG:
+                                player->heal(20);
+                                break;
+                            default:
+                                break;
+                        }
                         CGameManager::getInstance()->getNextTargetNode()->catchChicken(this);
+                        CGameManager::getInstance()->getPlayerNode()->getModel()->addScoreWithChicken(this);
 
                         setMovement(Vec2::ZERO);
                         unscheduleUpdate();
@@ -207,7 +217,6 @@ void CChikenNode::update(float dt)
                     action->setTag(123);
                     
                     value._pCrashTile->runAction(action);
-                    value._pCrashTile->setColor(Color3B(CRandom::getInstnace()->Random(155)+100,CRandom::getInstnace()->Random(155)+100 , 255));
                 }
                 
                 bool bCrashWall =value._bCrash;
@@ -256,8 +265,35 @@ void CChikenNode::update(float dt)
             return;
         }
     }
-    getTimer()->start();
-    getTimer()->setMaxTime(CRandom::getInstnace()->Random(20)+10);
+  
+    //상태에 따라서 타이머 리셋
+    {
+        getTimer()->start();
+        int iTime = 10, iTimeVal = 10;
+        switch(_eState)
+        {
+            case state::EGG:
+                iTime = 5;
+                iTimeVal = 20;
+                break;
+            case state::CHICK:
+                iTime = 5;
+                iTimeVal = 3;
+                break;
+            case state::COCK:
+                iTime = 3;
+                iTimeVal = 5;
+                break;
+            case state::HEN:
+                iTime = 2;
+                iTimeVal = 3;
+                break;
+            default:
+                break;
+        }
+        getTimer()->setMaxTime(CRandom::getInstnace()->Random(iTimeVal)+iTime);
+    }
+    
     int iRnd = CRandom::getInstnace()->Random(100);
     state oldState = _eState;
     switch (_eState)
@@ -324,27 +360,27 @@ void CChikenNode::update(float dt)
             {
                 case state::EGG:
                     frameName+="egg.png";
-                    setHPmax(50);
+                    setHPmax(10);
                     break;
                 case state::EGG_BROKEN:
                     frameName+="eggBroken.png";
-                    setHPmax(10);
+                    setHPmax(1);
                     break;
                 case state::CHICK:
                     frameName+="chick.png";
-                    setHPmax(60);
+                    setHPmax(20);
                     break;
                 case state::CHICK_DEAD:
                     frameName+="chickDead.png";
-                    setHPmax(10);
+                    setHPmax(1);
                     break;
                 case state::COCK:
                     frameName+="cock.png";
-                    setHPmax(120);
+                    setHPmax(250);
                     break;
                 case state::HEN:
                     frameName+="hen.png";
-                    setHPmax(200);
+                    setHPmax(500);
                     break;
                 default:
                     break;
@@ -368,7 +404,8 @@ void CChikenNode::shot()
         auto bullet = CBulletNode::create();
         bullet->setMovement(Vec2(sinf(i*f),cosf(i*f)));
         bullet->setPosition(getPosition());
-        CGameManager::getInstance()->getGameField()->addChild(bullet);
+        int tag = (int)CUtil::unitTag::UNIT_CHICKEN;
+        CGameManager::getInstance()->getGameField()->addChild(bullet,tag,tag);
     }
     getSprite()->runAction(JumpBy::create(0.3f, Vec2::ZERO, 100, 1));
     
@@ -376,7 +413,6 @@ void CChikenNode::shot()
 
 void CChikenNode::dead()
 {
-    CGameManager::getInstance()->getPlayerNode()->getModel()->addScoreWithChicken(this);
     removeFromParentAndCleanup(true);
 }
 

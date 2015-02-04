@@ -96,12 +96,9 @@ void CGameManager::newGameInit()
     {
         _pPlayerNode->reset();
     }
-    for(auto unit : _pGameField->getChildren())
+    while(_pGameField->getChildByTag((int)CUtil::unitTag::UNIT_CHICKEN))
     {
-        if(typeid(unit) !=typeid(Sprite) && unit != _pPlayerNode)
-        {
-            removeChild(unit);
-        }
+        _pGameField->removeChildByTag((int)CUtil::unitTag::UNIT_CHICKEN);
     }
 }
 
@@ -155,7 +152,7 @@ void CGameManager::insertEgg()
     int iCnt = 0;
     for(auto node:_pGameField->getChildren())
     {
-        if(node->getTag()==(int)CUtil::unitTag::UNIT)
+        if(node->getTag()==(int)CUtil::unitTag::UNIT_CHICKEN)
         {
             iCnt++;
         }
@@ -176,7 +173,7 @@ void CGameManager::insertEgg()
         {
             auto chicken = CChikenNode::create();
             chicken->setPosition(x,y);
-            _pGameField->addChild(chicken,(int)CUtil::unitTag::UNIT,(int)CUtil::unitTag::UNIT);
+            _pGameField->addChild(chicken,(int)CUtil::unitTag::UNIT_CHICKEN,(int)CUtil::unitTag::UNIT_CHICKEN);
         }
         else
         {

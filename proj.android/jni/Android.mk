@@ -16,6 +16,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
 ../../Classes/CGameScene.cpp \
 ../../Classes/CTitleScene.cpp \
 ../../Classes/CPauseScene.cpp \
+../../Classes/CGameResultScene.cpp \
 ../../Classes/CPauseLayer.cpp \
 ../../Classes/CSceneManager.cpp \
 ../../Classes/CPlayerCharacterModel.cpp \
@@ -30,6 +31,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
 ../../Classes/CChikenNode.cpp \
 ../../Classes/CLabelAnimate.cpp \
 ../../Classes/CNextTargetPrintNode.cpp \
+../../Classes/CBulletNode.cpp \
 ../../Classes/CUnitNode.cpp 
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes

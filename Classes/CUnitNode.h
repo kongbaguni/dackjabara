@@ -35,6 +35,8 @@ protected:
     CC_SYNTHESIZE_RETAIN(ProgressTimer*, _pProgressTimer1, ProgressTimer1);
     CC_SYNTHESIZE_RETAIN(ProgressTimer*, _pProgressTimer2, ProgressTimer2);
 
+    Vector<Label*> _vDamageLabelList;
+
     CC_SYNTHESIZE_READONLY(int, _iHPmax, HPmax);
     CC_SYNTHESIZE_READONLY(int ,_iHP,HP);
     
@@ -42,6 +44,8 @@ protected:
     CC_SYNTHESIZE(Vec2, _vec2Movement, Movement);
     
     void setColorReset(float dt);
+    
+    void popupLabel(std::string text,Color3B color);
     
 };
 

@@ -19,6 +19,7 @@ _iHP(30),
 _iAttack(1),
 _vec2Movement(Vec2(0,0))
 {
+    _vDamageLabelList.clear();
     
 }
 
@@ -92,10 +93,41 @@ bool CUnitNode::addDamage(int iDamage)
     _pSprite->setColor(Color3B(255, 0, 0));
     unschedule(schedule_selector(CUnitNode::setColorReset));
     scheduleOnce(schedule_selector(CUnitNode::setColorReset), 1.0f);
+    
+    std::string txt = textUtil::addCommaText(iDamage);
+    txt+=" Point Damage";
+    popupLabel(txt, Color3B(255,0,0));
     return true;
+}
+
+void CUnitNode::popupLabel(std::string text, cocos2d::Color3B color)
+{
+    if(_vDamageLabelList.size()>10)
+    {
+        auto first =_vDamageLabelList.front();
+        removeChild(first);
+        _vDamageLabelList.erase(_vDamageLabelList.begin());
+    }
+    
+    auto labelDamage = Label::createWithBMFont(CUtil::getHDSDname("fonts/title2%s.fnt"), text);
+    labelDamage->setColor(color);
+    addChild(labelDamage);
+    _vDamageLabelList.pushBack(labelDamage);
+    labelDamage->runAction
+    (Spawn::create
+     (MoveBy::create(1.0f, Vec2(0, 100)),
+      FadeOut::create(1.0f),
+      NULL));
+    
 }
 void CUnitNode::heal(int iHeal)
 {
+    if(_iHP<_iHPmax)
+    {
+        std::string txt = textUtil::addCommaText(iHeal);
+        txt+=" Point Healing";
+        popupLabel(txt,Color3B(50,250,150));
+    }
     _iHP+=iHeal;
     if(_iHP>=_iHPmax)
     {
