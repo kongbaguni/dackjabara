@@ -12,6 +12,8 @@
 #include <stdio.h>
 
 #include "cocos2d.h"
+#include "extensions/cocos-ext.h"
+USING_NS_CC_EXT;
 USING_NS_CC;
 class CHomeScene : public Scene
 {
@@ -19,7 +21,18 @@ public:
     virtual bool init();
     CREATE_FUNC(CHomeScene);
 protected:
+    enum class Tag
+    {
+        PLAYGAME,
+        EXITGAME,
+        TAG_MAX
+    };
+    
     CHomeScene();
     ~CHomeScene();
+    virtual void onEnter();
+    CC_SYNTHESIZE_RETAIN(ui::Scale9Sprite*, _pBox, Box);
+    
+    void callBack(Ref* pSender);
 };
 #endif /* defined(__dackjabara__CHomeScene__) */

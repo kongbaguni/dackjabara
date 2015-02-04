@@ -296,13 +296,13 @@
             <key>format</key>
             <integer>2</integer>
             <key>realTextureFileName</key>
-            <string>unit-sd.pvr.ccz</string>
+            <string>game-sd.pvr.ccz</string>
             <key>size</key>
             <string>{512,512}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:98ad7bdea8d0811f7200a0643f1f43ef:c53435b9ca475b4a0b178f9d9199d719:52ac833776d3de1ab64d6632c7113e8c$</string>
+            <string>$TexturePacker:SmartUpdate:3357d983ba1d498efd068f2507bff2cd:c53435b9ca475b4a0b178f9d9199d719:9cd053e67ba59b92e085f9b467acedae$</string>
             <key>textureFileName</key>
-            <string>unit-sd.pvr.ccz</string>
+            <string>game-sd.pvr.ccz</string>
         </dict>
     </dict>
 </plist>

@@ -95,7 +95,7 @@ bool CGameScene::init()
     
     
 //    리소스 로딩
-    std::string fileName = CUtil::getHDSDname("texturePacker/unit%s.plist");
+    std::string fileName = CUtil::getHDSDname("texturePacker/game%s.plist");
     SpriteFrameCache::getInstance()->addSpriteFramesWithFile(fileName);
 
 

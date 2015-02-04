@@ -3,6 +3,7 @@
 #include "CTitleScene.h"
 #include "CGameScene.h"
 #include "CGameResultScene.h"
+#include "CHomeScene.h"
 
 #include "CSceneManager.h"
 #include "CGameManager.h"
@@ -58,6 +59,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     CSceneManager::getInstance()->addScene(CGameScene::create(), "game");
     CSceneManager::getInstance()->addScene(CPauseScene::create(), "pause");
     CSceneManager::getInstance()->addScene(CGameResultScene::create(), "gameResult");
+    CSceneManager::getInstance()->addScene(CHomeScene::create(), "home");
 
     auto scene = CSceneManager::getInstance()->getScene("title");
 

@@ -19,7 +19,7 @@ _pControllerRightSelect(NULL),
 _pControllerRightBg(NULL),
 _fPlayerSpeed(5.0f)
 {
-    std::string fileName = CUtil::getHDSDname("texturePacker/unit%s.plist");
+    std::string fileName = CUtil::getHDSDname("texturePacker/game%s.plist");
     SpriteFrameCache::getInstance()->addSpriteFramesWithFile(fileName);
 
     EventDispatcher* dispatcher = Director::getInstance()->getEventDispatcher();

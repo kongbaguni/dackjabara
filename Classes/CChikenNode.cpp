@@ -28,8 +28,13 @@ bool CChikenNode::init()
     {
         return false;
     }
+    static bool bPreload = false;
+    if(!bPreload)
+    {
+        SimpleAudioEngine::getInstance()->preloadEffect("effect/roosterCrow.mp3");
+        bPreload = true;
+    }
     
-    SimpleAudioEngine::getInstance()->preloadEffect("effect/roosterCrow.mp3");
     setAttack(0);
     auto _pSprite = getSprite();
     _pSprite->setSpriteFrame("unit/egg.png");

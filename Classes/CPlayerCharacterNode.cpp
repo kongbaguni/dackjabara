@@ -45,13 +45,16 @@ bool CPlayerCharacterNode::init()
     CAnimationHelper::addAnimation("unit/c1_%02d.png", 1, 2, "player_stand",0.2f,true);
     CAnimationHelper::addAnimation("unit/c1_%02d.png", 3, 4, "player_down",0.1f,false);
     CAnimationHelper::addAnimation("unit/c1_%02d.png", 4, 2, "player_up",0.1f,true);
-
-    SimpleAudioEngine::getInstance()->preloadEffect("effect/jump.mp3");
-    SimpleAudioEngine::getInstance()->preloadEffect("effect/bowFire.mp3");
-    SimpleAudioEngine::getInstance()->preloadEffect("effect/punch.mp3");
-    SimpleAudioEngine::getInstance()->preloadEffect("effect/powerFailure.mp3");
-    SimpleAudioEngine::getInstance()->preloadEffect("effect/sciFiRobot.mp3");
-    
+    static bool bPreload = false;
+    if(!bPreload)
+    {
+        SimpleAudioEngine::getInstance()->preloadEffect("effect/jump.mp3");
+        SimpleAudioEngine::getInstance()->preloadEffect("effect/bowFire.mp3");
+        SimpleAudioEngine::getInstance()->preloadEffect("effect/punch.mp3");
+        SimpleAudioEngine::getInstance()->preloadEffect("effect/powerFailure.mp3");
+        SimpleAudioEngine::getInstance()->preloadEffect("effect/sciFiRobot.mp3");
+        bPreload = true;
+    }
     
     setHPmax(500);
     setAttack(1);

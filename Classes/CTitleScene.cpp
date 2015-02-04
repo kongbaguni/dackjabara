@@ -44,7 +44,7 @@ bool CTitleScene::init()
 
 void CTitleScene::changeScene(float dt)
 {
-    Director::getInstance()->pushScene(CSceneManager::getInstance()->getScene("game"));
+    Director::getInstance()->pushScene(CSceneManager::getInstance()->getScene("home"));
 }
 
 void CTitleScene::onEnter()
