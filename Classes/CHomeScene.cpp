@@ -33,7 +33,7 @@ bool CHomeScene::init()
     auto bg = LayerColor::create(Color4B(100, 200, 255, 255));
     addChild(bg);
     
-    setBox(ui::Scale9Sprite::createWithSpriteFrameName("homeUI/box01.png", Rect(100, 100, 300, 300)));
+    setBox(ui::Scale9Sprite::createWithSpriteFrameName("homeUI/box01.png", Rect(20, 20, 10, 10)));
     addChild(_pBox);
     _pBox->setContentSize(winsize*0.95f);
     _pBox->setPosition(Vec2(winsize.width/2, winsize.height/2));
