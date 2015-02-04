@@ -45,6 +45,8 @@
 		1EB4C2701A7F074F00081513 /* CBulletNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1EB4C26D1A7F074F00081513 /* CBulletNode.cpp */; };
 		1EB4C2721A7F570A00081513 /* effect in Resources */ = {isa = PBXBuildFile; fileRef = 1EB4C2711A7F570A00081513 /* effect */; };
 		1EB4C2731A7F570A00081513 /* effect in Resources */ = {isa = PBXBuildFile; fileRef = 1EB4C2711A7F570A00081513 /* effect */; };
+		1EB4C2761A82061600081513 /* CHomeScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1EB4C2741A82061600081513 /* CHomeScene.cpp */; };
+		1EB4C2771A82061700081513 /* CHomeScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1EB4C2741A82061600081513 /* CHomeScene.cpp */; };
 		1EC1E6381A68FA8F00B6DA31 /* CLabelAnimate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1EC1E6361A68FA8F00B6DA31 /* CLabelAnimate.cpp */; };
 		1EC1E6391A69034100B6DA31 /* CLabelAnimate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1EC1E6361A68FA8F00B6DA31 /* CLabelAnimate.cpp */; };
 		1EC38DDB1A5E713900305BE1 /* CUnitNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1EC38DD91A5E713900305BE1 /* CUnitNode.cpp */; };
@@ -184,6 +186,8 @@
 		1EB4C26D1A7F074F00081513 /* CBulletNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CBulletNode.cpp; sourceTree = "<group>"; };
 		1EB4C26E1A7F074F00081513 /* CBulletNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBulletNode.h; sourceTree = "<group>"; };
 		1EB4C2711A7F570A00081513 /* effect */ = {isa = PBXFileReference; lastKnownFileType = folder; path = effect; sourceTree = "<group>"; };
+		1EB4C2741A82061600081513 /* CHomeScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CHomeScene.cpp; sourceTree = "<group>"; };
+		1EB4C2751A82061600081513 /* CHomeScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHomeScene.h; sourceTree = "<group>"; };
 		1EC1E6361A68FA8F00B6DA31 /* CLabelAnimate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CLabelAnimate.cpp; sourceTree = "<group>"; };
 		1EC1E6371A68FA8F00B6DA31 /* CLabelAnimate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLabelAnimate.h; sourceTree = "<group>"; };
 		1EC38DD91A5E713900305BE1 /* CUnitNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CUnitNode.cpp; sourceTree = "<group>"; };
@@ -378,6 +382,8 @@
 				1E4340BA1A625B770045C4C5 /* CPauseScene.h */,
 				1ED975581A7BA8FB0005E5F7 /* CGameResultScene.cpp */,
 				1ED975591A7BA8FB0005E5F7 /* CGameResultScene.h */,
+				1EB4C2741A82061600081513 /* CHomeScene.cpp */,
+				1EB4C2751A82061600081513 /* CHomeScene.h */,
 			);
 			name = Scene;
 			sourceTree = "<group>";
@@ -689,6 +695,7 @@
 				1EF30E981A5BC0E3003E32FC /* CTimer.cpp in Sources */,
 				1E1C27F41A59BBB600C15532 /* CAnimationHelper.cpp in Sources */,
 				1E0FEDCD1A667EA600614696 /* CControllerLayer.cpp in Sources */,
+				1EB4C2761A82061600081513 /* CHomeScene.cpp in Sources */,
 				1EB4C26F1A7F074F00081513 /* CBulletNode.cpp in Sources */,
 				1E69AF651A5F720600B6B906 /* CPlayerModel.cpp in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
@@ -703,6 +710,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1EF30E9D1A5BD512003E32FC /* CMainTimerNode.cpp in Sources */,
+				1EB4C2771A82061700081513 /* CHomeScene.cpp in Sources */,
 				1E0FEDCE1A66813900614696 /* CControllerLayer.cpp in Sources */,
 				1E69AF621A5F717900B6B906 /* CPlayerCharacterModel.cpp in Sources */,
 				1EB4C2701A7F074F00081513 /* CBulletNode.cpp in Sources */,

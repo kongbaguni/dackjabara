@@ -104,16 +104,21 @@ void CNextTargetPrintNode::update(float dt)
     txt+=" COMBO";
     _pLabelCombo->setString(txt);
     _pProgressTimer->setPercentage((float)_pTimer->getTime()/(float)_pTimer->getMaxTime()*100.0f);
+    auto mainTimer = CGameManager::getInstance()->getMainTimerNode()->getTimer();
+    if(mainTimer->isPause())
+    {
+        _pTimer->pause();
+    }
+    else
+    {
+        _pTimer->resume();
+    }
     if(_pTimer->getTime()==0)
     {
         changeNextTarget();
         changePictureWithNextState();
         _pTimer->start();
-        _iCombo--;
-        if(_iCombo<0)
-        {
-            _iCombo = 0;
-        }
+        _iCombo*=0.5f;
     }
 }
 void CNextTargetPrintNode::pause()
