@@ -21,37 +21,18 @@
    </objectgroup>
    <animation>
     <frame tileid="0" duration="100"/>
-    <frame tileid="0" duration="100"/>
-    <frame tileid="1" duration="100"/>
-    <frame tileid="2" duration="100"/>
-    <frame tileid="3" duration="100"/>
-    <frame tileid="4" duration="100"/>
-    <frame tileid="5" duration="100"/>
-    <frame tileid="6" duration="100"/>
-    <frame tileid="7" duration="100"/>
-   </animation>
-  </tile>
-  <tile id="1">
-   <animation>
-    <frame tileid="0" duration="100"/>
-    <frame tileid="2" duration="100"/>
-    <frame tileid="4" duration="100"/>
-    <frame tileid="7" duration="100"/>
-    <frame tileid="6" duration="100"/>
-    <frame tileid="5" duration="100"/>
-    <frame tileid="3" duration="100"/>
     <frame tileid="1" duration="100"/>
    </animation>
   </tile>
  </tileset>
  <layer name="meta" width="50" height="18">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA2NkYGBgHMWDCgvTEWOzjxI3DGd/qNIB4/IHqeaM+mPUH6P+GPUHPfyBDY/6Y2D8QS08EvwxFPFw9McoHjwYAMSD6k8QDgAA
+   H4sIAAAAAAAAA+3PAQ0AQAyDwE7D+/f6NugGCQJukoyjfsVvdjSlg5UOVjpY6WB1wdH4Rodz/vQJA2sQDgAA
   </data>
  </layer>
- <layer name="Copy of meta" width="50" height="18">
+ <layer name="layer" width="50" height="18">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA9NnYmDQH8UjGgszoOKBdg8MwwAhdQZQTGt/qDLQHuOKD3LMGfUHZdgAT/4YSv4YLvEx6o/B6Q9q2D3qj8GFR4I/RvEoHsWoGAAyBrL7EA4AAA==
+   H4sIAAAAAAAAA+3PQQ0AMAzEsGqEpo4/uNHItXkYgPtUtVBusMmPF8QHiw8WHyw+WDY8Ek18iOMDvjaG2BAOAAA=
   </data>
  </layer>
 </map>
