@@ -96,13 +96,16 @@ void CNextTargetPrintNode::onEnter()
     _pTimer->start();
     
 }
-
-void CNextTargetPrintNode::update(float dt)
+void CNextTargetPrintNode::updateComboLabel()
 {
-
     std::string txt = textUtil::addCommaText(_iCombo);
     txt+=" COMBO";
     _pLabelCombo->setString(txt);
+}
+void CNextTargetPrintNode::update(float dt)
+{
+
+    updateComboLabel();
     _pProgressTimer->setPercentage((float)_pTimer->getTime()/(float)_pTimer->getMaxTime()*100.0f);
     auto mainTimer = CGameManager::getInstance()->getMainTimerNode()->getTimer();
     if(mainTimer->isPause())
@@ -152,9 +155,10 @@ void CNextTargetPrintNode::catchChicken(CChikenNode *chicken)
     if(chicken->getState()==_eNextTargetChickenState)
     {
         changeNextTarget();
-        changePictureWithNextState();
         _pTimer->start();
         _iCombo++;
+        updateComboLabel();
+        changePictureWithNextState();
     }
 }
 void CNextTargetPrintNode::changePictureWithNextState()

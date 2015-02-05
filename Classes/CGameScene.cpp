@@ -46,7 +46,6 @@ bool CGameScene::init()
     tileMap->setRotation3D(Vec3(-90, 0, 0));
    CUtil::setTMXTileMapAntialias(tileMap);
     addChild(tileMap,(int)CUtil::zorderList::BACKGROUND);
-    
 
     auto bgBack2 =TMXTiledMap::create("tilemap/map5.tmx");
     bgBack2->setPosition3D(Vec3(0, tileMap->getContentSize().height*2,0));

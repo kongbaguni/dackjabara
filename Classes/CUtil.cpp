@@ -64,14 +64,16 @@ CUtil::sTMXcrashTestValue CUtil::isCrashWithTMXTileMapSetting(cocos2d::TMXTiledM
 {
     return CUtil::isCrashWithTMXTileMapSetting(tileMap, layerName, key, node->getPosition(), node->getMovement());
 }
+
+
 CUtil::sTMXcrashTestValue CUtil::isCrashWithTMXTileMapSetting(cocos2d::TMXTiledMap *tileMap, std::string layerName, std::string key, Vec2 pos, Vec2 movement)
 
 {
     sTMXcrashTestValue result;
-    Vec2 fixPos = CUtil::getCoordWithVec2(tileMap, pos);
-    Vec2 tileSize = tileMap->getMapSize();
+    auto fixPos = CUtil::getCoordWithVec2(tileMap, pos);
+    auto tileSize = tileMap->getMapSize();
     
-    if(fixPos.x<0 | fixPos.y<0 | fixPos.x >= tileSize.x | fixPos.y >= tileSize.y)
+    if(fixPos.x<0 | fixPos.y<0 | fixPos.x >= tileSize.width | fixPos.y >= tileSize.height)
     {
         result._bCrash = true;
         result._eCrashDirction = eDirection8::NOT_MOVE;
@@ -90,15 +92,49 @@ CUtil::sTMXcrashTestValue CUtil::isCrashWithTMXTileMapSetting(cocos2d::TMXTiledM
         {
             result._bCrash = true;
         }
+        result._iValue = properties.asValueMap()[key].asInt();
     }
     else
     {
         result._bCrash = false;
         result._eCrashDirction = eDirection8::NOT_MOVE;
+        result._iValue = 0;
         
     }
     return result;
 
+}
+void CUtil::set3DHeightPosition(cocos2d::TMXTiledMap *tileMap, std::string layerName)
+{
+    auto layer = tileMap->getLayer("height");
+    auto targetLayer = tileMap->getLayer(layerName);
+    auto mapSize = tileMap->getMapSize();
+    auto tileSize = tileMap->getTileSize();
+    int count = 0;
+    for(int x=0; x<mapSize.width; x++)
+    {
+        for(int y=0; y<mapSize.height; y++)
+        {
+            const Vec2 pos = Vec2(x,y);
+            auto tile = targetLayer->getTileAt(pos);
+            uint32_t gid = layer->getTileGIDAt(pos);
+            tile->setLocalZOrder(100000-tile->getPositionY());
+
+            count++;
+            auto properties = tileMap->getPropertiesForGID(gid);
+            if(properties.getType() == Value::Type::MAP && !properties.asValueMap().empty())
+            {
+                
+                auto collision = properties.asValueMap()["height"].asInt();
+                if(collision>0)
+                {
+                    
+                    tile->setPosition3D(tile->getPosition3D()+Vec3(0, 0,collision));
+                }
+            }
+        }
+    }
+    CCLOG("height setting : %d",count);
 }
 
 CUtil::eDirection8 CUtil::getMove8(cocos2d::Vec2 vec)

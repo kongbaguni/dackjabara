@@ -387,7 +387,10 @@ void CPlayerCharacterNode::updateMovement(float dt)
         testpos+=movement;
         bool bCharge =CUtil::isCrashWithTMXTileMapSetting(CGameManager::getInstance()->getGameField(), "meta", "charge", testpos,movement)._bCrash;
         CUtil::sTMXcrashTestValue value =CUtil::isCrashWithTMXTileMapSetting(CGameManager::getInstance()->getGameField(), "meta", "wall", testpos, movement);
-
+        CUtil::sTMXcrashTestValue value2 =CUtil::isCrashWithTMXTileMapSetting(CGameManager::getInstance()->getGameField(), "height", "height", testpos, movement);
+        
+        
+        
         if(bCharge)
         {
             _iChargeSpeed = 100;
@@ -437,17 +440,20 @@ void CPlayerCharacterNode::updateMovement(float dt)
         //파티클 이동
         if(_pParticle->getParent()==NULL)
         {
-            getParent()->addChild(_pParticle);
+            getParent()->addChild(_pParticle, getLocalZOrder()+1);
         }
         if(_pParticleAfterJump->getParent()==NULL)
         {
-            getParent()->addChild(_pParticleAfterJump);
+            getParent()->addChild(_pParticleAfterJump,getLocalZOrder()-1);
         }
         if(_pParticlePitan->getParent()==NULL)
         {
-            getParent()->addChild(_pParticlePitan);
+            getParent()->addChild(_pParticlePitan,getLocalZOrder()-1);
         }
         _pParticle->setPosition(getPosition());
+        _pParticle->setLocalZOrder(getLocalZOrder()+1);
+        _pParticleAfterJump->setLocalZOrder(getLocalZOrder()-1);
+        _pParticlePitan->setLocalZOrder(getLocalZOrder()-1);
     }
     else
     {

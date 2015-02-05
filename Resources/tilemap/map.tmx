@@ -12,6 +12,26 @@
     <property name="charge" value="true"/>
    </properties>
   </tile>
+  <tile id="54">
+   <properties>
+    <property name="height" value="10"/>
+   </properties>
+  </tile>
+  <tile id="72">
+   <properties>
+    <property name="height" value="20"/>
+   </properties>
+  </tile>
+  <tile id="90">
+   <properties>
+    <property name="height" value="30"/>
+   </properties>
+  </tile>
+  <tile id="108">
+   <properties>
+    <property name="height" value="40"/>
+   </properties>
+  </tile>
  </tileset>
  <tileset firstgid="559" name="map2             " tilewidth="32" tileheight="64">
   <image source="map2.png" width="1280" height="1280"/>
@@ -46,12 +66,17 @@
  </tileset>
  <layer name="meta" width="50" height="18">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA2NkYGBgHMWDCgvTEWOzjxI3DGd/qNIB4/IHqeaM+mPUH6P+GPUHPfyBDY/6Y2D8QS08EvwxFPFw9McoHjwYAMSD6k8QDgAA
+   H4sIAAAAAAAAA+3PAQ0AQAyDwE7D+/f6NugGCQJukoyjfsVvdjSlg5UOVjpY6WB1wdH4Rodz/vQJA2sQDgAA
   </data>
  </layer>
- <layer name="Copy of meta" width="50" height="18">
+ <layer name="height" width="50" height="18">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA9NnYmDQH8UjGgszoOKBdg8MwwAhdQZQTGt/qDLQHuOKD3LMGfUHZdgAT/4YSv4YLvEx6o/B6Q9q2D3qj8GFR4I/RvEoHsWoGAAyBrL7EA4AAA==
+   H4sIAAAAAAAAA+3PQQ0AQAgEMXyeBvx/T8LyhbTJCJgqYKJDW1z5eCEAALIPfD2DcBAOAAA=
+  </data>
+ </layer>
+ <layer name="layer" width="50" height="18">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3DAQ0AAAzDoJqZf4sXckhYNVVVVd89XULrjBAOAAA=
   </data>
  </layer>
 </map>

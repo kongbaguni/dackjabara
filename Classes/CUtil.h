@@ -55,9 +55,9 @@ public:
     struct sTMXcrashTestValue
     {
         bool _bCrash;
+        int _iValue;
         eDirection8 _eCrashDirction;
-        Sprite* _pCrashTile;
-        
+        Sprite* _pCrashTile;        
     };
 
     
@@ -70,6 +70,8 @@ public:
     static Vec2 getCoordWithVec2(TMXTiledMap* tileMap, Vec2 vec);
     static sTMXcrashTestValue isCrashWithTMXTileMapSetting(TMXTiledMap* tileMap,std::string layerName, std::string key, CUnitNode * node);
     static sTMXcrashTestValue isCrashWithTMXTileMapSetting(TMXTiledMap* tileMap,std::string layerName, std::string key, Vec2 pos, Vec2 movement);
+    /* 높이갚 설정되어있으면  적용 */
+    static void set3DHeightPosition(TMXTiledMap* tileMap,std::string layerName);
     
 };
 

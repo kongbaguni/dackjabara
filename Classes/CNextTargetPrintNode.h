@@ -36,6 +36,7 @@ protected:
     CC_SYNTHESIZE_RETAIN(CTimer*, _pTimer, Timer);
     CC_SYNTHESIZE_RETAIN(ProgressTimer*, _pProgressTimer, ProgressTimer);
     CC_SYNTHESIZE_RETAIN(Label*, _pLabelCombo, LabelCombo);
+    void updateComboLabel();
 
 };
 

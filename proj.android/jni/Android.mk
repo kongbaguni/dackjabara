@@ -14,6 +14,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
 ../../Classes/AppDelegate.cpp \
 ../../Classes/CGameManager.cpp \
 ../../Classes/CGameScene.cpp \
+../../Classes/CHomeScene.cpp \
 ../../Classes/CTitleScene.cpp \
 ../../Classes/CPauseScene.cpp \
 ../../Classes/CGameResultScene.cpp \
