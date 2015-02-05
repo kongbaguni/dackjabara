@@ -73,14 +73,15 @@ CUtil::sTMXcrashTestValue CUtil::isCrashWithTMXTileMapSetting(cocos2d::TMXTiledM
     auto fixPos = CUtil::getCoordWithVec2(tileMap, pos);
     auto tileSize = tileMap->getMapSize();
     
-    if(fixPos.x<0 | fixPos.y<0 | fixPos.x >= tileSize.width | fixPos.y >= tileSize.height)
+    TMXLayer* layer= tileMap->getLayer(layerName);
+    if(fixPos.x<0 | fixPos.y<0 | fixPos.x >= tileSize.width | fixPos.y >= tileSize.height | layer == NULL)
     {
         result._bCrash = true;
         result._eCrashDirction = eDirection8::NOT_MOVE;
         result._pCrashTile = NULL;
+        result._iValue = 0;
         return result;
     }
-    TMXLayer* layer= tileMap->getLayer(layerName);
     uint32_t iGid = layer->getTileGIDAt(fixPos);
     result._pCrashTile = layer->getTileAt(fixPos);
     auto properties = tileMap->getPropertiesForGID(iGid);
