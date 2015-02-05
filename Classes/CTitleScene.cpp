@@ -30,7 +30,7 @@ bool CTitleScene::init()
 
     Size winsize = Director::getInstance()->getWinSize();
     
-    auto layer = LayerColor::create(Color4B(255, 0, 0,255), 1920, 1280);
+    auto layer = LayerColor::create(Color4B(255, 255, 255,255), 1920, 1280);
     addChild(layer);
     
     
