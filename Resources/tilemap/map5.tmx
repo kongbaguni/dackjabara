@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="left-down" width="50" height="10" tilewidth="32" tileheight="32">
+<map version="1.0" orientation="orthogonal" renderorder="left-down" width="50" height="10" tilewidth="32" tileheight="32" nextobjectid="1">
  <tileset firstgid="1" name="map" tilewidth="32" tileheight="32">
   <image source="map.png" width="576" height="992"/>
  </tileset>
  <layer name="bg" width="50" height="10" opacity="0.8">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA+3Suw6CQBSE4SUCKiqdgqBgJ+AF8f0fzr8hOcWGsHJiYSD5KmZnAxnPGOM5GnpcuzR7D0iQ4ogMOU44o0CJy8j7ZH5v6dfolf39d1So0eCGOx54osULHd4j/4vMXy39Gr2yv3/vI0CIJVZYI8IGW+wQY6GQ1+iV577ZlW0nrnmN3qm7su3ENa/RO+9q3tWvdvUPPq1TNTXQBwAA
+   H4sIAAAAAAAAA+3USQrCQBCF4QbnKdGF89TBhfOsV9Ar6P0v4t+gICH0ICH0wsC3SvVLVVMkFEI0HbSE/gkd89LIVWcj5JBHAUWUUEYFVdRQRwMzw/eiWH1gmW+Tm9RP8D6r3rfRQRc99DHAECOMMcEUd829KLdYvbTMt8lN6kd+zTHHAkussMYGW+ywxwFHnDys/8zhsle2e5Jl/S97JT2s/+9V+vVPXDQemnyf9srmv6vbq7PhHrJyNcyh61OdfQGdfVAJ0AcAAA==
   </data>
  </layer>
 </map>
