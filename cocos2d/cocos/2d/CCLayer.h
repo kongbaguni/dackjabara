@@ -337,7 +337,7 @@ public:
     static LayerGradient* create(const Color4B& start, const Color4B& end);
 
     /** Creates a full-screen Layer with a gradient between start and end in the direction of v. */
-    static LayerGradient* create(const Color4B& start, const Color4B& end, const Vec2& v); 
+    static LayerGradient* create(const Color4B& start, const Color4B& end, const Vec2& v);
     
     /** Whether or not the interpolation will be compressed in order to display all the colors of the gradient both in canonical and non canonical vectors
      Default: true
