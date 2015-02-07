@@ -10,14 +10,12 @@
 #include "CUtil.h"
 CUnitNode::CUnitNode():
 _pSprite(NULL),
-_pLabel(NULL),
 _pTimer(NULL),
-_pProgressTimer1(NULL),
-_pProgressTimer2(NULL),
 _iHPmax(30),
 _iHP(30),
 _iAttack(1),
-_vec2Movement(Vec2(0,0))
+_vec2Movement(Vec2(0,0)),
+_eAttribute(eAttribute::NONE)
 {
     _vDamageLabelList.clear();
     
@@ -26,10 +24,7 @@ _vec2Movement(Vec2(0,0))
 CUnitNode::~CUnitNode()
 {
     CC_SAFE_RELEASE_NULL(_pSprite);
-    CC_SAFE_RELEASE_NULL(_pLabel);
     CC_SAFE_RELEASE_NULL(_pTimer);
-    CC_SAFE_RELEASE_NULL(_pProgressTimer1);
-    CC_SAFE_RELEASE_NULL(_pProgressTimer2);
 }
 
 bool CUnitNode::init()
@@ -38,10 +33,6 @@ bool CUnitNode::init()
     {
         return false;
     }
-    setLabel(Label::createWithBMFont(CUtil::getHDSDname("fonts/title%s.fnt"), ""));
-    addChild(_pLabel);
-    _pLabel->setScale(0.5f);
-    _pLabel->setVisible(false);
     
     setSprite(Sprite::create());
     addChild(_pSprite);
@@ -51,35 +42,56 @@ bool CUnitNode::init()
     setRotation3D(CUtil::getRotate3D());
     _iHP = _iHPmax;
     
-    
-    auto progress = Sprite::createWithSpriteFrameName("unit/progressBarBG.png");
-    _pSprite->addChild(progress);
-    progress->setPosition(Vec2(58,0));
-    
-    setProgressTimer1(ProgressTimer::create(Sprite::createWithSpriteFrameName("unit/progressBar1.png")));
-    setProgressTimer2(ProgressTimer::create(Sprite::createWithSpriteFrameName("unit/progressBar2.png")));
-    
-    ProgressTimer* progressList[2] =
-    {
-        _pProgressTimer1,_pProgressTimer2
-    };
-    
-    for(int i=0; i<2; i++)
-    {
-        //progressList[i]->setPosition3D(Vec3(0,0,1));
-        
-        progressList[i]->setPercentage(0.0f);
-        progressList[i]->runAction(ProgressTo::create(1.0f, 100));
-        progressList[i]->setType(ProgressTimer::Type::BAR);
-        progressList[i]->setMidpoint(Vec2(0.0f,0.0f));
-        progressList[i]->setBarChangeRate(Vec2(1.0f,0.0f));
-        progressList[i]->setAnchorPoint(Vec2(0.0f,0.0f));
-        progress->addChild(progressList[i]);
-    }
-    
-    scheduleUpdate();
 
     return true;
+}
+
+bool CUnitNode::addDamage(CUnitNode *unit)
+{
+    // 속성공격 
+    int iDamageSum = 1;
+    eAttribute tAtt = unit->getAttribute();
+    switch(_eAttribute)
+    {
+        case eAttribute::FIRE:
+            if(tAtt== eAttribute::WATER)
+            {
+                iDamageSum = 2;
+            }
+            break;
+        case eAttribute::WATER:
+            if(tAtt == eAttribute::WOOD)
+            {
+                iDamageSum = 2;
+            }
+            break;
+        case eAttribute::WOOD:
+            if(tAtt == eAttribute::FIRE)
+            {
+                iDamageSum = 2;
+            }
+            break;
+        case eAttribute::DARK:
+            if(tAtt == eAttribute::LIGHT)
+            {
+                iDamageSum = 2;
+            }
+            break;
+        case eAttribute::LIGHT:
+            if(tAtt == eAttribute::DARK)
+            {
+                iDamageSum = 2;
+            }
+            default:
+            break;
+    }
+    
+    int iDamage = unit->getAttack()*iDamageSum;
+    if(addDamage(iDamage))
+    {
+        return true;
+    }
+    return false;
 }
 
 bool CUnitNode::addDamage(int iDamage)
@@ -143,21 +155,12 @@ void CUnitNode::setHPmax(int iHPMax)
     _iHPmax = iHPMax;
 }
 
-void CUnitNode::update(float dt)
-{
-    float p = (float)getHP()/(float)_iHPmax*100.0f;
-    _pProgressTimer2->setPercentage(p);
-    
-    setLocalZOrder(10000000-getPositionY());
-
-}
 
 void CUnitNode::pause()
 {
     Node::pause();
     _pSprite->pause();
     _pTimer->pause();
-    _pLabel->pause();
 }
 
 void CUnitNode::resume()
@@ -165,7 +168,6 @@ void CUnitNode::resume()
     Node::resume();
     _pSprite->resume();
     _pTimer->resume();
-    _pLabel->resume();
 }
 
 void CUnitNode::setColorReset(float dt)

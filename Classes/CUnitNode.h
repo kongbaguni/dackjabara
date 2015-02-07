@@ -14,39 +14,52 @@
 USING_NS_CC;
 #include "CTimer.h"
 
+
 class CUnitNode : public Node
 {
 public:
+    enum class eAttribute
+    {
+        NONE,
+        FIRE,
+        WATER,
+        WOOD,
+        DARK,
+        LIGHT,
+        MAX,
+    };
+    
     CUnitNode();
     virtual ~CUnitNode();
     virtual bool init();
     virtual void pause();
     virtual void resume();
     
-    virtual bool addDamage(int iDamage);
-    void heal(int iHeal);
-    void setHPmax(int iHPMax);
+    virtual bool addDamage(CUnitNode* unit);
+    virtual void heal(int iHeal);
+    virtual void setHPmax(int iHPMax);
+    
     
 protected:
-    virtual void update(float dt);
+    virtual bool addDamage(int iDamage);
+    
     CC_SYNTHESIZE_RETAIN(Sprite*, _pSprite, Sprite);
-    CC_SYNTHESIZE_RETAIN(Label*, _pLabel, Label);
     CC_SYNTHESIZE_RETAIN(CTimer*, _pTimer, Timer);
-    CC_SYNTHESIZE_RETAIN(ProgressTimer*, _pProgressTimer1, ProgressTimer1);
-    CC_SYNTHESIZE_RETAIN(ProgressTimer*, _pProgressTimer2, ProgressTimer2);
 
     Vector<Label*> _vDamageLabelList;
 
     CC_SYNTHESIZE_READONLY(int, _iHPmax, HPmax);
     CC_SYNTHESIZE_READONLY(int ,_iHP,HP);
-    
+
     CC_SYNTHESIZE(int, _iAttack, Attack);
     CC_SYNTHESIZE(Vec2, _vec2Movement, Movement);
+    CC_SYNTHESIZE(eAttribute, _eAttribute, Attribute);
     
     void setColorReset(float dt);
     
     void popupLabel(std::string text,Color3B color);
-    
 };
+
+
 
 #endif /* defined(__dackjabara__CUnitNode__) */

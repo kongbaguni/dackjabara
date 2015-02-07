@@ -38,7 +38,7 @@ CPlayerCharacterNode::~CPlayerCharacterNode(void)
 
 bool CPlayerCharacterNode::init()
 {
-    if(!CUnitNode::init())
+    if(!CAvatarUnitNode::init())
     {
         return false;
     }

@@ -48,7 +48,8 @@ public:
     {
         BACKGROUND = 10,
         UNIT_CHICKEN = 11,
-        UNIT_PLAYER = 12
+        UNIT_PLAYER = 12,
+        UNIT_BULLET = 13
         
     };
     

@@ -24,7 +24,7 @@ CChikenNode::~CChikenNode()
 
 bool CChikenNode::init()
 {
-    if(!CUnitNode::init())
+    if(!CAvatarUnitNode::init())
     {
         return false;
     }
@@ -409,7 +409,7 @@ void CChikenNode::shot()
         auto bullet = CBulletNode::create();
         bullet->setMovement(Vec2(sinf(i*f),cosf(i*f)));
         bullet->setPosition(getPosition());
-        int tag = (int)CUtil::unitTag::UNIT_CHICKEN;
+        int tag = (int)CUtil::unitTag::UNIT_BULLET;
         CGameManager::getInstance()->getGameField()->addChild(bullet,tag,tag);
     }
     getSprite()->runAction(JumpBy::create(0.3f, Vec2::ZERO, 100, 1));

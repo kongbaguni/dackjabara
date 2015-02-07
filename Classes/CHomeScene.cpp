@@ -9,6 +9,7 @@
 #include "CHomeScene.h"
 #include "CUtil.h"
 #include "CSceneManager.h"
+#include "CCardBBobgiScene.h"
 CHomeScene::CHomeScene():
 _pBox(NULL)
 {
@@ -39,9 +40,15 @@ bool CHomeScene::init()
     _pBox->setPosition(Vec2(winsize.width/2, winsize.height/2));
     
     
-    auto menuitemPlayGame = MenuItemLabel::create(Label::createWithBMFont(CUtil::getHDSDname("fonts/title2%s.fnt"), "play Game"), CC_CALLBACK_1(CHomeScene::callBack, this));
+    std::string fontName = CUtil::getHDSDname("fonts/title2%s.fnt");
+    auto menuitemPlayGame = MenuItemLabel::create(Label::createWithBMFont(fontName, "play Game"), CC_CALLBACK_1(CHomeScene::callBack, this));
     menuitemPlayGame->setTag((int)Tag::PLAYGAME);
-    auto menu = Menu::create(menuitemPlayGame, NULL);
+    auto menuitemCardBBobgi = MenuItemLabel::create(Label::createWithBMFont(fontName, "Card BBobgi"), CC_CALLBACK_1(CHomeScene::callBack,this));
+    menuitemCardBBobgi->setTag((int)Tag::CARD_BBOBGI);
+    
+    auto menu = Menu::create(menuitemPlayGame, menuitemCardBBobgi, NULL);
+    menu->alignItemsHorizontally();
+    
     _pBox->addChild(menu);
     
     
@@ -76,6 +83,9 @@ void CHomeScene::callBack(cocos2d::Ref *pSender)
     {
         case Tag::PLAYGAME:
             Director::getInstance()->pushScene(CSceneManager::getInstance()->getScene("game"));
+            break;
+        case Tag::CARD_BBOBGI:
+            Director::getInstance()->pushScene(CCArdBBobgiScene::create());
             break;
         default:
             break;

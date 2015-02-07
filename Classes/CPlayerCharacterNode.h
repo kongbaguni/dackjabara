@@ -11,12 +11,12 @@
 
 #include <stdio.h>
 #include "cocos2d.h"
-#include "CUnitNode.h"
+#include "CAvatarUnitNode.h"
 #include "CPlayerCharacterModel.h"
 USING_NS_CC;
 
 
-class CPlayerCharacterNode : public CUnitNode
+class CPlayerCharacterNode : public CAvatarUnitNode
 {
 public:
     enum class actionTag

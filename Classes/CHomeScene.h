@@ -24,7 +24,9 @@ protected:
     enum class Tag
     {
         PLAYGAME,
+        CARD_BBOBGI,
         EXITGAME,
+        
         TAG_MAX
     };
     

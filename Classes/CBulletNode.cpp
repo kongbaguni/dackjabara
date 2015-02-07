@@ -30,7 +30,6 @@ bool CBulletNode::init()
     _pParticle->stopSystem();
     scheduleUpdate();
 
-    getProgressTimer1()->getParent()->setVisible(false);
     return true;
 }
 

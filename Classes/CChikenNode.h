@@ -12,8 +12,8 @@
 #include <stdio.h>
 #include "CUtil.h"
 #include "CTimer.h"
-#include "CUnitNode.h"
-class CChikenNode : public CUnitNode
+#include "CAvatarUnitNode.h"
+class CChikenNode : public CAvatarUnitNode
 {
 public:
     virtual bool init();
