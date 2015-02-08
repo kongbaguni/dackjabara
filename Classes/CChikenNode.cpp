@@ -130,7 +130,7 @@ void CChikenNode::update(float dt)
                 //if(bPlayerIsAfertJump)
                  {
                     _pSprite->setColor(Color3B(CRandom::getInstnace()->Random(155)+100,CRandom::getInstnace()->Random(155)+100 , 255));
-                    addDamage(player->getAttack()*(player->getJumpCount()*10+1));
+                    addDamage(player);
                     getSprite()->
                     runAction
                     (CCSequence::create
@@ -175,6 +175,7 @@ void CChikenNode::update(float dt)
                           CallFunc::create(CC_CALLBACK_0(CChikenNode::dead, this)),
                           NULL
                           ));
+                        getSpriteAttribute()->setVisible(false);
                         
                         auto action =Sequence::create
                         (EaseExponentialInOut::create(ScaleTo::create(0.5f, 1.5f, 0.5f)),
@@ -189,6 +190,7 @@ void CChikenNode::update(float dt)
                           NULL)
                          , NULL);
                         getSprite()->runAction(action);
+                        player->setAttribute(getAttribute());
                         return;
                         
                         
@@ -411,6 +413,7 @@ void CChikenNode::shot()
         bullet->setPosition(getPosition());
         int tag = (int)CUtil::unitTag::UNIT_BULLET;
         CGameManager::getInstance()->getGameField()->addChild(bullet,tag,tag);
+        bullet->setAttribute(getAttribute());
     }
     getSprite()->runAction(JumpBy::create(0.3f, Vec2::ZERO, 100, 1));
     

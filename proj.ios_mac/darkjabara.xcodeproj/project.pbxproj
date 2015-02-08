@@ -15,8 +15,6 @@
 		1E9E794E1A84A25B000375AE /* CAvatarUnitNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1E9E794B1A84A25A000375AE /* CAvatarUnitNode.cpp */; };
 		1E9E79511A84AA31000375AE /* CCardNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1E9E794F1A84AA31000375AE /* CCardNode.cpp */; };
 		1E9E79521A84AA31000375AE /* CCardNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1E9E794F1A84AA31000375AE /* CCardNode.cpp */; };
-		1E9E795B1A84F711000375AE /* CCardBBobgiScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1E9E79591A84F711000375AE /* CCardBBobgiScene.cpp */; };
-		1E9E795C1A84F711000375AE /* CCardBBobgiScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1E9E79591A84F711000375AE /* CCardBBobgiScene.cpp */; };
 		1E9E795E1A84FD77000375AE /* cardList.json in Resources */ = {isa = PBXBuildFile; fileRef = 1E9E795D1A84FD77000375AE /* cardList.json */; };
 		1E9E795F1A84FD77000375AE /* cardList.json in Resources */ = {isa = PBXBuildFile; fileRef = 1E9E795D1A84FD77000375AE /* cardList.json */; };
 		1EE1FBB51A835E3D00BDFDFD /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1EE1FB861A835E3D00BDFDFD /* AppDelegate.cpp */; };
@@ -171,8 +169,6 @@
 		1E9E794C1A84A25A000375AE /* CAvatarUnitNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CAvatarUnitNode.h; sourceTree = "<group>"; };
 		1E9E794F1A84AA31000375AE /* CCardNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCardNode.cpp; sourceTree = "<group>"; };
 		1E9E79501A84AA31000375AE /* CCardNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCardNode.h; sourceTree = "<group>"; };
-		1E9E79591A84F711000375AE /* CCardBBobgiScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCardBBobgiScene.cpp; sourceTree = "<group>"; };
-		1E9E795A1A84F711000375AE /* CCardBBobgiScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCardBBobgiScene.h; sourceTree = "<group>"; };
 		1E9E795D1A84FD77000375AE /* cardList.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = cardList.json; sourceTree = "<group>"; };
 		1EE1FB861A835E3D00BDFDFD /* AppDelegate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AppDelegate.cpp; sourceTree = "<group>"; };
 		1EE1FB871A835E3D00BDFDFD /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -461,8 +457,6 @@
 				1E9E794C1A84A25A000375AE /* CAvatarUnitNode.h */,
 				1E9E794F1A84AA31000375AE /* CCardNode.cpp */,
 				1E9E79501A84AA31000375AE /* CCardNode.h */,
-				1E9E79591A84F711000375AE /* CCardBBobgiScene.cpp */,
-				1E9E795A1A84F711000375AE /* CCardBBobgiScene.h */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -700,7 +694,6 @@
 				1EE1FBB91A835E3D00BDFDFD /* CBulletNode.cpp in Sources */,
 				1EE1FBCD1A835E3D00BDFDFD /* CPauseLayer.cpp in Sources */,
 				1EE1FBE11A835E3D00BDFDFD /* CUtil.cpp in Sources */,
-				1E9E795B1A84F711000375AE /* CCardBBobgiScene.cpp in Sources */,
 				1E9E79511A84AA31000375AE /* CCardNode.cpp in Sources */,
 				1EE1FBBF1A835E3D00BDFDFD /* CGameManager.cpp in Sources */,
 				1EE1FBDF1A835E3D00BDFDFD /* CUnitNode.cpp in Sources */,
@@ -719,7 +712,6 @@
 				1E9E794E1A84A25B000375AE /* CAvatarUnitNode.cpp in Sources */,
 				1EE1FBC81A835E3D00BDFDFD /* CLabelAnimate.cpp in Sources */,
 				1EE1FBDA1A835E3D00BDFDFD /* CSceneManager.cpp in Sources */,
-				1E9E795C1A84F711000375AE /* CCardBBobgiScene.cpp in Sources */,
 				1EE1FBB81A835E3D00BDFDFD /* CAnimationHelper.cpp in Sources */,
 				1EE1FBC41A835E3D00BDFDFD /* CGameScene.cpp in Sources */,
 				1EE1FBC01A835E3D00BDFDFD /* CGameManager.cpp in Sources */,

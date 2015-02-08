@@ -25,27 +25,35 @@ public:
     {
         HP_UP,
     };
-    CCardNode(int iID, int iExp, int iSkillExp, int iRareRating);
+    CCardNode();
     virtual ~CCardNode();
     virtual bool init();
-    static CCardNode* create(int iID);
-    static CCardNode* create(int iID, int iExp, int iSkillExp, int iRareRating);
+    CREATE_FUNC(CCardNode);
     
     /** 카드의 레벨 구하기*/
     int getLevel();
     /** 카드 스킬레벨 구하기 */
     int getSkillLevel();
+    
+    /** 경험치 획득*/
+    bool addExp(int iExp);
+    
+    /** 스킬경험치 획득*/
+    bool addSkilExp(int iExp);
+    
     /** 카드 합성하기 */
     bool syntheticCard(CCardNode* targetCard);
     /** 카드 여러개 합성하기*/
     bool syntheticCard(Vector<CCardNode*> cardList);
     /** 카드 진화 */
     bool evolutionCard(Vector<CCardNode*> cardList);
+    
+    void setId(int iId);
 protected:
     CC_SYNTHESIZE_READONLY(int, _iID, ID);
-    CC_SYNTHESIZE_READONLY(int, _iExp, Exp);
-    CC_SYNTHESIZE_READONLY(int, _iSkillExp, SkillExp);
-    CC_SYNTHESIZE_READONLY(int, _iSyntheticExp, SyntheticExp);
+    CC_SYNTHESIZE(int, _iExp, Exp);
+    CC_SYNTHESIZE(int, _iSkillExp, SkillExp);
+    CC_SYNTHESIZE(int, _iSyntheticExp, SyntheticExp);
     CC_SYNTHESIZE(int, _iRareRating, RareRating)
     
     int getExpMax();

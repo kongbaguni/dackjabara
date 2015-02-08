@@ -20,7 +20,7 @@
             <key>UI/control_left_select.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{242,2},{185,185}}</string>
+                <string>{{248,2},{185,185}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -59,7 +59,7 @@
             <key>UI/nextTarget_01.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{429,2},{78,80}}</string>
+                <string>{{242,376},{78,80}}</string>
                 <key>offset</key>
                 <string>{2,2}</string>
                 <key>rotated</key>
@@ -72,7 +72,7 @@
             <key>UI/nextTarget_02.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{429,166},{74,74}}</string>
+                <string>{{435,2},{74,74}}</string>
                 <key>offset</key>
                 <string>{2,1}</string>
                 <key>rotated</key>
@@ -85,7 +85,7 @@
             <key>UI/nextTarget_03.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{429,84},{76,80}}</string>
+                <string>{{322,376},{76,80}}</string>
                 <key>offset</key>
                 <string>{1,2}</string>
                 <key>rotated</key>
@@ -94,6 +94,19 @@
                 <string>{{13,8},{76,80}}</string>
                 <key>sourceSize</key>
                 <string>{100,100}</string>
+            </dict>
+            <key>unit/attribute.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{116,486},{14,14}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{14,14}}</string>
+                <key>sourceSize</key>
+                <string>{14,14}</string>
             </dict>
             <key>unit/c1_01.png</key>
             <dict>
@@ -150,7 +163,7 @@
             <key>unit/chick.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{52,486},{20,21}}</string>
+                <string>{{76,486},{20,21}}</string>
                 <key>offset</key>
                 <string>{0,-16}</string>
                 <key>rotated</key>
@@ -163,7 +176,7 @@
             <key>unit/chickDead.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{28,486},{22,21}}</string>
+                <string>{{52,486},{22,21}}</string>
                 <key>offset</key>
                 <string>{2,-16}</string>
                 <key>rotated</key>
@@ -176,7 +189,7 @@
             <key>unit/cock.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{242,376},{52,53}}</string>
+                <string>{{189,2},{52,53}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -186,10 +199,23 @@
                 <key>sourceSize</key>
                 <string>{52,53}</string>
             </dict>
+            <key>unit/ddong.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{28,486},{22,21}}</string>
+                <key>offset</key>
+                <string>{1,-4}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{16,20},{22,21}}</string>
+                <key>sourceSize</key>
+                <string>{52,53}</string>
+            </dict>
             <key>unit/egg.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{74,486},{16,17}}</string>
+                <string>{{98,486},{16,17}}</string>
                 <key>offset</key>
                 <string>{0,-16}</string>
                 <key>rotated</key>
@@ -215,7 +241,7 @@
             <key>unit/hen.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{189,2},{40,49}}</string>
+                <string>{{189,57},{40,49}}</string>
                 <key>offset</key>
                 <string>{-1,-2}</string>
                 <key>rotated</key>
@@ -228,7 +254,7 @@
             <key>unit/progressBar.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{150,497},{56,7}}</string>
+                <string>{{188,490},{56,7}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -241,7 +267,7 @@
             <key>unit/progressBar1.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{92,497},{56,5}}</string>
+                <string>{{182,472},{56,5}}</string>
                 <key>offset</key>
                 <string>{0,2}</string>
                 <key>rotated</key>
@@ -254,7 +280,7 @@
             <key>unit/progressBar2.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{74,505},{56,5}}</string>
+                <string>{{98,505},{56,5}}</string>
                 <key>offset</key>
                 <string>{0,-1}</string>
                 <key>rotated</key>
@@ -267,7 +293,7 @@
             <key>unit/progressBarBG.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{92,486},{58,9}}</string>
+                <string>{{188,479},{58,9}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -280,7 +306,7 @@
             <key>unit/samgetang.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{208,472},{30,25}}</string>
+                <string>{{156,480},{30,25}}</string>
                 <key>offset</key>
                 <string>{0,-13}</string>
                 <key>rotated</key>
@@ -300,7 +326,7 @@
             <key>size</key>
             <string>{512,512}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:3357d983ba1d498efd068f2507bff2cd:c53435b9ca475b4a0b178f9d9199d719:9cd053e67ba59b92e085f9b467acedae$</string>
+            <string>$TexturePacker:SmartUpdate:daeaf2156e4b9e2e6d2e8e86966c3ba9:a71f43c7b3245606341452bce13e8365:9cd053e67ba59b92e085f9b467acedae$</string>
             <key>textureFileName</key>
             <string>game-sd.pvr.ccz</string>
         </dict>

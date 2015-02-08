@@ -29,6 +29,8 @@ bool CBulletNode::init()
     addChild(_pParticle);
     _pParticle->stopSystem();
     scheduleUpdate();
+    setAttack(100);
+    getProgressTimer1()->getParent()->setVisible(false);
 
     return true;
 }
@@ -54,7 +56,7 @@ void CBulletNode::update(float dt)
 
     if(distP<20 && !bPlayerIsJump)
     {
-        CGameManager::getInstance()->getPlayerNode()->addDamage(100);
+        CGameManager::getInstance()->getPlayerNode()->addDamage(this);
         removeFromParentAndCleanup(true);
         return;
     }

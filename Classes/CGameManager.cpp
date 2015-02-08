@@ -88,6 +88,7 @@ bool CGameManager::init()
 
 void CGameManager::newGameInit()
 {
+    _pMainTimerNode->getTimer()->start();
     if(_pNextTargetNode)
     {
         _pNextTargetNode->reset();
@@ -174,6 +175,10 @@ void CGameManager::insertEgg()
             auto chicken = CChikenNode::create();
             chicken->setPosition(x,y);
             _pGameField->addChild(chicken,(int)CUtil::unitTag::UNIT_CHICKEN,(int)CUtil::unitTag::UNIT_CHICKEN);
+            
+            CUnitNode::eAttribute att = (CUnitNode::eAttribute)
+            CRandom::getInstnace()->Random((int)CUnitNode::eAttribute::MAX);
+            chicken->setAttribute(att);
         }
         else
         {

@@ -11,6 +11,9 @@
 CUnitNode::CUnitNode():
 _pSprite(NULL),
 _pTimer(NULL),
+_pSpriteAttribute(NULL),
+_pProgressTimer1(NULL),
+_pProgressTimer2(NULL),
 _iHPmax(30),
 _iHP(30),
 _iAttack(1),
@@ -25,6 +28,10 @@ CUnitNode::~CUnitNode()
 {
     CC_SAFE_RELEASE_NULL(_pSprite);
     CC_SAFE_RELEASE_NULL(_pTimer);
+    CC_SAFE_RELEASE_NULL(_pSpriteAttribute);
+    CC_SAFE_RELEASE_NULL(_pProgressTimer1);
+    CC_SAFE_RELEASE_NULL(_pProgressTimer2);
+
 }
 
 bool CUnitNode::init()
@@ -33,17 +40,91 @@ bool CUnitNode::init()
     {
         return false;
     }
+
+    //기본 스프라이트 초기화
+    {
+        setSprite(Sprite::create());
+        addChild(_pSprite);
+    }
     
-    setSprite(Sprite::create());
-    addChild(_pSprite);
+    //타이머 초기화
+    {
+        setTimer(CTimer::create());
+    }
+
+    //프로그레스바 초기화
+    {
+        auto progress = Sprite::createWithSpriteFrameName("unit/progressBarBG.png");
+        getSprite()->addChild(progress);
+        progress->setPosition(Vec2(58,0));
+        
+        setProgressTimer1(ProgressTimer::create(Sprite::createWithSpriteFrameName("unit/progressBar1.png")));
+        setProgressTimer2(ProgressTimer::create(Sprite::createWithSpriteFrameName("unit/progressBar2.png")));
+        
+        ProgressTimer* progressList[2] =
+        {
+            _pProgressTimer1,_pProgressTimer2
+        };
+        
+        for(int i=0; i<2; i++)
+        {
+            //progressList[i]->setPosition3D(Vec3(0,0,1));
+            
+            progressList[i]->setPercentage(0.0f);
+            progressList[i]->runAction(ProgressTo::create(1.0f, 100));
+            progressList[i]->setType(ProgressTimer::Type::BAR);
+            progressList[i]->setMidpoint(Vec2(0.0f,0.0f));
+            progressList[i]->setBarChangeRate(Vec2(1.0f,0.0f));
+            progressList[i]->setAnchorPoint(Vec2(0.0f,0.0f));
+            progress->addChild(progressList[i]);
+        }
+    }
     
-    setTimer(CTimer::create());
+    //속성 스프라이트 초기화
+    {
+        setSpriteAttribute(Sprite::createWithSpriteFrameName("unit/attribute.png"));
+        getSprite()->addChild(_pSpriteAttribute);
+        _pSpriteAttribute->runAction(RepeatForever::create(RotateBy::create(1.0f, 90.0f)));
+    }
  
     setRotation3D(CUtil::getRotate3D());
     _iHP = _iHPmax;
-    
+    scheduleUpdate();
 
     return true;
+}
+void CUnitNode::update(float dt)
+{
+    Node::update(dt);
+    setLocalZOrder(10000000-getPositionY());
+}
+void CUnitNode::setAttribute(CUnitNode::eAttribute attribute)
+{
+    _eAttribute = attribute;
+    
+    switch(_eAttribute)
+    {
+        case eAttribute::DARK:
+            _color3bAttribute = Color3B(250, 0, 250);
+            break;
+        case eAttribute::LIGHT:
+            _color3bAttribute = Color3B(255,255,0);
+            break;
+        case eAttribute::FIRE:
+            _color3bAttribute = Color3B(255,0,0);
+            break;
+        case eAttribute::WATER:
+            _color3bAttribute = Color3B(0,0,255);
+            break;
+        case eAttribute::WOOD:
+            _color3bAttribute = Color3B(150,40,60);
+            break;
+        default:
+            _color3bAttribute = Color3B(255,255,255);
+            break;
+    }
+    _pSpriteAttribute->setColor(_color3bAttribute);
+    
 }
 
 bool CUnitNode::addDamage(CUnitNode *unit)
@@ -109,6 +190,10 @@ bool CUnitNode::addDamage(int iDamage)
     std::string txt = textUtil::addCommaText(iDamage);
     txt+=" Point Damage";
     popupLabel(txt, Color3B(255,0,0));
+    
+    float p = (float)getHP()/(float)_iHPmax*100.0f;
+    _pProgressTimer2->runAction(EaseExponentialInOut::create(ProgressTo::create(0.3f, p)));
+
     return true;
 }
 

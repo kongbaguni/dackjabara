@@ -64,7 +64,7 @@ protected:
     void dead();
     
     void jumpAfterParticle();
-    virtual bool addDamage(int iDamage);
+    virtual bool addDamage(CUnitNode* node);
  
 };
 

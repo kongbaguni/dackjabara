@@ -10,34 +10,19 @@
 #include <json/document.h>
 
 USING_NS_CC_MATH;
-
-CCardNode::CCardNode(int iID, int iExp, int iSkillExp, int iRareRating)
+CCardNode::CCardNode():
+_iID(0),
+_iExp(0),
+_iSkillExp(0),
+_iRareRating(1)
 {
-    _iID = iID;
-    _iExp = iExp;
-    _iSkillExp = iSkillExp;
-    _iRareRating = iRareRating;
+    
 }
+
 
 CCardNode::~CCardNode()
 {
     
-}
-CCardNode* CCardNode::create(int iID, int iExp, int iSkillExp, int iRareRating)
-{
-    CCardNode* card = new (std::nothrow) CCardNode(iID,iExp,iSkillExp,iRareRating);
-    if(card && card->init())
-    {
-        card->autorelease();
-        return card;
-    }
-    CC_SAFE_RELEASE_NULL(card);
-    return nullptr;
-    
-}
-CCardNode* CCardNode::create(int iID)
-{
-    return CCardNode::create(iID, 0, 0, 0);
 }
 
 bool CCardNode::init()
@@ -46,7 +31,15 @@ bool CCardNode::init()
     {
         return false;
     }
+    
+    
 
+    
+    return true;
+}
+
+void CCardNode::setId(int iId)
+{
     std::string name;
     std::string imageFrameName;
     {//cardList.json 에서 설정 읽어오기
@@ -78,13 +71,20 @@ bool CCardNode::init()
             }
         }
     }
-    
     getSprite()->setSpriteFrame(imageFrameName);
     
-
-    
+}
+bool CCardNode::addExp(int iExp)
+{
+    _iExp+=iExp;
     return true;
 }
+bool CCardNode::addSkilExp(int iExp)
+{
+    _iSkillExp+=iExp;
+    return  true;
+}
+
 
 int CCardNode::getLevel()
 {

@@ -34,18 +34,26 @@ public:
     virtual bool init();
     virtual void pause();
     virtual void resume();
+    virtual void update(float dt);
     
     virtual bool addDamage(CUnitNode* unit);
     virtual void heal(int iHeal);
     virtual void setHPmax(int iHPMax);
     
+    /**속성 설정하기 */
+    void setAttribute(eAttribute attribute);
     
 protected:
     virtual bool addDamage(int iDamage);
     
     CC_SYNTHESIZE_RETAIN(Sprite*, _pSprite, Sprite);
+    CC_SYNTHESIZE_RETAIN(Sprite*, _pSpriteAttribute, SpriteAttribute);
     CC_SYNTHESIZE_RETAIN(CTimer*, _pTimer, Timer);
+    CC_SYNTHESIZE_RETAIN(ProgressTimer*, _pProgressTimer1, ProgressTimer1);
+    CC_SYNTHESIZE_RETAIN(ProgressTimer*, _pProgressTimer2, ProgressTimer2);
 
+    
+    
     Vector<Label*> _vDamageLabelList;
 
     CC_SYNTHESIZE_READONLY(int, _iHPmax, HPmax);
@@ -53,7 +61,11 @@ protected:
 
     CC_SYNTHESIZE(int, _iAttack, Attack);
     CC_SYNTHESIZE(Vec2, _vec2Movement, Movement);
-    CC_SYNTHESIZE(eAttribute, _eAttribute, Attribute);
+    
+    CC_SYNTHESIZE_READONLY(eAttribute, _eAttribute, Attribute);
+    CC_SYNTHESIZE_READONLY(Color3B, _color3bAttribute, AttributeColor);
+
+    
     
     void setColorReset(float dt);
     

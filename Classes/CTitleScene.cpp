@@ -53,7 +53,6 @@ void CTitleScene::changeScene(float dt)
 void CTitleScene::onEnter()
 {
     Scene::onEnter();
-    CGameManager::getInstance()->newGameInit();
     schedule(schedule_selector(CTitleScene::changeScene), 3.0f);
 
 }

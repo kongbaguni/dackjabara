@@ -16,6 +16,8 @@ bool CUtil::isHD()
     return sizeTotal >= 614400;
 }
 
+
+
 std::string CUtil::getHDSD()
 {
     if(!CUtil::isHD())
@@ -31,6 +33,25 @@ std::string CUtil::getHDSDname(std::string nameFormat)
 {
     auto str = String::createWithFormat(nameFormat.c_str(),getHDSD().c_str());
     return str->_string;
+}
+
+std::string CUtil::getFontName(CUtil::eFontList font)
+{
+    std::string fontFormat = "fonts/";
+    switch(font)
+    {
+        case eFontList::DIGITAL:
+            fontFormat+="digital";
+            break;
+        case eFontList::TITLE:
+            fontFormat+="title";
+            break;
+        case eFontList::TITLE2:
+            fontFormat+="title2";
+            break;
+    }
+    fontFormat+="%s.fnt";
+    return getHDSDname(fontFormat);
 }
 
 Vec3 CUtil::getRotate3D()

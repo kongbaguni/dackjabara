@@ -9,7 +9,7 @@
 #include "CHomeScene.h"
 #include "CUtil.h"
 #include "CSceneManager.h"
-#include "CCardBBobgiScene.h"
+#include "CGameManager.h"
 CHomeScene::CHomeScene():
 _pBox(NULL)
 {
@@ -40,16 +40,39 @@ bool CHomeScene::init()
     _pBox->setPosition(Vec2(winsize.width/2, winsize.height/2));
     
     
-    std::string fontName = CUtil::getHDSDname("fonts/title2%s.fnt");
-    auto menuitemPlayGame = MenuItemLabel::create(Label::createWithBMFont(fontName, "play Game"), CC_CALLBACK_1(CHomeScene::callBack, this));
-    menuitemPlayGame->setTag((int)Tag::PLAYGAME);
-    auto menuitemCardBBobgi = MenuItemLabel::create(Label::createWithBMFont(fontName, "Card BBobgi"), CC_CALLBACK_1(CHomeScene::callBack,this));
-    menuitemCardBBobgi->setTag((int)Tag::CARD_BBOBGI);
+    std::string fontName = CUtil::getFontName(CUtil::eFontList::TITLE);
     
-    auto menu = Menu::create(menuitemPlayGame, menuitemCardBBobgi, NULL);
+    std::string text[2] =
+    {
+        "home",
+        "BBobgi"
+    };
+    
+    Node* boxList[2][2];
+    Vector<MenuItem*> menuItemList;
+    menuItemList.clear();
+    for(int i=0; i<2; i++)
+    {
+        for(int j=0; j<2; j++)
+        {
+            boxList[i][j] = ui::Scale9Sprite::createWithSpriteFrameName("homeUI/box01.png", Rect(20,20,10,10));
+            auto label = Label::createWithBMFont(fontName, text[i]);
+            boxList[i][j]->addChild(label);
+            label->setScale(0.5f);
+        }
+        boxList[i][1]->setColor(Color3B(255, 0, 0));
+        auto menuitem =
+        MenuItemSprite::create(boxList[i][0],boxList[i][1],CC_CALLBACK_1(CHomeScene::callBack, this));
+        menuitem->setTag(i);
+        menuItemList.pushBack(menuitem);
+    }
+    
+    
+    auto menu = Menu::createWithArray(menuItemList);
     menu->alignItemsHorizontally();
     
     _pBox->addChild(menu);
+    
     
     
     
@@ -82,10 +105,10 @@ void CHomeScene::callBack(cocos2d::Ref *pSender)
     switch((Tag)node->getTag())
     {
         case Tag::PLAYGAME:
+            CGameManager::getInstance()->newGameInit();
             Director::getInstance()->pushScene(CSceneManager::getInstance()->getScene("game"));
             break;
         case Tag::CARD_BBOBGI:
-            Director::getInstance()->pushScene(CCArdBBobgiScene::create());
             break;
         default:
             break;

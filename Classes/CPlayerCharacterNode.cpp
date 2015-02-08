@@ -57,7 +57,7 @@ bool CPlayerCharacterNode::init()
     }
     
     setHPmax(500);
-    setAttack(1);
+    setAttack(10);
     auto sprite = getSprite();
     sprite->setSpriteFrame("unit/c1_01.png");
     sprite->setAnchorPoint(Vec2(0.5f, 0.0f));
@@ -501,9 +501,9 @@ void CPlayerCharacterNode::jumpAfterParticle()
 
 }
 
-bool CPlayerCharacterNode::addDamage(int iDamage)
+bool CPlayerCharacterNode::addDamage(CUnitNode *node)
 {
-    if(!CUnitNode::addDamage(iDamage))
+    if(!CAvatarUnitNode::addDamage(node))
     {
         return false;
     }

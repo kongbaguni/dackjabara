@@ -95,6 +95,19 @@
                 <key>sourceSize</key>
                 <string>{200,200}</string>
             </dict>
+            <key>unit/attribute.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{266,959},{27,27}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{27,27}}</string>
+                <key>sourceSize</key>
+                <string>{27,27}</string>
+            </dict>
             <key>unit/c1_01.png</key>
             <dict>
                 <key>frame</key>
@@ -150,7 +163,7 @@
             <key>unit/chick.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{151,964},{39,39}}</string>
+                <string>{{196,964},{39,39}}</string>
                 <key>offset</key>
                 <string>{0,-32}</string>
                 <key>rotated</key>
@@ -163,7 +176,7 @@
             <key>unit/chickDead.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{108,964},{41,39}}</string>
+                <string>{{153,964},{41,39}}</string>
                 <key>offset</key>
                 <string>{4,-32}</string>
                 <key>rotated</key>
@@ -186,10 +199,23 @@
                 <key>sourceSize</key>
                 <string>{103,105}</string>
             </dict>
+            <key>unit/ddong.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{108,964},{43,39}}</string>
+                <key>offset</key>
+                <string>{2,-9}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{32,42},{43,39}}</string>
+                <key>sourceSize</key>
+                <string>{103,105}</string>
+            </dict>
             <key>unit/egg.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{192,964},{27,33}}</string>
+                <string>{{237,964},{27,33}}</string>
                 <key>offset</key>
                 <string>{1,-31}</string>
                 <key>rotated</key>
@@ -228,7 +254,7 @@
             <key>unit/progressBar.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{221,964},{112,13}}</string>
+                <string>{{234,1005},{112,13}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -300,7 +326,7 @@
             <key>size</key>
             <string>{1024,1024}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:3357d983ba1d498efd068f2507bff2cd:c53435b9ca475b4a0b178f9d9199d719:9cd053e67ba59b92e085f9b467acedae$</string>
+            <string>$TexturePacker:SmartUpdate:daeaf2156e4b9e2e6d2e8e86966c3ba9:a71f43c7b3245606341452bce13e8365:9cd053e67ba59b92e085f9b467acedae$</string>
             <key>textureFileName</key>
             <string>game-hd.pvr.ccz</string>
         </dict>

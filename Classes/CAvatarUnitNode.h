@@ -21,11 +21,8 @@ public:
   
 protected:
     CC_SYNTHESIZE_RETAIN(Label*, _pLabel, Label);
-    CC_SYNTHESIZE_RETAIN(ProgressTimer*, _pProgressTimer1, ProgressTimer1);
-    CC_SYNTHESIZE_RETAIN(ProgressTimer*, _pProgressTimer2, ProgressTimer2);
     
-    virtual void update(float dt);
-
+    
 };
 
 #endif /* defined(__darkjabara__CAvatarUnitNode__) */

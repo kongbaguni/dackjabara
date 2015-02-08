@@ -60,7 +60,14 @@ public:
         eDirection8 _eCrashDirction;
         Sprite* _pCrashTile;        
     };
-
+    enum class eFontList
+    {
+        DIGITAL,
+        TITLE,
+        TITLE2
+    };
+    
+    static std::string getFontName(eFontList font);
     
     static bool isHD();
     static std::string getHDSD();
