@@ -33,6 +33,8 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
 ../../Classes/CLabelAnimate.cpp \
 ../../Classes/CNextTargetPrintNode.cpp \
 ../../Classes/CBulletNode.cpp \
+../../Classes/CAvatarUnitNode.cpp \
+../../Classes/CCardNode.cpp \
 ../../Classes/CUnitNode.cpp 
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes

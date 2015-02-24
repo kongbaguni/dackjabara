@@ -9,7 +9,8 @@
 #include "CBulletNode.h"
 #include "CGameManager.h"
 CBulletNode::CBulletNode():
-_pParticle(NULL)
+_pParticle(NULL),
+_fSpeedAcc(1.0f)
 {
     
 }
@@ -31,6 +32,11 @@ bool CBulletNode::init()
     scheduleUpdate();
     setAttack(100);
     getProgressTimer1()->getParent()->setVisible(false);
+    
+    getSpriteAttribute()->removeFromParent();
+    addChild(getSpriteAttribute());
+    getSpriteAttribute()->runAction(RepeatForever::create(EaseExponentialInOut::create(RotateBy::create(2.0f, 720.0f))));
+    
 
     return true;
 }
@@ -43,8 +49,14 @@ void CBulletNode::onEnter()
 
 void CBulletNode::update(float dt)
 {
+    setMovement(getMovement()*_fSpeedAcc);
     setPosition(getPosition()+getMovement());
     _pParticle->setLocalZOrder(getSprite()->getLocalZOrder());
+    if(CGameManager::getInstance()->getIsGameOver())
+    {
+        removeFromParentAndCleanup(true);
+        return;
+    }
     
     //플레이어와 충돌검사
     auto player = CGameManager::getInstance()->getPlayerNode();
@@ -56,8 +68,10 @@ void CBulletNode::update(float dt)
 
     if(distP<20 && !bPlayerIsJump)
     {
-        CGameManager::getInstance()->getPlayerNode()->addDamage(this);
-        removeFromParentAndCleanup(true);
+        if(CGameManager::getInstance()->getPlayerNode()->addDamage(this))
+        {
+            removeFromParentAndCleanup(true);
+        }
         return;
     }
     if(outScreen)

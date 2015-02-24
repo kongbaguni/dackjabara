@@ -8,6 +8,7 @@
 
 #include "CUnitNode.h"
 #include "CUtil.h"
+#include <vector>
 CUnitNode::CUnitNode():
 _pSprite(NULL),
 _pTimer(NULL),
@@ -16,9 +17,13 @@ _pProgressTimer1(NULL),
 _pProgressTimer2(NULL),
 _iHPmax(30),
 _iHP(30),
+_iLevel(1),
+_iExp(0),
 _iAttack(1),
 _vec2Movement(Vec2(0,0)),
-_eAttribute(eAttribute::NONE)
+_eAttribute(eAttribute::NONE),
+_lLastDamagTime(0),
+_pLabelLevel(NULL)
 {
     _vDamageLabelList.clear();
     
@@ -31,6 +36,7 @@ CUnitNode::~CUnitNode()
     CC_SAFE_RELEASE_NULL(_pSpriteAttribute);
     CC_SAFE_RELEASE_NULL(_pProgressTimer1);
     CC_SAFE_RELEASE_NULL(_pProgressTimer2);
+    CC_SAFE_RELEASE_NULL(_pLabelLevel);
 
 }
 
@@ -83,8 +89,17 @@ bool CUnitNode::init()
     //속성 스프라이트 초기화
     {
         setSpriteAttribute(Sprite::createWithSpriteFrameName("unit/attribute.png"));
-        getSprite()->addChild(_pSpriteAttribute);
+        getProgressTimer1()->getParent()->addChild(_pSpriteAttribute);
+        _pSpriteAttribute->setPosition(Vec2(-15, 10));
         _pSpriteAttribute->runAction(RepeatForever::create(RotateBy::create(1.0f, 90.0f)));
+    }
+    //레벨표시 라벨 초기화
+    {
+        setLabelLevel(Label::createWithBMFont(CUtil::getFontName(CUtil::eFontList::OUTLINE_FONT_30), textUtil::addCommaText(_iLevel)));
+        _pProgressTimer1->getParent()->addChild(_pLabelLevel);
+        _pLabelLevel->setColor(Color3B::RED);
+        _pLabelLevel->setPosition(Vec2(150,10));
+        
     }
  
     setRotation3D(CUtil::getRotate3D());
@@ -129,7 +144,7 @@ void CUnitNode::setAttribute(CUnitNode::eAttribute attribute)
 
 bool CUnitNode::addDamage(CUnitNode *unit)
 {
-    // 속성공격 
+    // 속성공격
     int iDamageSum = 1;
     eAttribute tAtt = unit->getAttribute();
     switch(_eAttribute)
@@ -167,7 +182,7 @@ bool CUnitNode::addDamage(CUnitNode *unit)
             break;
     }
     
-    int iDamage = unit->getAttack()*iDamageSum;
+    int iDamage = unit->getAttack()*iDamageSum * (1.0+ unit->getLevel()*0.1f);
     if(addDamage(iDamage))
     {
         return true;
@@ -177,6 +192,12 @@ bool CUnitNode::addDamage(CUnitNode *unit)
 
 bool CUnitNode::addDamage(int iDamage)
 {
+    const long timeNow = timeUtil::millisecondNow();
+    if(_lLastDamagTime>0 && timeNow-_lLastDamagTime<500)
+    {
+        return false;
+    }
+    _lLastDamagTime = timeNow;
     _iHP-=iDamage;
     if(_iHP<0)
     {
@@ -258,4 +279,87 @@ void CUnitNode::resume()
 void CUnitNode::setColorReset(float dt)
 {
     _pSprite->setColor(Color3B(255, 255, 255));
+}
+
+
+void CUnitNode::updateLabelLevel()
+{
+    std::string text = "LV ";
+    text+=textUtil::addCommaText(_iLevel);
+    _pLabelLevel->setString(text);
+}
+
+void CUnitNode::addExp(int exp)
+{
+    _iExp+=exp;
+    updateLabelLevel();
+    getLevel();
+}
+
+void CUnitNode::resetExp()
+{
+    _iExp=0;
+    updateLabelLevel();
+}
+
+
+void CUnitNode::setLevel()
+{
+    const int MINEXP = 50;
+    if(_iExp<MINEXP)
+    {
+        _iLevel = 1;
+    }
+    // x*e+x
+    //exp -
+    
+    static int levelupTable[] =
+    {
+        50,
+        100,
+        150,
+        200,
+        250,
+        300,
+        350,
+        400,
+        450,
+        500,
+        550,
+        600,
+        650,
+        700,
+        750,
+        800,
+        850,
+        900,
+        950,
+        1000,
+        1500,
+        2000,
+        2500,
+        3000,
+        3500,
+        4000,
+        4500,
+        5000,
+        5500,
+        6000,
+        6500,
+        7000,
+        7500,
+        8000,
+        8500,
+        9000,
+        9500,
+    };
+    
+    int tempExp = _iExp;
+    int i = 0;
+    while(tempExp>MINEXP && i<=sizeof(levelupTable)/sizeof(int64_t))
+    {
+        tempExp-=levelupTable[i];
+        i++;
+    }
+    _iLevel = i;
 }

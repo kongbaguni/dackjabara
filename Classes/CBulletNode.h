@@ -25,6 +25,8 @@ protected:
     virtual void onEnter();
     virtual void update(float dt);
     CC_SYNTHESIZE_RETAIN(ParticleSystemQuad*, _pParticle, Particle);
+    
+    CC_SYNTHESIZE(float, _fSpeedAcc, SpeedAcc);
 };
 
 #endif /* defined(__dackjabara__CBulletNode__) */

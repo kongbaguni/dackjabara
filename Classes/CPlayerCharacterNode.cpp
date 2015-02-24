@@ -146,6 +146,7 @@ void CPlayerCharacterNode::standAction()
 
 void CPlayerCharacterNode::reset()
 {
+    resetExp();
     _pModel->reset();
     if(_pParticle->getParent()==NULL)
     {

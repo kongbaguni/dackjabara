@@ -78,6 +78,12 @@ void CChikenNode::update(float dt)
 
     CUnitNode::update(dt);
     getLabel()->setString(textUtil::addCommaText(getLocalZOrder()));
+    
+    if(CGameManager::getInstance()->getIsGameOver())
+    {
+        removeFromParentAndCleanup(true);
+        return;
+    }
 
 
     //움직일수 있는상태면 움직이게
@@ -191,6 +197,8 @@ void CChikenNode::update(float dt)
                          , NULL);
                         getSprite()->runAction(action);
                         player->setAttribute(getAttribute());
+                        getLabelLevel()->setVisible(false);
+                        player->addExp(getExp());
                         return;
                         
                         
@@ -302,41 +310,39 @@ void CChikenNode::update(float dt)
     }
     
     int iRnd = CRandom::getInstnace()->Random(100);
-    state oldState = _eState;
     switch (_eState)
     {
         case state::EGG:
         {
             if(iRnd<40)
             {
-                _eState = state::EGG_BROKEN;
+                setState(state::EGG_BROKEN);
             }
             else
             {
-                _eState = state::CHICK;
+                setState(state::CHICK);
             }
         }break;
         case state::CHICK:
         {
             if(iRnd<30)
             {
-                _eState = state::CHICK_DEAD;
+                setState(state::CHICK_DEAD);
             }
             else if(iRnd<80)
             {
-                _eState = state::HEN;
+                setState(state::HEN);
             }
             else
             {
-                _eState = state::COCK;
+                setState(state::COCK);
                 getTimer()->setMaxTime(2);
             }
         }break;
         case state::CHICK_DEAD:
         case state::EGG_BROKEN:
+        case state::DDONG:
         {
-           // unscheduleUpdate();
-         //   removeFromParentAndCleanup(true);
             getTimer()->pause();
             return;
         }break;
@@ -349,64 +355,94 @@ void CChikenNode::update(float dt)
                 egg->setPosition(getPosition());
                 getSprite()->runAction(JumpBy::create(0.3f, Vec2(0,0), 50, 1));
             }
+            if(CRandom::getInstnace()->Random(2)==0)
+            {
+                ddongSSagi();
+            }
+            else
+            {
+                shot(5);
+            }
         }break;
         case state::COCK:
         {
-            shot();
+            if(CRandom::getInstnace()->Random(10)==0)
+            {
+                ddongSSagi();
+            }
+            else
+            {
+                shot(5);
+            }
         }break;
         default:
             break;
     }
-    
-    if(oldState!=_eState)
-    {
-        //상태에 맞게 그림 고치기
-        {
-            std::string frameName = "unit/";
-            switch (_eState)
-            {
-                case state::EGG:
-                    frameName+="egg.png";
-                    setHPmax(10);
-                    break;
-                case state::EGG_BROKEN:
-                    frameName+="eggBroken.png";
-                    setHPmax(1);
-                    break;
-                case state::CHICK:
-                    frameName+="chick.png";
-                    setHPmax(20);
-                    break;
-                case state::CHICK_DEAD:
-                    frameName+="chickDead.png";
-                    setHPmax(1);
-                    break;
-                case state::COCK:
-                    frameName+="cock.png";
-                    setHPmax(250);
-                    break;
-                case state::HEN:
-                    frameName+="hen.png";
-                    setHPmax(500);
-                    break;
-                default:
-                    break;
-            }
-            getSprite()->setSpriteFrame(frameName);
-            
-        }
-    }
+    addExp(10);
     
     resetTimer();
     
-    
+}
+void CChikenNode::ddongSSagi()
+{
+    auto ddong = CChikenNode::create();
+    ddong->setState(state::DDONG);
+    getParent()->addChild(ddong);
+    ddong->setPosition(getPosition());
+    runAction(JumpBy::create(0.3f, Vec2::ZERO, 100, 1));
 }
 
-void CChikenNode::shot()
+void CChikenNode::setState(CChikenNode::state eState)
+{
+    if(_eState==eState)
+    {
+        return;
+    }
+    _eState = eState;
+    //상태에 맞게 그림 고치기
+    {
+        std::string frameName = "unit/";
+        switch (_eState)
+        {
+            case state::EGG:
+                frameName+="egg.png";
+                setHPmax(10);
+                break;
+            case state::EGG_BROKEN:
+                frameName+="eggBroken.png";
+                setHPmax(1);
+                break;
+            case state::CHICK:
+                frameName+="chick.png";
+                setHPmax(15);
+                break;
+            case state::CHICK_DEAD:
+                frameName+="chickDead.png";
+                setHPmax(1);
+                break;
+            case state::COCK:
+                frameName+="cock.png";
+                setHPmax(25);
+                break;
+            case state::HEN:
+                frameName+="hen.png";
+                setHPmax(50);
+                break;
+            case state::DDONG:
+                frameName+="ddong.png";
+            default:
+                break;
+        }
+        getSprite()->setSpriteFrame(frameName);
+        
+    }
+}
+
+void CChikenNode::shot(int shotLength)
 {
     SimpleAudioEngine::getInstance()->playEffect("effect/roosterCrow.mp3");
     float f =CRandom::getInstnace()->Random(100)*0.01f;
-    for(float i=0; i<20.0f; i++)
+    for(float i=0; i<shotLength; i++)
     {
         auto bullet = CBulletNode::create();
         bullet->setMovement(Vec2(sinf(i*f),cosf(i*f)));
@@ -414,6 +450,7 @@ void CChikenNode::shot()
         int tag = (int)CUtil::unitTag::UNIT_BULLET;
         CGameManager::getInstance()->getGameField()->addChild(bullet,tag,tag);
         bullet->setAttribute(getAttribute());
+        bullet->setSpeedAcc(1.0f+((CRandom::getInstnace()->Random(100)*0.0001f)));
     }
     getSprite()->runAction(JumpBy::create(0.3f, Vec2::ZERO, 100, 1));
     

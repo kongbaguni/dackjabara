@@ -87,8 +87,9 @@ int CPlayerCharacterModel::getScoreWithChicken(CChikenNode *chicken)
         default:
             break;
     }
+    int iLevelBonus = 1.0f+(chicken->getLevel()*0.1f);
     int iCombo = CGameManager::getInstance()->getNextTargetNode()->getCombo()+1;
-    return score*iCombo;
+    return score*iCombo*iLevelBonus;
 }
 
 void CPlayerCharacterModel::addScoreWithChicken(CChikenNode *chicken)

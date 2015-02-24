@@ -35,8 +35,6 @@ public:
     /** 카드 스킬레벨 구하기 */
     int getSkillLevel();
     
-    /** 경험치 획득*/
-    bool addExp(int iExp);
     
     /** 스킬경험치 획득*/
     bool addSkilExp(int iExp);
@@ -51,7 +49,6 @@ public:
     void setId(int iId);
 protected:
     CC_SYNTHESIZE_READONLY(int, _iID, ID);
-    CC_SYNTHESIZE(int, _iExp, Exp);
     CC_SYNTHESIZE(int, _iSkillExp, SkillExp);
     CC_SYNTHESIZE(int, _iSyntheticExp, SyntheticExp);
     CC_SYNTHESIZE(int, _iRareRating, RareRating)

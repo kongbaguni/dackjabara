@@ -27,6 +27,7 @@ protected:
         PLAYGAME,
         CARD_DECK,
         CARD_BBOBGI,
+        RANKING,
         GAME_SETTING,
         EXITGAME,
         
@@ -62,6 +63,7 @@ class CTabHomeMenu : public CTabMenu
 public:
     virtual bool init();
     CREATE_FUNC(CTabHomeMenu);
+    virtual void callBack(Ref* pSender);
 };
 
 class CTabCardDeckMenu : public CTabMenu
@@ -85,5 +87,11 @@ public:
     CREATE_FUNC(CTabGameSettingMenu);
 };
 
+class CTabRankingMenu : public CTabMenu
+{
+public:
+    virtual bool init();
+    CREATE_FUNC(CTabRankingMenu);
+};
 
 #endif /* defined(__dackjabara__CHomeScene__) */

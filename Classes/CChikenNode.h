@@ -27,12 +27,14 @@ public:
         CHICK_DEAD,
         HEN,
         COCK,
+        DDONG,
         STATE_MAX
     };
     enum class eAction
     {
         DEAD,
     };
+    void setState(state eState);
     
 protected:
     virtual void update(float dt);
@@ -44,8 +46,8 @@ protected:
     void dead();
     virtual void onEnter();
     
-    void shot();
-    
+    void shot(int shotLength);
+    void ddongSSagi();
 };
 
 #endif /* defined(__dackjabara__CChikenNode__) */

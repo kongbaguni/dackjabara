@@ -9,6 +9,9 @@
 #include "CPauseScene.h"
 #include "CPauseLayer.h"
 #include "CSceneManager.h"
+#include "extensions/cocos-ext.h"
+USING_NS_CC_EXT;
+
 bool CPauseScene::init()
 {
     if(!Scene::init())
@@ -19,15 +22,36 @@ bool CPauseScene::init()
     auto bg = LayerColor::create(Color4B(0,0,0,200));
     addChild(bg);
     
+    Size winsize = Director::getInstance()->getWinSize();
+    
+    auto box = ui::Scale9Sprite::createWithSpriteFrameName("homeUI/box02.png", Rect(20, 20, 10, 10));
+    addChild(box);
+    box->setContentSize(Size(800, winsize.height*0.95f));
+    box->setPosition(Vec2(winsize.width/2, winsize.height/2));
+
+    
+    
+    std::string title[] =
+    {
+        "resume",
+        "exit game",
+    };
+
+    Vector<MenuItem*>menuList;
+    menuList.clear();
     auto Titlelabel = Label::createWithBMFont(CUtil::getHDSDname("fonts/title%s.fnt"), "Pause");
-    auto menuTitle = MenuItemLabel::create(Titlelabel);
+    menuList.pushBack(MenuItemLabel::create(Titlelabel));
+
+    for(int i=0; i<sizeof(title)/sizeof(std::string); i++)
+    {
+        auto resumeLabel = Label::createWithBMFont(CUtil::getHDSDname("fonts/title%s.fnt"), title[i]);
+        auto menuItem =
+        MenuItemLabel::create(resumeLabel, CC_CALLBACK_1(CPauseScene::menuCallback, this));
+        menuItem->setTag(i);
+        menuList.pushBack(menuItem);
+    }
     
-    auto resumeLabel = Label::createWithBMFont(CUtil::getHDSDname("fonts/title%s.fnt"), "resume");
-    auto menuResume =
-    MenuItemLabel::create(resumeLabel, CC_CALLBACK_1(CPauseScene::menuCallback, this));
-    
-    
-    auto menu = Menu::create(menuTitle,menuResume, nullptr);
+    auto menu = Menu::createWithArray(menuList);
     menu->alignItemsVertically();
     addChild(menu);
     menu->setRotation3D(Vec3(-10,0,0));
@@ -42,8 +66,18 @@ bool CPauseScene::init()
 
 void CPauseScene::menuCallback(cocos2d::Ref *sender)
 {
-    Director::getInstance()->pushScene
-    (CSceneManager::getInstance()->getScene("game"));
+    auto node = (Node*)sender;
+    switch((eTag)node->getTag())
+    {
+        case eTag::RESUME:
+            Director::getInstance()->pushScene
+            (CSceneManager::getInstance()->getScene("game"));
+            break;
+        case eTag::EXIT_GAME:
+            Director::getInstance()->pushScene
+            (CSceneManager::getInstance()->getScene("gameResult"));
+            break;
+    }
 
     
 }

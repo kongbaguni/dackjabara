@@ -49,6 +49,9 @@ std::string CUtil::getFontName(CUtil::eFontList font)
         case eFontList::TITLE2:
             fontFormat+="title2";
             break;
+        case eFontList::OUTLINE_FONT_30:
+            fontFormat+="outlineFont30";
+            break;
     }
     fontFormat+="%s.fnt";
     return getHDSDname(fontFormat);

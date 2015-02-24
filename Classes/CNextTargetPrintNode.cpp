@@ -105,6 +105,7 @@ void CNextTargetPrintNode::updateComboLabel()
 void CNextTargetPrintNode::update(float dt)
 {
 
+    setVisible(!CGameManager::getInstance()->getIsGameOver());
     updateComboLabel();
     _pProgressTimer->setPercentage((float)_pTimer->getTime()/(float)_pTimer->getMaxTime()*100.0f);
     auto mainTimer = CGameManager::getInstance()->getMainTimerNode()->getTimer();

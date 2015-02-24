@@ -53,6 +53,11 @@ bool AppDelegate::applicationDidFinishLaunching() {
     // set FPS. the default value is 1.0/60 if you don't call this
     director->setAnimationInterval(1.0 / 60);
 
+    
+    //    리소스 로딩
+    std::string fileName = CUtil::getHDSDname("texturePacker/home%s.plist");
+    SpriteFrameCache::getInstance()->addSpriteFramesWithFile(fileName);
+
     // create a scene. it's an autorelease object
 
     CSceneManager::getInstance()->addScene(CTitleScene::create(), "title");
@@ -62,6 +67,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     CSceneManager::getInstance()->addScene(CHomeScene::create(), "home");
 
     auto scene = CSceneManager::getInstance()->getScene("title");
+
 
     // run
     director->runWithScene(scene);

@@ -68,7 +68,7 @@ namespace textUtil
 	{
 		if(number<1000)
 		{
-			return CCString::createWithFormat("%d",(int)number)->getCString();
+			return String::createWithFormat("%d",(int)number)->getCString();
 		}
 		static char result[20]="";
 		char buf[20];
@@ -90,7 +90,7 @@ namespace textUtil
 			sprintf(buf,",%03d", abs(data[a]));
 			strcat(result,buf);
 		}
-		return CCString::createWithFormat("%s",result)->getCString();
+		return String::createWithFormat("%s",result)->getCString();
 	}
 
 	static inline void replaceText(std::string& stringA, const std::string searchTxt, const std::string replaceText)

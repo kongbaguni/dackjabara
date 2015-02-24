@@ -12,7 +12,6 @@
 USING_NS_CC_MATH;
 CCardNode::CCardNode():
 _iID(0),
-_iExp(0),
 _iSkillExp(0),
 _iRareRating(1)
 {
@@ -74,11 +73,7 @@ void CCardNode::setId(int iId)
     getSprite()->setSpriteFrame(imageFrameName);
     
 }
-bool CCardNode::addExp(int iExp)
-{
-    _iExp+=iExp;
-    return true;
-}
+
 bool CCardNode::addSkilExp(int iExp)
 {
     _iSkillExp+=iExp;
@@ -119,15 +114,7 @@ bool CCardNode::syntheticCard(CCardNode *targetCard)
     int tRareRating = targetCard->getRareRating()^2;
     bool bExpUp = false;
     bool bSkillExpUp = false;
-    if(_iExp<iExpMax)
-    {
-        _iExp+=targetCard->getSyntheticExp()*tRareRating;
-        bExpUp = true;
-    }
-    else
-    {
-        _iExp = iExpMax;
-    }
+
     
     if(_iID==targetCard->getID() && _iSkillExp < iSkillExpMax)
     {

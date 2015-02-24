@@ -43,7 +43,11 @@ public:
     /**속성 설정하기 */
     void setAttribute(eAttribute attribute);
     
+    virtual void addExp(int exp);
+    void resetExp();
+    
 protected:
+    void setLevel();
     virtual bool addDamage(int iDamage);
     
     CC_SYNTHESIZE_RETAIN(Sprite*, _pSprite, Sprite);
@@ -51,7 +55,7 @@ protected:
     CC_SYNTHESIZE_RETAIN(CTimer*, _pTimer, Timer);
     CC_SYNTHESIZE_RETAIN(ProgressTimer*, _pProgressTimer1, ProgressTimer1);
     CC_SYNTHESIZE_RETAIN(ProgressTimer*, _pProgressTimer2, ProgressTimer2);
-
+    CC_SYNTHESIZE_RETAIN(Label*, _pLabelLevel, LabelLevel);
     
     
     Vector<Label*> _vDamageLabelList;
@@ -66,10 +70,14 @@ protected:
     CC_SYNTHESIZE_READONLY(Color3B, _color3bAttribute, AttributeColor);
 
     
-    
+    CC_SYNTHESIZE_READONLY(int ,_iExp,Exp);
+    CC_SYNTHESIZE_READONLY(int, _iLevel, Level);
     void setColorReset(float dt);
     
     void popupLabel(std::string text,Color3B color);
+    long _lLastDamagTime;
+    
+    void updateLabelLevel();
 };
 
 

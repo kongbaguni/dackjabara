@@ -190,10 +190,6 @@ void CGameManager::insertEgg()
 
 void CGameManager::pauseGame()
 {
-    Director::getInstance()->pushScene
-    (TransitionCrossFade::create
-     (0.5f,
-      CSceneManager::getInstance()->getScene("pause")
-      ));
+    Director::getInstance()->pushScene(CSceneManager::getInstance()->getScene("pause"));
 }
 

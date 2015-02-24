@@ -17,6 +17,11 @@ public:
     virtual bool init();
     CREATE_FUNC(CPauseScene);
 protected:
+    enum class eTag
+    {
+        RESUME,
+        EXIT_GAME
+    };
     void menuCallback(Ref* sender);
 };
 #endif /* defined(__dackjabara__CPauseScene__) */

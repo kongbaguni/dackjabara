@@ -10,13 +10,12 @@
 #include "CUtil.h"
 #include "CSceneManager.h"
 #include "CGameManager.h"
+#include "CCardNode.h"
+
 CHomeScene::CHomeScene():
 _pBox(NULL),
 _pMenu(NULL)
 {
-    //    리소스 로딩
-    std::string fileName = CUtil::getHDSDname("texturePacker/home%s.plist");
-    SpriteFrameCache::getInstance()->addSpriteFramesWithFile(fileName);
 
     
 }
@@ -31,6 +30,8 @@ bool CHomeScene::init()
     {
         return false;
     }
+    
+    SimpleAudioEngine::getInstance()->preloadEffect("effect/bowFire.mp3");
     
     Size winsize = Director::getInstance()->getWinSize();
     auto bg = LayerColor::create(Color4B(100, 200, 255, 255));
@@ -49,6 +50,7 @@ bool CHomeScene::init()
             CTabHomeMenu::create(),
             CTabCardDeckMenu::create(),
             CTabCardBBobgiMenu::create(),
+            CTabRankingMenu::create(),
             CTabGameSettingMenu::create(),
         };
         for(int i=0; i<sizeof(m)/sizeof(Node*); i++)
@@ -69,10 +71,11 @@ bool CHomeScene::init()
         
         std::string text[] =
         {
-            "home",
+            "Home",
             "Deck",
             "BBobgi",
-            "Setting"
+            "Ranking",
+            "Setting",
         };
         const int MENU_SIZE = sizeof(text)/sizeof(std::string);
         Node* boxList[MENU_SIZE][4];
@@ -83,7 +86,7 @@ bool CHomeScene::init()
             for(int j=0; j<4; j++)
             {
                 boxList[i][j] = ui::Scale9Sprite::createWithSpriteFrameName("homeUI/box01.png", Rect(20,20,10,10));
-                boxList[i][j]->setContentSize(Size(100, 50));
+                boxList[i][j]->setContentSize(Size(150, 80));
                 auto label = Label::createWithBMFont(fontName, text[i]);
                 label->setAnchorPoint(Vec2::ZERO);
                 label->setPosition(Vec2(10,10));
@@ -137,6 +140,8 @@ Color3B CHomeScene::getColorByTag(Tag tag)
             return Color3B(0,255,0);
         case Tag::GAME_SETTING:
             return Color3B(0,125,255);
+        case Tag::RANKING:
+            return Color3B(255,130,220);
         default:
             break;
     }
@@ -154,6 +159,8 @@ Color3B CHomeScene::getFontColorByTag(Tag tag)
             return Color3B::RED;
         case Tag::GAME_SETTING:
             return Color3B::YELLOW;
+        case Tag::RANKING:
+            return Color3B::GRAY;
         default:
             break;
     }
@@ -193,13 +200,17 @@ void CHomeScene::callBack(cocos2d::Ref *pSender)
         t->runAction
         (EaseExponentialInOut::create
          (MoveTo::create(1.0f, Vec2(0,t->getPositionY()))));
+        t->setEnabled(true);
     }
     MenuItemToggle* t = (MenuItemToggle*)node;
     t->setSelectedIndex(1);
     t->stopAllActions();
     t->runAction(EaseExponentialInOut::create(MoveTo::create(2.0f, Vec2(-30,t->getPositionY()))));
     _pBox->setColor(getColorByTag((Tag)iTag));
+    t->setEnabled(false);
 
+    
+    //메뉴판때기 보이거나 사라지게 하기.
     for(auto node : _vMenuNodes)
     {
         node->setVisible(false);
@@ -210,8 +221,6 @@ void CHomeScene::callBack(cocos2d::Ref *pSender)
     switch((Tag)node->getTag())
     {
         case Tag::PLAYGAME:
- //           CGameManager::getInstance()->newGameInit();
-//            Director::getInstance()->pushScene(CSceneManager::getInstance()->getScene("game"));
             break;
         case Tag::CARD_BBOBGI:
             break;
@@ -244,6 +253,11 @@ bool CTabMenu::init()
     addChild(box);
     box->setContentSize(Size(750,winsize.height*0.9f));
     
+    auto box2 = ui::Scale9Sprite::createWithSpriteFrameName("homeUI/box01.png", Rect(20,20,10,10));
+    addChild(box2);
+    box2->setContentSize(Size(250,70));
+    box2->setPosition(Vec2(0,280));
+
     setLabelTitle(Label::createWithBMFont(CUtil::getFontName(CUtil::eFontList::TITLE2), "menuTitle"));
     addChild(_pLabelTitle);
     _pLabelTitle->setPosition(Vec2(0, 280));
@@ -258,13 +272,26 @@ bool CTabHomeMenu::init()
         return false;
     }
     getLabelTitle()->setString("HOME");
+   
+    const ccMenuCallback & callback = CC_CALLBACK_1(CTabHomeMenu::callBack, this);
+
+    auto menuItem = MenuItemLabel::create(Label::createWithBMFont(CUtil::getFontName(CUtil::eFontList::TITLE2), "Start Game"),callback);
+    auto menu = Menu::create(menuItem, NULL);
+    addChild(menu);
+    menu->alignItemsHorizontally();
+    menu->setPosition(Vec2::ZERO);
     return true;
+}
+void CTabHomeMenu::callBack(cocos2d::Ref *pSender)
+{
+//    auto node = (Node*)pSender;
+    CGameManager::getInstance()->newGameInit();
+    Director::getInstance()->pushScene(CSceneManager::getInstance()->getScene("game"));
 }
 
 void CTabMenu::setVisible(bool visible)
 {
-    Node::setVisible(visible);
-    if(visible)
+    if(visible && !isVisible())
     {
         runAction
         (Sequence::create
@@ -273,7 +300,9 @@ void CTabMenu::setVisible(bool visible)
           EaseElasticInOut::create(ScaleTo::create(0.1f, 1.0f), 0.3f),
           NULL
           ));
+        SimpleAudioEngine::getInstance()->playEffect("effect/bowFire.mp3");
     }
+    Node::setVisible(visible);
 }
 
 bool CTabCardBBobgiMenu::init()
@@ -304,4 +333,13 @@ bool CTabGameSettingMenu::init()
     return true;
 }
 
+bool CTabRankingMenu::init()
+{
+    if(!CTabMenu::init())
+    {
+        return false;
+    }
+    getLabelTitle()->setString("Ranking");
+    return true;
+}
 

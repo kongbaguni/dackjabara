@@ -7,15 +7,28 @@
             <key>homeUI/box01.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,2},{26,26}}</string>
+                <string>{{2,29},{25,25}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{0,0},{26,26}}</string>
+                <string>{{0,0},{25,25}}</string>
                 <key>sourceSize</key>
-                <string>{26,26}</string>
+                <string>{25,25}</string>
+            </dict>
+            <key>homeUI/box02.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{2,2},{25,25}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{25,25}}</string>
+                <key>sourceSize</key>
+                <string>{25,25}</string>
             </dict>
         </dict>
         <key>metadata</key>
@@ -25,9 +38,9 @@
             <key>realTextureFileName</key>
             <string>home-sd.pvr.ccz</string>
             <key>size</key>
-            <string>{32,32}</string>
+            <string>{32,64}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:3796164caa3c3ac53bfc94723bb8d2cd:2f761a3df396fcd09b52bea92d37acfb:96f9fee43ed64bbeec53fcd5d06ba1f1$</string>
+            <string>$TexturePacker:SmartUpdate:c0b5fc2c43c751d93a8b1cdb6644cdd3:03af96c0eaff8ab73f937268486ab5a1:96f9fee43ed64bbeec53fcd5d06ba1f1$</string>
             <key>textureFileName</key>
             <string>home-sd.pvr.ccz</string>
         </dict>

@@ -64,7 +64,8 @@ public:
     {
         DIGITAL,
         TITLE,
-        TITLE2
+        TITLE2,
+        OUTLINE_FONT_30,
     };
     
     static std::string getFontName(eFontList font);
